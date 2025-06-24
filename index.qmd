@@ -25,11 +25,11 @@ about:
 
 ## Bio
 
-Hi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m especially excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.
+Hi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m mainly excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.
 
-Before pivoting to data science, I spent over a decade as a nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.
+Before pivoting to data science, I was as a critical care nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.
 
-I care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner. (Also: the dog’s name is Lucy. She does not code.)
+I care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner.
 
 ## Education
 
@@ -48,25 +48,23 @@ I care deeply about clarity, collaboration, and doing science that’s useful. I
 
 ## Work Experience
 
-### Graduate Research Assistant, February 2023 - Present 
-  *[UTHealth Sciences Center, School of Public Health](https://sph.uth.edu/campuses/houston)* (*Houston, TX, USA*)
-
-- **PI:** [Dr. M. Brad Cannell](
+- **Graduate Research Assistant**, February 2023 - Present  
+  *[UTHealth Sciences Center, School of Public Health](https://sph.uth.edu/campuses/houston)* (*Houston, TX, USA*) \
+  - **PI:** [Dr. M. Brad Cannell](
 https://www.bradcannell.com/)
-- Contributed to public health research projects ([DETECT](https://github.com/brad-cannell/detect_fu_interviews_public), [DETECT-RPC](https://clinicaltrials.gov/study/NCT05958654), [Link2Care](https://github.com/corvidfox/link2care_public)), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.
-- Developed and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.
-- Drafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R. 
+  - Contributed to public health research projects ([DETECT](https://github.com/brad-cannell/detect_fu_interviews_public), [DETECT-RPC](https://clinicaltrials.gov/study/NCT05958654), [Link2Care](https://github.com/corvidfox/link2care_public)), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.
+  - Developed and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.
+  - Drafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R. 
 
-### Critical Care Travel Nurse, March 2021 - December 2022 
-  *[Travel Nurse Across America](https://tnaa.com/)*, *USA*
+- **Critical Care Travel Nurse**, March 2021 - December 2022  
+  *[Travel Nurse Across America](https://tnaa.com/)*, *USA* \
+  - Rapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties. 
+  - Led interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g. ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)   
 
-- Rapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties. 
-- Led interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g. ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)   
-
-### Registered Nurse (Residency), March 2020 - March 2021 
+- **Registered Nurse (Residency)**, March 2020 - March 2021  
   *[Rochester General Hospital](https://www.plano.gov/168/9-1-1-Public-Safety-Communications)*, *Rochester, NY, USA*
  
-### Public Safety Communications Specialist, February 2018 - February 2020 
+- **Public Safety Communications Specialist**, February 2018 - February 2020  
   *[City of Plano](https://www.plano.gov/168/9-1-1-Public-Safety-Communications)*, *Plano, TX, USA*
 
 :::
