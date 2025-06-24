@@ -2,9 +2,23 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "Morrigan",
     "section": "",
-    "text": "About this site"
+    "text": "This is plain text before any headings"
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "Morrigan",
+    "section": "Education",
+    "text": "Education\nSchool | Location Degree | Dates\nSchool | Location Degree | Dates"
+  },
+  {
+    "objectID": "about.html#experience",
+    "href": "about.html#experience",
+    "title": "Morrigan",
+    "section": "Experience",
+    "text": "Experience\nBusiness | Location Title | Dates\nBusiness | Location Title | Dates"
   },
   {
     "objectID": "index.html",

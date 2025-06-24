@@ -1,5 +1,40 @@
 ---
-title: "About"
+title: "Morrigan"
+image: https://avatars.githubusercontent.com/u/107103167
+image-shape: round
+image-alt: "A photograph of a black shiba inu wearing a flowered collar."
+about:
+    template: jolla
+    links:
+        - icon: github
+          text: GitHub
+          href: https://github.com/corvidfox
+        - icon: linkedin
+          text: LinkedIn
+          href: https://www.linkedin.com/in/morrigan-mahady-6b640712b
+
 ---
 
-About this site
+This is plain text before any headings
+
+:::{#hero-heading}
+
+This is a blurb section
+
+## Education
+
+School | Location
+Degree | Dates
+
+School | Location
+Degree | Dates
+
+## Experience
+
+Business | Location
+Title | Dates
+
+Business | Location
+Title | Dates
+
+:::
