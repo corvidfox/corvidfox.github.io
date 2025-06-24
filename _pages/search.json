@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sample Homepage",
+    "section": "",
+    "text": "I’m testing GitHub Pages with Quarto. This is a placeholder."
+  },
+  {
+    "objectID": "sections/about.html",
+    "href": "sections/about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  }
+]
