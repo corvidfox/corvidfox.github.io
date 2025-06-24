@@ -3,12 +3,18 @@ project:
   output-dir: docs
 
 website:
-  title: "Test Homepage - Quarto"
+  title: "Data Science & Bioinformatics Portfolio"
+  favicon: https://github.com/corvidfox/corvidfox.github.io/blob/main/img/favicon-32x32.png
+  repo-url: https://github.com/corvidfox/corvidfox.github.io/
+  repo-actions: [source, issue]
+  reader-mode: true
+  page-navigation: true
+  back-to-top-navigation: true
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+#      - about.qmd
 
 format:
   html:
