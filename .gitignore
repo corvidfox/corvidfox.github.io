@@ -1,2 +1,8 @@
 # Quarto Project-Specific Files
 /.quarto/
+
+# R Files
+.Rproj.user
+.RData
+.Rhistory
+*.Rproj

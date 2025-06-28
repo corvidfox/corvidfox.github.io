@@ -1,0 +1,16 @@
+---
+title: "Projects"
+listing:
+  id: project-listings
+  contents: projects
+  type: "default"
+  sort: "publishDate desc"
+  categories: true
+  filter-ui: [category, title, date]
+---
+
+Welcome! Here you'll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore — use the filters to browse by category and dive into the areas that interest you the most.
+
+::: {#project-listings}
+
+:::

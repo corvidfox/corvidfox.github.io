@@ -15,7 +15,7 @@ about:
         - icon: linkedin
           text: LinkedIn
           href: https://www.linkedin.com/in/morrigan-mahady-6b640712b
-        - icon: envelope-at
+        - icon: envelope-at-fill
           text: Email
           href: mailto:anmorrigan@proton.me
 

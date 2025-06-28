@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="This is Lucy, head of morale. She handles public relations. Morri handles the code.">
 
-<title>Data Science &amp; Bioinformatics Portfolio - About Morri</title>
+<title>Data Science &amp; Bioinformatics Portfolio - Projects</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,9 +31,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="././img/favicon-32x32.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
@@ -59,12 +61,43 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-project-listings .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-category","listing-title","listing-date"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-project-listings'] = new List('listing-project-listings', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -86,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html" rel="" target="">
+    <a class="nav-link active" href="./projects.html" rel="" target="" aria-current="page">
  <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
@@ -120,96 +153,98 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Analysis">Analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Business Intelligence">Business Intelligence <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Code">Code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Dashboards">Dashboards <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SQL">SQL <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Sales">Sales <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="https://avatars.githubusercontent.com/u/107103167" alt="A photograph of a black shiba inu wearing a flowered collar." class="about-image
-  round " style="height: 20em; width: 20em;">
+<main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About Morri</h1>
+<h1 class="title">Projects</h1>
 </div>
-<div>
-  <div class="description">
-    This is Lucy, head of morale. She handles public relations. Morri handles the code.
-  </div>
-</div>
+
+
+
 <div class="quarto-title-meta">
+
+    
+  
+    
   </div>
+  
+
 </header>
-    <div class="about-links">
-  <a href="https://github.com/corvidfox" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">GitHub</span>
-  </a>
-  <a href="https://www.linkedin.com/in/morrigan-mahady-6b640712b" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="mailto:anmorrigan@proton.me" class="about-link" rel="" target="">
-    <i class="bi bi-envelope-at"></i>
-     <span class="about-link-text">Email</span>
-  </a>
+
+<p>Welcome! Here you’ll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore — use the filters to browse by category and dive into the areas that interest you the most.</p>
+<div id="listing-project-listings" class="quarto-listing quarto-listing-container-default">
+<div class="listing-actions-group">
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
 </div>
-  </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
-<div id="hero-heading">
-<section id="bio" class="level2">
-<h2 data-anchor-id="bio">Bio</h2>
-<p>Hi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m especially excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.</p>
-<p>Before pivoting to data science, I spent over a decade as a nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.</p>
-<p>I care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner. (Also: the dog’s name is Lucy. She does not code.)</p>
-</section>
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education</h2>
-<ul>
-<li><p><strong><em>MPH</em> in Epidemiology</strong>, In Progress (Est. December 2025)<br>
-<em><a href="https://sph.uth.edu/campuses/houston">University of Texas Health Sciences Center, School of Public Health</a></em> (<em>Houston, TX, USA</em>)<br>
-<strong>Certificate:</strong> <a href="https://catalog.uth.edu/public-health/programs/graduate-certificates/genomics-bioinformatics/">Genomics &amp; Bioinformatics</a><br>
-<strong>Certificate:</strong> <a href="https://catalog.uth.edu/public-health/programs/graduate-certificates/data-science/">Data Science</a><br>
-<strong>Thesis:</strong> Epigenome-Wide Associations of Factor VIII and Von Willebrand Factor Levels (In Progress, Meta-Analysis, <a href="https://sph.uth.edu/research/research-labs/?lab=DBYQRrcen7C%2B0xL/F4sxVD2//fX56uR77SeG7E1SnlQ=">de Vries Lab</a>)</p></li>
-<li><p><strong><em>BSc</em> in Nursing</strong>, 2019<br>
-<em><a href="https://www.uta.edu/academics/schools-colleges/conhi">University of Texas at Arlington</a></em> (<em>Arlington, TX, USA</em>)</p></li>
-<li><p><strong><em>BSc</em> in Biology</strong>, 2013<br>
-<em><a href="https://www.utdallas.edu/">University of Texas at Dallas</a></em> (<em>Richardson, TX, USA</em>)&nbsp; <strong>Minor:</strong> Sociology</p></li>
-</ul>
-</section>
-<section id="work-experience" class="level2">
-<h2 data-anchor-id="work-experience">Work Experience</h2>
-<section id="graduate-research-assistant-february-2023---present" class="level3">
-<h3 data-anchor-id="graduate-research-assistant-february-2023---present">Graduate Research Assistant, February 2023 - Present</h3>
-<p><em><a href="https://sph.uth.edu/campuses/houston">UTHealth Sciences Center, School of Public Health</a></em> (<em>Houston, TX, USA</em>)</p>
-<ul>
-<li><strong>PI:</strong> <a href="https://www.bradcannell.com/">Dr.&nbsp;M. Brad Cannell</a></li>
-<li>Contributed to public health research projects (<a href="https://github.com/brad-cannell/detect_fu_interviews_public">DETECT</a>, <a href="https://clinicaltrials.gov/study/NCT05958654">DETECT-RPC</a>, <a href="https://github.com/corvidfox/link2care_public">Link2Care</a>), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.</li>
-<li>Developed and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.</li>
-<li>Drafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R.</li>
-</ul>
-</section>
-<section id="critical-care-travel-nurse-march-2021---december-2022" class="level3">
-<h3 data-anchor-id="critical-care-travel-nurse-march-2021---december-2022">Critical Care Travel Nurse, March 2021 - December 2022</h3>
-<p><em><a href="https://tnaa.com/">Travel Nurse Across America</a></em>, <em>USA</em></p>
-<ul>
-<li>Rapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties.</li>
-<li>Led interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g.&nbsp;ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)</li>
-</ul>
-</section>
-<section id="registered-nurse-residency-march-2020---march-2021" class="level3">
-<h3 data-anchor-id="registered-nurse-residency-march-2020---march-2021">Registered Nurse (Residency), March 2020 - March 2021</h3>
-<p><em><a href="https://www.plano.gov/168/9-1-1-Public-Safety-Communications">Rochester General Hospital</a></em>, <em>Rochester, NY, USA</em></p>
-</section>
-<section id="public-safety-communications-specialist-february-2018---february-2020" class="level3">
-<h3 data-anchor-id="public-safety-communications-specialist-february-2018---february-2020">Public Safety Communications Specialist, February 2018 - February 2020</h3>
-<p><em><a href="https://www.plano.gov/168/9-1-1-Public-Safety-Communications">City of Plano</a></em>, <em>Plano, TX, USA</em></p>
-</section>
-</section>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Business Intelligence,SQL,Dashboards,Sales,Code,Analysis" data-listing-date-sort="1750914000000" data-listing-file-modified-sort="1751069721299" data-listing-date-modified-sort="1750914000000" data-listing-reading-time-sort="13">
+<div class="thumbnail">
+<p><a href="./projects/draft.html"> <img src="img\project_imgs\chinook_schema.png" alt="A database schema diagram for the Chinook database." /> </a></p>
+</div>
+<div class="body">
+<a href="./projects/draft.html">
+<h3 class="no-anchor listing-title">
+SQL-Driven Business Intelligence Dashboard (Chinook ‘Digital Music Store’)
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Business Intelligence'); return false;">
+Business Intelligence
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('SQL'); return false;">
+SQL
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Dashboards'); return false;">
+Dashboards
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Sales'); return false;">
+Sales
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Code'); return false;">
+Code
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Analysis'); return false;">
+Analysis
+</div>
+</div>
+<a href="./projects/draft.html">
+<div class="listing-description">
+<p>This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./projects/draft.html">
+<div class="listing-date">
+Jun 26, 2025
+</div>
+<div class="listing-author">
+Morrigan M.
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
 </div>
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main></div>
-</div>
- <!-- /main -->
+
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -230,6 +265,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const isCodeAnnotation = (el) => {
     for (const clz of el.classList) {
       if (clz.startsWith('code-annotation-')) {                     
@@ -440,4 +482,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/corvidfox/corvidfox.github.io/blob/main/about.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/corvidfox/corvidfox.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/corvidfox/corvidfox.github.io/blob/main/projects.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/corvidfox/corvidfox.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>

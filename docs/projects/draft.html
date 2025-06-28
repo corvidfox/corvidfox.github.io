@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.287">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Morrigan M.">
+<meta name="dcterms.date" content="2025-06-26">
+<meta name="description" content="This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually.">
+
+<title>Data Science &amp; Bioinformatics Portfolio - SQL-Driven Business Intelligence Dashboard (Chinook ‘Digital Music Store’)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href=".././img/favicon-32x32.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Data Science &amp; Bioinformatics Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../projects.html" rel="" target="">
+ <span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/corvidfox" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text">GitHub</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.linkedin.com/in/morrigan-mahady-6b640712b" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text">LinkedIn</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="mailto:anmorrigan@proton.me" rel="" target=""><i class="bi bi-envelope-at-fill" role="img">
+</i> 
+ <span class="menu-text">Email</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#technology-stack" id="toc-technology-stack" class="nav-link" data-scroll-target="#technology-stack">Technology Stack</a></li>
+  <li><a href="#business-questions" id="toc-business-questions" class="nav-link" data-scroll-target="#business-questions">Business Questions</a></li>
+  </ul></li>
+  <li><a href="#data-exploration-schema-understanding" id="toc-data-exploration-schema-understanding" class="nav-link" data-scroll-target="#data-exploration-schema-understanding">Data Exploration &amp; Schema Understanding</a></li>
+  <li><a href="#sql-exploration" id="toc-sql-exploration" class="nav-link" data-scroll-target="#sql-exploration">SQL Exploration</a>
+  <ul class="collapse">
+  <li><a href="#question-1-where-is-revenue-coming-from-geographically" id="toc-question-1-where-is-revenue-coming-from-geographically" class="nav-link" data-scroll-target="#question-1-where-is-revenue-coming-from-geographically">Question 1: Where is revenue coming from geographically?</a></li>
+  <li><a href="#question-2-what-genres-or-artists-generate-the-most-income" id="toc-question-2-what-genres-or-artists-generate-the-most-income" class="nav-link" data-scroll-target="#question-2-what-genres-or-artists-generate-the-most-income">Question 2: What genres or artists generate the most income?</a></li>
+  <li><a href="#question-3-how-many-customers-are-repeat-buyers" id="toc-question-3-how-many-customers-are-repeat-buyers" class="nav-link" data-scroll-target="#question-3-how-many-customers-are-repeat-buyers">Question 3: How many customers are repeat buyers?</a></li>
+  <li><a href="#question-4.-how-do-sales-trends-evolve-over-time" id="toc-question-4.-how-do-sales-trends-evolve-over-time" class="nav-link" data-scroll-target="#question-4.-how-do-sales-trends-evolve-over-time">Question 4. How do sales trends evolve over time?</a></li>
+  </ul></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">NOTES</a>
+  <ul class="collapse">
+  <li><a href="#general-breakdown-of-steps-to-show" id="toc-general-breakdown-of-steps-to-show" class="nav-link" data-scroll-target="#general-breakdown-of-steps-to-show">✅ 4. General Breakdown of Steps to Show</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-generalized" id="toc-step-by-step-generalized" class="nav-link" data-scroll-target="#step-by-step-generalized">🔧 Step-by-Step (Generalized)</a></li>
+  </ul></li>
+  <li><a href="#shiny-vs-dash-which-for-what" id="toc-shiny-vs-dash-which-for-what" class="nav-link" data-scroll-target="#shiny-vs-dash-which-for-what">✅ 5. Shiny vs Dash: Which for What?</a>
+  <ul class="collapse">
+  <li><a href="#project-overview-1" id="toc-project-overview-1" class="nav-link" data-scroll-target="#project-overview-1"><strong>1. Project Overview</strong></a></li>
+  <li><a href="#data-exploration-schema-understanding-1" id="toc-data-exploration-schema-understanding-1" class="nav-link" data-scroll-target="#data-exploration-schema-understanding-1"><strong>2. Data Exploration &amp; Schema Understanding</strong></a></li>
+  <li><a href="#business-questions-kpis" id="toc-business-questions-kpis" class="nav-link" data-scroll-target="#business-questions-kpis"><strong>3. Business Questions &amp; KPIs</strong></a></li>
+  <li><a href="#sql-development" id="toc-sql-development" class="nav-link" data-scroll-target="#sql-development"><strong>4. SQL Development</strong></a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><strong>5. Visualization</strong></a></li>
+  <li><a href="#business-insights" id="toc-business-insights" class="nav-link" data-scroll-target="#business-insights"><strong>6. Business Insights</strong></a></li>
+  <li><a href="#technical-skills-recap" id="toc-technical-skills-recap" class="nav-link" data-scroll-target="#technical-skills-recap"><strong>7. Technical Skills Recap</strong></a></li>
+  <li><a href="#optional-add-ons" id="toc-optional-add-ons" class="nav-link" data-scroll-target="#optional-add-ons">Optional Add-ons</a></li>
+  </ul></li>
+  <li><a href="#final-tips" id="toc-final-tips" class="nav-link" data-scroll-target="#final-tips">🧭 Final Tips</a></li>
+  </ul></li>
+  <li><a href="#bottom" id="toc-bottom" class="nav-link" data-scroll-target="#bottom">BOTTOM</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/corvidfox/corvidfox.github.io/blob/main/projects/draft.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/corvidfox/corvidfox.github.io/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">SQL-Driven Business Intelligence Dashboard (Chinook ‘Digital Music Store’)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Business Intelligence</div>
+    <div class="quarto-category">SQL</div>
+    <div class="quarto-category">Dashboards</div>
+    <div class="quarto-category">Sales</div>
+    <div class="quarto-category">Code</div>
+    <div class="quarto-category">Analysis</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Morrigan M. </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 26, 2025</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">June 26, 2025</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+<ul>
+<li><strong>Goal</strong>: Build a BI dashboard for a fictional digital media business.</li>
+<li><strong>Focus</strong>: Revenue insights, customer analysis, business performance.</li>
+<li><strong>Why it matters</strong>: Business stakeholders need quick, clear access to KPIs.</li>
+</ul>
+<section id="technology-stack" class="level2">
+<h2 class="anchored" data-anchor-id="technology-stack">Technology Stack</h2>
+<p>The following tools were used to merge, analyze, and present the data:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SQL</td>
+<td>Data transformation and KPIs</td>
+</tr>
+<tr class="even">
+<td>DuckDB</td>
+<td>Lightweight, embedded relational database</td>
+</tr>
+<tr class="odd">
+<td>R + Shiny</td>
+<td>Dashboard development (R-based)</td>
+</tr>
+<tr class="even">
+<td>Python + Dash</td>
+<td>Dashboard development (Python-based)</td>
+</tr>
+</tbody>
+</table>
+<p>The project demonstrates dashboard development using both R (Shiny) and Python (Dash) to showcase flexibility across ecosystems.</p>
+<p>[NOTE TO SELF - DELETE ONCE REVISED: This is a work in progress. I plan to make a dashboard with R and one with Python, just to show I can do both. I will update this to reflect the final project once it’s done.]</p>
+</section>
+<section id="business-questions" class="level2">
+<h2 class="anchored" data-anchor-id="business-questions">Business Questions</h2>
+<p>This project is designed to help answer the following business questions:</p>
+<ol type="1">
+<li><strong>Where is revenue coming from geographically?</strong></li>
+<li><strong>What genres or artists generate the most income?</strong></li>
+<li><strong>How many customers are repeat buyers?</strong></li>
+<li><strong>How do sales trends evolve over time?</strong></li>
+</ol>
+</section>
+</section>
+<section id="data-exploration-schema-understanding" class="level1">
+<h1>Data Exploration &amp; Schema Understanding</h1>
+<p>The <a href="https://github.com/lerocha/chinook-database">Chinook Database</a> is a well documented, publicly available data set. The SQLite version of the data was downloaded and converted into a <a href="https://duckdb.org/">DuckDB</a> database for this project to take advantage of DuckDB’s speed and in-memory querying capabilities.</p>
+<p>The Chinook Database simulates a digital music store, similar to platforms like iTunes. It includes tables for artists, albums, tracks, customers, invoices, employees, and more.</p>
+<p>A diagram of the database schema was created with <a href="https://dbdiagram.io/home">dbdiagram</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../img/project_imgs/chinook_schema.png" class="quarto-discovered-preview-image img-fluid figure-img" alt="A database schema diagram for the Chinook database."></p>
+<p></p><figcaption class="figure-caption">Chinook Database Schema</figcaption><p></p>
+</figure>
+</div>
+<p>From this schema, key tables of interest were identified for each business question:</p>
+<ol type="1">
+<li><strong>Where is revenue coming from geographically?</strong></li>
+</ol>
+<ul>
+<li><em>Key Tables</em>: <code>Invoice</code>, <code>Customer</code></li>
+<li><em>Explanation</em>: The <code>Invoice</code> table records total sales and billing address information, which identifies where revenue is being billed geographically. <code>Customer</code> provides customer addressing, which may differ from billing location and allows for a more detailed geographic analysis.</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>What genres or artists generate the most income?</strong></li>
+</ol>
+<ul>
+<li><em>Key Tables</em>: <code>InvoiceLine</code>, <code>Track</code>, <code>Artist</code>, <code>Genre</code></li>
+<li><em>Explanation</em>: <code>InvoiceLine</code> records individual track purchases, including price and quantity. Joining to the <code>Track</code> table provides track-level metadata through further links to <code>Artist</code> and <code>Genre</code>, enabling revenue analysis by artist or genre.</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>How many customers are repeat buyers?</strong></li>
+</ol>
+<ul>
+<li><em>Key Tables</em>: <code>Invoice</code>, <code>Customer</code></li>
+<li><em>Explanation</em>: The <code>Customer</code> table identifies each buyer, while <code>Invoice</code> records all purchase transactions. Counting invoices per customer reveals how many made repeat purchases, offering insight into customer retention.</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>How do sales trends evolve over time?</strong></li>
+</ol>
+<ul>
+<li><em>Key Tables</em>: <code>Invoice</code>, <code>InvoiceLine</code></li>
+<li><em>Explanation</em>: The <code>Invoice</code> table includes invoice dates and total amounts, allowing for time-based trend analysis (e.g., monthly revenue). <code>InvoiceLine</code> can be joined for more granular insights, such as which tracks or genres are trending over specific time periods, or purchase volume trends.</li>
+</ul>
+<p>With the schema understood and key tables identified, the next step is to query the data using SQL to begin answering the business questions.</p>
+</section>
+<section id="sql-exploration" class="level1">
+<h1>SQL Exploration</h1>
+<p>Initial exploration aimed to verify the expected data range and structure described in the documentation.</p>
+<p>A query of date values in the <code>InvoiceDate</code> table confirmed that the data contained records with a date range from <code>2009-01-01</code> to <code>2013-12-22</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Get date range of Invoices</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MIN</span>(i.InvoiceDate) <span class="kw">as</span> MinDate, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(i.InvoiceDate) <span class="kw">as</span> MaxDate</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Invoice i;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">MinDate</th>
+<th style="text-align: left;">MaxDate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2009-01-01 00:00:00</td>
+<td style="text-align: left;">2013-12-22 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As expected, <code>InvoiceLine</code> and <code>Track</code> had the highest number of unique records, reflecting their one-to-many relationships with <code>Invoice</code> and <code>Album</code>, respectively. Metadata tables such as <code>Genre</code> and <code>MediaType</code> had fewer unique values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Get Number of Unique Key Values in Each Table</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Employees'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> EmployeeId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Employee</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Customers'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> Customerid) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Customer</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Invoices'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> InvoiceId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Invoice</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Invoice Lines'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> InvoiceLineId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> InvoiceLine</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Tracks'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> TrackId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Track</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Artists'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> ArtistId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Artist</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Albums'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> AlbumId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Album</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Genres'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> GenreId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Genre</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Media Types'</span> <span class="kw">AS</span> TableName,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> MediaTypeId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> MediaType</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="st">'Playlists'</span> <span class="kw">AS</span> TableName, </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> PlaylistId) <span class="kw">AS</span> UniqueKeys </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Playlist</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> UniqueKeys <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">TableName</th>
+<th style="text-align: right;">UniqueKeys</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Tracks</td>
+<td style="text-align: right;">3503</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Invoice Lines</td>
+<td style="text-align: right;">2240</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Invoices</td>
+<td style="text-align: right;">412</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Albums</td>
+<td style="text-align: right;">347</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Artists</td>
+<td style="text-align: right;">275</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Customers</td>
+<td style="text-align: right;">59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Genres</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Playlists</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Employees</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Media Types</td>
+<td style="text-align: right;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>With structure confirmed, attention was turned towards the identified business questions.</p>
+<section id="question-1-where-is-revenue-coming-from-geographically" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-where-is-revenue-coming-from-geographically">Question 1: Where is revenue coming from geographically?</h2>
+<p>Analysis of geographic revenue began with the country recorded in the <code>Invoice</code> table. This geographic value reflected where purchases were billed, which is often used as the default location reference for financial reporting.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Revenue by Country (Billing)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    i.BillingCountry, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(i.Total) <span class="kw">AS</span> TotalRevenue,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fu">SUM</span>(i.Total)<span class="op">*</span><span class="fl">100.0</span> <span class="op">/</span> (<span class="kw">SELECT</span> <span class="fu">SUM</span>(Total) <span class="kw">from</span> Invoice), <span class="dv">2</span>) <span class="kw">AS</span> PercentGlobalRevenue,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> c.CustomerId) <span class="kw">AS</span> NumCustomers,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fu">SUM</span>(i.Total) <span class="op">/</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> c.CustomerId), <span class="dv">2</span>) <span class="kw">AS</span> RevenuePerCustomer</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Customer c</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> Invoice i <span class="kw">on</span> c.CustomerId <span class="op">==</span> i.CustomerId</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> i.BillingCountry</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- Sort Revenue (Highest to Lowest)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> NumCustomers <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 16%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">BillingCountry</th>
+<th style="text-align: right;">TotalRevenue</th>
+<th style="text-align: right;">PercentGlobalRevenue</th>
+<th style="text-align: right;">NumCustomers</th>
+<th style="text-align: right;">RevenuePerCustomer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">USA</td>
+<td style="text-align: right;">523.06</td>
+<td style="text-align: right;">22.46</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">40.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">303.96</td>
+<td style="text-align: right;">13.05</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">37.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">190.10</td>
+<td style="text-align: right;">8.16</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">38.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">195.10</td>
+<td style="text-align: right;">8.38</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">39.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">156.48</td>
+<td style="text-align: right;">6.72</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">39.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: right;">112.86</td>
+<td style="text-align: right;">4.85</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">37.62</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Portugal</td>
+<td style="text-align: right;">77.24</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">38.62</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Czech Republic</td>
+<td style="text-align: right;">90.24</td>
+<td style="text-align: right;">3.88</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">45.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">India</td>
+<td style="text-align: right;">75.26</td>
+<td style="text-align: right;">3.23</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">37.63</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: right;">37.62</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">37.62</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The customer base is geographically uneven:</p>
+<ul>
+<li>The United States alone accounts for a quarter of global revenue (22.46%).</li>
+<li>The top five countries (USA, Canada, France, Brazil, Germany) contribute over half (58.77%) of global revenue.</li>
+</ul>
+<p><strong>Opportunity</strong>: Expanding to underrepresented regions could be a growth opportunity - if demand can be identified and activated.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are different customer behavior patterns in each country.</p>
+<ul>
+<li>None of the top revenue-generating countries appear in the top five for <em>revenue-per-customer</em> (Chile, Hungary, Ireland, Czech Republic, Austria).</li>
+<li>High total revenue countries likely have large but casual user bases.</li>
+<li>High per-customer revenue countries likely reflect smaller but more valuable audiences..</li>
+</ul>
+<p><strong>Opportunities</strong>: High total revenue countries are ideal for <em>retention and upselling</em> strategies. High per-customer revenue countries are ideal for <em>acquisition-focused</em> campaigns.</p>
+</div>
+</div>
+<p>However, the <code>Customer</code> table also contained a <code>Country</code> field. Differences between billing and customer country could reflect travel, gift purchases, or mismatched contact vs.&nbsp;billing addresses.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Total Revenue by Country (Customer)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    c.Country, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">SUM</span>(i.Total) <span class="kw">AS</span> TotalRevenue,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fu">SUM</span>(i.Total)<span class="op">*</span><span class="fl">100.0</span> <span class="op">/</span> (<span class="kw">SELECT</span> <span class="fu">SUM</span>(Total) <span class="kw">from</span> Invoice), <span class="dv">2</span>) <span class="kw">AS</span> PercentGlobalRevenue,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> c.CustomerId) <span class="kw">AS</span> NumCustomers,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ROUND</span>(<span class="fu">SUM</span>(i.Total) <span class="op">/</span> <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> c.CustomerId), <span class="dv">2</span>) <span class="kw">AS</span> RevenuePerCustomer</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> Customer c</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> Invoice i <span class="kw">on</span> c.CustomerId <span class="op">==</span> i.CustomerId</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> c.Country</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- Sort Revenue (Highest to Lowest)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> NumCustomers <span class="kw">DESC</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<colgroup>
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 16%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">TotalRevenue</th>
+<th style="text-align: right;">PercentGlobalRevenue</th>
+<th style="text-align: right;">NumCustomers</th>
+<th style="text-align: right;">RevenuePerCustomer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">USA</td>
+<td style="text-align: right;">523.06</td>
+<td style="text-align: right;">22.46</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">40.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Canada</td>
+<td style="text-align: right;">303.96</td>
+<td style="text-align: right;">13.05</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">37.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">195.10</td>
+<td style="text-align: right;">8.38</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">39.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">190.10</td>
+<td style="text-align: right;">8.16</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">38.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">156.48</td>
+<td style="text-align: right;">6.72</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">39.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: right;">112.86</td>
+<td style="text-align: right;">4.85</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">37.62</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">India</td>
+<td style="text-align: right;">75.26</td>
+<td style="text-align: right;">3.23</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">37.63</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Portugal</td>
+<td style="text-align: right;">77.24</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">38.62</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Czech Republic</td>
+<td style="text-align: right;">90.24</td>
+<td style="text-align: right;">3.88</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">45.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chile</td>
+<td style="text-align: right;">46.62</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">46.62</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>To identify any countries with mismatched revenue attribution, the aggregated views were joined and compared.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Rows with discrepancies in Revenue by Country</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- (Billing vs Customer)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Revenue by Invoice.BillingCountry</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> billing_country_revenue <span class="kw">AS</span> (</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        BillingCountry <span class="kw">AS</span> Country,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">SUM</span>(Total) <span class="kw">AS</span> Revenue_Billing</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> Invoice</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> BillingCountry</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- Revenue by Customer Country (joined from Invoice.Customer)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>customer_country_revenue <span class="kw">AS</span> (</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">SELECT</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        c.Country <span class="kw">AS</span> Country,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">SUM</span>(i.Total) <span class="kw">AS</span> Revenue_Customer</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> Invoice i</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">JOIN</span> Customer c <span class="kw">ON</span> i.CustomerId <span class="op">=</span> c.CustomerId</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">GROUP</span> <span class="kw">BY</span> c.Country</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">-- Join the aggregations into a single table (by Country)</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">COALESCE</span>(b.Country, c.Country) <span class="kw">AS</span> Country,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    b.Revenue_Billing,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    c.Revenue_Customer</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> billing_country_revenue b</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="kw">FULL</span> <span class="kw">OUTER</span> <span class="kw">JOIN</span> customer_country_revenue c</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">ON</span> b.Country <span class="op">=</span> c.Country</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">-- Select only rows where revenue differs by country source</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  b.Revenue_Billing <span class="kw">IS</span> <span class="kw">DISTINCT</span> <span class="kw">FROM</span> c.Revenue_Customer</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> Country;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table>
+<caption>0 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: right;">Revenue_Billing</th>
+<th style="text-align: right;">Revenue_Customer</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Billing and customer country match exactly in this data set, indicating no divergence due to travel, gifting, or alternate addresses. This simplifies location-based analysis but may also reflect a limitation in the data set’s realism.</p>
+</div>
+</div>
+</section>
+<section id="question-2-what-genres-or-artists-generate-the-most-income" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-what-genres-or-artists-generate-the-most-income">Question 2: What genres or artists generate the most income?</h2>
+<ul>
+<li><strong>Key Tables</strong>: <code>InvoiceLine</code>, <code>Track</code>, <code>Artist</code>, <code>Genre</code></li>
+<li><strong>Explanation</strong>: <code>InvoiceLine</code> provides data relating to individual unit sales. Links between <code>Track</code>, <code>Artist</code>, and <code>Genre</code> provide additional details, such as artist name and genre, characterizing these unit sales.</li>
+</ul>
+</section>
+<section id="question-3-how-many-customers-are-repeat-buyers" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-how-many-customers-are-repeat-buyers">Question 3: How many customers are repeat buyers?</h2>
+<ul>
+<li><strong>Key Tables</strong>: <code>Invoice</code>, <code>Customer</code>, <code>InvoiceLine</code></li>
+<li><strong>Explanation</strong>: <code>Customer</code> provides key customer data. Links to <code>Invoice</code> provide sales frequency information linked to each <code>Customer</code>, which may be further broken down to individual units or cost-per-unit with links to <code>InvoiceLine</code>.</li>
+</ul>
+</section>
+<section id="question-4.-how-do-sales-trends-evolve-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="question-4.-how-do-sales-trends-evolve-over-time">Question 4. How do sales trends evolve over time?</h2>
+<ul>
+<li><strong>Key Tables</strong>: <code>Invoice</code>, <code>InvoiceLine</code>, <code>Customer</code></li>
+<li><strong>Explanation</strong>: <code>Invoice</code> provides sales data, including date of sale and revenue. This data may be further broken down to individual units or cost-per-unit with links to <code>InvoiceLine</code>. Further characterization may be done with links to <code>Customer</code> or other tables linked to <code>InvoiceLine</code>.</li>
+</ul>
+</section>
+</section>
+<section id="notes" class="level1">
+<h1>NOTES</h1>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Language</th>
+<th>Tool</th>
+<th>Hosting Option</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R</td>
+<td><strong>Shiny</strong></td>
+<td><a href="https://www.shinyapps.io/">shinyapps.io</a></td>
+<td>Free tier, super easy deploy</td>
+</tr>
+<tr class="even">
+<td>Python</td>
+<td><strong>Dash</strong></td>
+<td><a href="https://render.com/">Render</a>, <a href="https://streamlit.io">Streamlit</a></td>
+<td>Free tiers, good docs</td>
+</tr>
+</tbody>
+</table>
+<p>SHINY FOR R, DASH OR STREAMLIT FOR PYTHON (STREAMLIT IS EASIER)</p>
+<section id="general-breakdown-of-steps-to-show" class="level2">
+<h2 class="anchored" data-anchor-id="general-breakdown-of-steps-to-show">✅ 4. General Breakdown of Steps to Show</h2>
+<p>For <strong>each version</strong> (R + Python), this is what you want to document or explain:</p>
+<section id="step-by-step-generalized" class="level3">
+<h3 class="anchored" data-anchor-id="step-by-step-generalized">🔧 Step-by-Step (Generalized)</h3>
+<ol type="1">
+<li><strong>Connect to SQLite database</strong>
+<ul>
+<li>Use <code>sqlite3</code> in Python, <code>DBI + RSQLite</code> in R</li>
+</ul></li>
+<li><strong>Write and test your SQL queries</strong>
+<ul>
+<li>For KPIs: total revenue, revenue by region, repeat customers, etc.</li>
+</ul></li>
+<li><strong>Load SQL results into your language</strong>
+<ul>
+<li><code>pandas.read_sql_query()</code> or <code>dbGetQuery()</code></li>
+</ul></li>
+<li><strong>Clean or reshape data</strong> (if needed)
+<ul>
+<li>E.g., wide-to-long for stacked bar charts, datetime formatting</li>
+</ul></li>
+<li><strong>Build visualizations</strong>
+<ul>
+<li>Use <code>plotly</code>/<code>dash</code> in Python or <code>ggplot2</code>/<code>Shiny</code> in R</li>
+</ul></li>
+<li><strong>Assemble dashboard layout</strong>
+<ul>
+<li>Add filters, panels, and interactive elements</li>
+</ul></li>
+<li><strong>Deploy</strong>
+<ul>
+<li>ShinyApps.io or Streamlit/Render</li>
+</ul></li>
+<li><strong>Link back to your GitHub and write the blog post</strong></li>
+</ol>
+</section>
+</section>
+<section id="shiny-vs-dash-which-for-what" class="level2">
+<h2 class="anchored" data-anchor-id="shiny-vs-dash-which-for-what">✅ 5. Shiny vs Dash: Which for What?</h2>
+<table class="table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 37%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Shiny (R)</th>
+<th>Dash (Python)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Setup</td>
+<td>Easiest for R users</td>
+<td>More setup needed</td>
+</tr>
+<tr class="even">
+<td>Interactivity</td>
+<td>Built-in</td>
+<td>Manual layout/components</td>
+</tr>
+<tr class="odd">
+<td>Custom visuals</td>
+<td><code>ggplot2</code>, <code>plotly</code></td>
+<td><code>plotly</code>, <code>dash_core_components</code></td>
+</tr>
+<tr class="even">
+<td>Hosting</td>
+<td>Very easy on shinyapps.io</td>
+<td>Slightly more work on Render</td>
+</tr>
+<tr class="odd">
+<td>Community &amp; Docs</td>
+<td>R community strong</td>
+<td>Plotly docs strong</td>
+</tr>
+<tr class="even">
+<td>Learning investment</td>
+<td>Good to grow R dashboard skills</td>
+<td>Great Python practice</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>💡 <strong>Do both</strong> as planned — it’s one of the best ways to show language-agnostic BI skills.</p>
+</blockquote>
+<section id="project-overview-1" class="level3">
+<h3 class="anchored" data-anchor-id="project-overview-1"><strong>1. Project Overview</strong></h3>
+<ul>
+<li><strong>Goal</strong>: Build a BI dashboard for a fictional business using a public dataset.</li>
+<li><strong>Dataset</strong>: Chinook (music store) or AdventureWorks (sales).</li>
+<li><strong>Tools</strong>: SQL (PostgreSQL / SQLite / MySQL), R/Python (for ETL or visualizations), Dash/Shiny or Quarto for dashboard presentation.</li>
+</ul>
+<p>📌 <em>Tip: Clearly state the project’s purpose upfront, e.g., “Using SQL and visualization tools to surface key business KPIs for a music retail company.”</em></p>
+</section>
+<section id="data-exploration-schema-understanding-1" class="level3">
+<h3 class="anchored" data-anchor-id="data-exploration-schema-understanding-1"><strong>2. Data Exploration &amp; Schema Understanding</strong></h3>
+<ul>
+<li>Show the schema (ERD or table relationships)</li>
+<li>Summarize data sources (e.g., Customers, Invoices, Tracks, Employees, etc.)</li>
+<li>Highlight relevant tables for business questions</li>
+</ul>
+<p>📌 <em>Tip: A visual schema diagram helps quickly convey your understanding of the database structure.</em></p>
+</section>
+<section id="business-questions-kpis" class="level3">
+<h3 class="anchored" data-anchor-id="business-questions-kpis"><strong>3. Business Questions &amp; KPIs</strong></h3>
+<p>List 3–5 business questions/KPIs you’re targeting:</p>
+<ul>
+<li>Total revenue over time</li>
+<li>Revenue by region/country</li>
+<li>Top-selling genres/artists</li>
+<li>Customer retention or repeat purchase rate</li>
+<li>Average order value, sales per employee, etc.</li>
+</ul>
+<p>📌 <em>Tip: Tie KPIs to common business goals (growth, retention, sales efficiency).</em></p>
+</section>
+<section id="sql-development" class="level3">
+<h3 class="anchored" data-anchor-id="sql-development"><strong>4. SQL Development</strong></h3>
+<ul>
+<li><p>Write modular, well-documented SQL queries:</p>
+<ul>
+<li>Use <strong>joins</strong>, <strong>aggregations</strong>, <strong>CTEs</strong>, <strong>window functions</strong></li>
+<li>Example: Running total revenue by month using <code>ROW_NUMBER()</code> or <code>SUM() OVER()</code></li>
+</ul></li>
+</ul>
+<p>📌 <em>Tip: Embed your SQL in the Quarto doc with code blocks + result tables or charts.</em></p>
+</section>
+<section id="visualization" class="level3">
+<h3 class="anchored" data-anchor-id="visualization"><strong>5. Visualization</strong></h3>
+<ul>
+<li>Option A: <strong>Shiny/Dash</strong> interactive dashboard (custom + flexible)</li>
+<li>Option B: <strong>Quarto static dashboard</strong> with plots (via <code>ggplot2</code>, <code>plotly</code>, or <code>matplotlib</code>)</li>
+<li>Option C: Export to <strong>Power BI / Tableau Public</strong> and embed/screenshot the dashboard</li>
+</ul>
+<p>Suggested visuals:</p>
+<ul>
+<li>Line chart: Revenue over time</li>
+<li>Bar chart: Revenue by country</li>
+<li>Pie/Donut: Genre or category distribution</li>
+<li>Table: Top 10 customers/artists</li>
+</ul>
+<p>📌 <em>Tip: Keep visuals clean, responsive, and focused on your business questions.</em></p>
+</section>
+<section id="business-insights" class="level3">
+<h3 class="anchored" data-anchor-id="business-insights"><strong>6. Business Insights</strong></h3>
+<ul>
+<li>Dedicate a short section to interpret each visualization.</li>
+<li>Example: “Latin America, while smaller in customer count, shows a higher average spend per customer, indicating potential for targeted marketing.”</li>
+</ul>
+<p>📌 <em>Tip: Speak like an analyst. Highlight patterns, outliers, and what actions a company might take.</em></p>
+</section>
+<section id="technical-skills-recap" class="level3">
+<h3 class="anchored" data-anchor-id="technical-skills-recap"><strong>7. Technical Skills Recap</strong></h3>
+<p>End with a short bulleted list of skills demonstrated:</p>
+<ul>
+<li>✅ SQL: Joins, aggregations, window functions</li>
+<li>✅ Data wrangling in R/Python</li>
+<li>✅ Data storytelling</li>
+<li>✅ Visualization in Dash/Quarto/Tableau</li>
+<li>✅ Business domain reasoning</li>
+</ul>
+</section>
+<section id="optional-add-ons" class="level3">
+<h3 class="anchored" data-anchor-id="optional-add-ons">Optional Add-ons</h3>
+<ul>
+<li>✨ Convert SQL output to a Pandas dataframe and feed into <code>plotly</code> or <code>altair</code></li>
+<li>✨ Use RMarkdown + Shiny for full interactivity if you prefer R</li>
+<li>✨ Use GitHub Actions to auto-update dashboard if you simulate streaming data</li>
+</ul>
+</section>
+</section>
+<section id="final-tips" class="level2">
+<h2 class="anchored" data-anchor-id="final-tips">🧭 Final Tips</h2>
+<ul>
+<li><strong>Use Quarto tabs or sections</strong> to structure the walkthrough nicely: Overview | Data | KPIs | SQL | Visuals | Insights | Skills</li>
+<li><strong>Keep it scoped</strong>: Better a 2-day polished project than a 2-week unfinished one.</li>
+<li><strong>Deploy early</strong>: Get something on GitHub Pages quickly so you can iterate.</li>
+</ul>
+<p>Would you like me to scaffold the Quarto structure for this project (e.g., YAML front matter, basic sections)? Or help choose between Chinook vs.&nbsp;AdventureWorks based on your strengths?</p>
+</section>
+</section>
+<section id="bottom" class="level1">
+<h1>BOTTOM</h1>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
