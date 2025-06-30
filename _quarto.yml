@@ -35,3 +35,8 @@ format:
     toc_float: true
     toc_smooth_scroll: true
     toc_highlight: true
+    code-fold: true
+    code-summary: "Show Code"
+
+execute:
+  python: "qmd_profile_py_env"

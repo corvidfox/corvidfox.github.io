@@ -1,0 +1,685 @@
+---
+title: "R & SQL-Driven Business Intelligence Dashboard (Chinook 'Digital Music Store')"
+description: "This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually."
+author: "Morrigan M."
+date: "6/26/2025"
+publishDate: "6/26/2025"
+date-modified: "6/26/2025"
+categories: ["R", "SQL", "Dashboards", "Analysis", "Business Intelligence"]
+tags: ["sql", "english", "r"]
+# editor: 
+#   markdown: 
+#     wrap: sentence
+filters: 
+  - ../scripts/lua/filename-from-lang.lua
+---
+
+```{r}
+#| label: r-setup
+#| echo: FALSE
+#| message: FALSE
+#| warning: FALSE
+library(reticulate)
+reticulate::use_condaenv("qmd_profile_py_env",required=TRUE)
+```
+
+# Project Overview
+
+-   **Goal**: Build a BI dashboard for a fictional digital media business.
+-   **Focus**: Revenue insights, customer analysis, business performance.
+-   **Why it matters**: Business stakeholders need quick, clear access to KPIs.
+
+## Technology Stack
+
+The following tools were used to merge, analyze, and present the data:
+
+| Tool          | Purpose                                   |
+|---------------|-------------------------------------------|
+| SQL           | Data transformation and KPIs              |
+| DuckDB        | Lightweight, embedded relational database |
+| R + Shiny     | Dashboard development (R-based)           |
+| Python + Dash | Dashboard development (Python-based)      |
+
+The project demonstrates dashboard development using both R (Shiny) and Python (Dash) to showcase flexibility across ecosystems.
+
+\[NOTE TO SELF - DELETE ONCE REVISED: This is a work in progress.
+I plan to make a dashboard with R and one with Python, just to show I can do both.
+I will update this to reflect the final project once it's done.\]
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-load-pkgs
+#| message: FALSE
+#| warning: FALSE
+library(duckdb)
+library(dplyr)
+library(DBI)
+library(plotly)
+library(countrycode)
+```
+
+#### Python
+
+```{python}
+#| label: python-load-pkgs
+import duckdb
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import pycountry
+```
+
+:::
+
+## Business Questions
+
+This project is designed to help answer the following business questions:
+
+1.  **Where is revenue coming from geographically?**
+2.  **What genres or artists generate the most income?**
+3.   **How many customers are repeat buyers?**
+4.  **How do sales trends evolve over time?**
+
+# Data Exploration & Schema Understanding
+
+The [Chinook Database](https://github.com/lerocha/chinook-database) is a well documented, publicly available data set.
+The SQLite version of the data was downloaded and converted into a [DuckDB](https://duckdb.org/) database for this project to take advantage of DuckDB's speed and in-memory querying capabilities.
+
+The Chinook Database simulates a digital music store, similar to platforms like iTunes.
+It includes tables for artists, albums, tracks, customers, invoices, employees, and more.
+
+A diagram of the database schema was created with [dbdiagram](https://dbdiagram.io/home).
+
+![Chinook Database Schema](../img/project_imgs/chinook_schema.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
+
+From this schema, key tables of interest were identified for each business question:
+
+1.  **Where is revenue coming from geographically?**
+  -  *Key Tables*: `Invoice`, `Customer`
+  -  *Explanation*: The `Invoice` table records total sales and billing address information, which identifies where revenue is being billed geographically. `Customer` provides customer addressing, which may differ from billing location and allows for a more detailed geographic analysis.
+
+2.  **What genres or artists generate the most income?** 
+  -  *Key Tables*: `InvoiceLine`, `Track`, `Artist`, `Genre` 
+  -  *Explanation*: `InvoiceLine` records individual track purchases, including price and quantity.
+Joining to the `Track` table provides track-level metadata through further links to `Artist` and `Genre`, enabling revenue analysis by artist or genre.
+
+3. **How many customers are repeat buyers?**
+
+  -   *Key Tables*: `Invoice`, `Customer`
+  -   *Explanation*: The `Customer` table identifies each buyer, while `Invoice` records all purchase transactions. Counting invoices per customer reveals how many made repeat purchases, offering insight into customer retention.
+
+4. **How do sales trends evolve over time?** 
+  -  *Key Tables*: `Invoice`, `InvoiceLine` 
+  -  *Explanation*: The `Invoice` table includes invoice dates and total amounts, allowing for time-based trend analysis (e.g., monthly revenue). `InvoiceLine` can be joined for more granular insights, such as which tracks or genres are trending over specific time periods, or purchase volume trends.
+
+With the schema understood and key tables identified, the next step is to query the data using SQL and create exploratory R visualizations to begin answering the business questions.
+
+# Question-Focused Exploration
+
+A connection was made to the DuckDB database file.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-db-conn
+
+con_chinook <- DBI::dbConnect(
+  duckdb::duckdb(), 
+  dbdir = "../data/chinook.duckdb",
+  read_only = TRUE
+  )
+```
+
+#### Python
+
+```{python}
+#| label: python-db-conn
+
+con_chinook = duckdb.connect("../data/chinook.duckdb", read_only = True)
+```
+
+:::
+
+Initial exploration aimed to verify the expected data range and structure described in the documentation.
+
+A query of date values in the `InvoiceDate` table confirmed that the data contained records with a date range from `2009-01-01` to `2013-12-22`.
+
+```{sql}
+#| label: sql-date-range
+#| connection: con_chinook
+#| code-fold: true
+-- Get date range of Invoices
+SELECT 
+  MIN(i.InvoiceDate) as MinDate, 
+  MAX(i.InvoiceDate) as MaxDate
+FROM Invoice i;
+```
+
+As expected, `InvoiceLine` and `Track` had the highest number of unique records, reflecting their one-to-many relationships with `Invoice` and `Album`, respectively.
+Metadata tables such as `Genre` and `MediaType` had fewer unique values.
+
+```{sql}
+#| label: sql-unique-keys
+#| connection: con_chinook
+-- Get Number of Unique Key Values in Each Table
+SELECT 
+  'Employees' AS TableName, 
+  COUNT(DISTINCT EmployeeId) AS UniqueKeys 
+FROM Employee
+UNION ALL
+SELECT 
+  'Customers' AS TableName, 
+  COUNT(DISTINCT Customerid) AS UniqueKeys 
+FROM Customer
+UNION ALL
+SELECT 
+  'Invoices' AS TableName, 
+  COUNT(DISTINCT InvoiceId) AS UniqueKeys 
+FROM Invoice
+UNION ALL
+SELECT 
+  'Invoice Lines' AS TableName, 
+  COUNT(DISTINCT InvoiceLineId) AS UniqueKeys 
+FROM InvoiceLine
+UNION ALL
+SELECT 
+  'Tracks' AS TableName, 
+  COUNT(DISTINCT TrackId) AS UniqueKeys 
+FROM Track
+UNION ALL
+SELECT 
+  'Artists' AS TableName, 
+  COUNT(DISTINCT ArtistId) AS UniqueKeys 
+FROM Artist
+UNION ALL
+SELECT 
+  'Albums' AS TableName, 
+  COUNT(DISTINCT AlbumId) AS UniqueKeys 
+FROM Album
+UNION ALL
+SELECT 
+  'Genres' AS TableName, 
+  COUNT(DISTINCT GenreId) AS UniqueKeys 
+FROM Genre
+UNION ALL
+SELECT 
+  'Media Types' AS TableName,
+  COUNT(DISTINCT MediaTypeId) AS UniqueKeys 
+FROM MediaType
+UNION ALL
+SELECT 
+  'Playlists' AS TableName, 
+  COUNT(DISTINCT PlaylistId) AS UniqueKeys 
+FROM Playlist
+ORDER BY UniqueKeys DESC;
+```
+
+With structure confirmed, attention was turned towards the identified business questions.
+
+## Question 1: Where is revenue coming from geographically?
+
+Analysis of geographic revenue began with the country recorded in the `Invoice` table.
+This geographic value reflected where purchases were billed, which is often used as the default location reference for financial reporting.
+
+```{sql}
+#| label: sql-revenue-country-billing
+#| connection: con_chinook
+-- Revenue by Country (Billing)
+SELECT 
+    i.BillingCountry, 
+    SUM(i.Total) AS TotalRevenue,
+    ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+    COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+    ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+FROM Customer c
+JOIN Invoice i on c.CustomerId == i.CustomerId
+GROUP BY i.BillingCountry
+-- Sort Revenue (Highest to Lowest)
+ORDER BY TotalRevenue DESC;
+```
+
+::: callout-note
+#### Insights
+
+The customer base is geographically uneven:
+
+-   The United States alone accounts for a quarter of global revenue (22.46%).
+-   The top five countries (USA, Canada, France, Brazil, Germany) contribute over half (58.77%) of global revenue.
+
+**Opportunity**: Expanding to underrepresented regions could be a growth opportunity - if demand can be identified and activated.
+:::
+
+::: callout-note
+#### Insights
+
+There are different customer behavior patterns in each country.
+
+-   None of the top revenue-generating countries appear in the top five for *revenue-per-customer* (Chile, Hungary, Ireland, Czech Republic, Austria).
+-   High total revenue countries likely have large but casual user bases.
+-   High per-customer revenue countries likely reflect smaller but more valuable audiences..
+
+**Opportunities**: 
+-   High total revenue countries are ideal for *retention and upselling* strategies.
+-   High per-customer revenue countries are ideal for *acquisition-focused* campaigns.
+:::
+
+However, the `Customer` table also contained a `Country` field.
+Differences between billing and customer country could reflect travel, gift purchases, or mismatched contact vs. billing addresses.
+
+```{sql}
+#| label: sql-revenue-country-customer
+#| connection: con_chinook
+-- Total Revenue by Country (Customer)
+SELECT 
+    c.Country, 
+    SUM(i.Total) AS TotalRevenue,
+    ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+    COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+    ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+FROM Customer c
+JOIN Invoice i on c.CustomerId == i.CustomerId
+GROUP BY c.Country
+-- Sort Revenue (Highest to Lowest)
+ORDER BY TotalRevenue DESC;
+```
+
+To identify any countries with mismatched revenue attribution, the aggregated views were joined and compared.
+
+```{sql}
+#| label: sql-revenue-country-comparison
+#| connection: con_chinook
+-- Rows with discrepancies in Revenue by Country
+-- (Billing vs Customer)
+
+-- Revenue by Invoice.BillingCountry
+WITH billing_country_revenue AS (
+    SELECT 
+        BillingCountry AS Country,
+        SUM(Total) AS Revenue_Billing
+    FROM Invoice
+    GROUP BY BillingCountry
+),
+
+-- Revenue by Customer Country (joined from Invoice.Customer)
+customer_country_revenue AS (
+    SELECT 
+        c.Country AS Country,
+        SUM(i.Total) AS Revenue_Customer
+    FROM Invoice i
+    JOIN Customer c ON i.CustomerId = c.CustomerId
+    GROUP BY c.Country
+)
+
+-- Join the aggregations into a single table (by Country)
+SELECT 
+    COALESCE(b.Country, c.Country) AS Country,
+    b.Revenue_Billing,
+    c.Revenue_Customer
+FROM billing_country_revenue b
+FULL OUTER JOIN customer_country_revenue c
+    ON b.Country = c.Country
+-- Select only rows where revenue differs by country source
+WHERE
+  b.Revenue_Billing IS DISTINCT FROM c.Revenue_Customer
+ORDER BY Country;
+```
+
+::: callout-note
+#### Insights
+
+Billing and customer country match exactly in this data set, indicating no divergence due to travel, gifting, or alternate addresses.
+This simplifies location-based analysis but may also reflect a limitation in the data set's realism.
+:::
+
+### Visualizations
+
+Total revenue per country across the entire data set was visualized with a Choropeth plot. 
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q1-vis-choropleth-totalrev-agg-by-country
+# SQL Queries
+## Yearly Breakdown
+res_yearly_df <- DBI::dbGetQuery(
+  con_chinook, 
+  "SELECT 
+    -- Get Country and Year for grouping
+    i.BillingCountry as Country, 
+    YEAR(i.InvoiceDate) as Year,
+    -- Calculate Total Revenue
+    SUM(i.Total) AS TotalRevenue,
+    -- Calculate % of Total/Global Revenue
+    ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+    -- Get Number of Customers
+    COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+    -- Calculate Revenue per Customer
+    ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+FROM Customer c
+JOIN Invoice i on c.CustomerId == i.CustomerId
+GROUP BY i.BillingCountry, Year
+-- Sort Revenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"
+)
+
+## Total (all years)
+res_agg_df <- DBI::dbGetQuery(
+  con_chinook, 
+  "SELECT 
+    -- Get Country for grouping
+    i.BillingCountry as Country,
+    -- Set 'Year' to 'All' for grouping
+    'All' AS Year,
+    -- Calculate Total Revenue
+    SUM(i.Total) AS TotalRevenue,
+    -- Calculate % of Total/Global Revenue
+    ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+    -- Get Number of Customers
+    COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+    -- Calculate Revenue per Customer
+    ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+FROM Customer c
+JOIN Invoice i on c.CustomerId == i.CustomerId
+GROUP BY i.BillingCountry,
+-- Sort Revenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"
+)
+
+# Combine data frames in R
+res_df <- dplyr::bind_rows(
+  res_agg_df,
+  res_yearly_df |> dplyr::mutate(Year = as.character(Year))
+  ) |>
+  dplyr::mutate(
+    ## Add ISO Country Codes
+    iso_alpha = countrycode::countrycode(
+      Country, 
+      origin = 'country.name', 
+      destination = 'iso3c'
+      ),
+    ## Format Hover Text (<b>Country:</b><br> $TotalRevenue.##")
+    hover_text = paste0(
+      "<b>", Country, ":</b><br> $",
+      formatC(TotalRevenue, format = 'f', big.mark =",'", digits = 2)
+      )
+    ) 
+
+# Get vector of unique years (layers/traces) - order with "All" first.
+years <- c("All", sort(unique(res_yearly_df$Year)))
+
+# Get minimum and maximum values for TotalRevenue (Colorbar consistency)
+z_min_val <- min(res_df$TotalRevenue, na.rm = TRUE)
+z_max_val <- max(res_df$TotalRevenue, na.rm = TRUE)
+
+# Generate plotly Choropleth
+fig <- plotly::plot_ly(
+  data = res_df,
+  type = 'choropleth',
+  locations = ~iso_alpha,
+  z = ~TotalRevenue,
+  # Set hover text to only display our desired, formatted output
+  text = ~hover_text,
+  hoverinfo = "text",
+  frame = ~Year,
+  # Set minimum and maximum TotalRevenue values, for consistent scale
+  zmin = z_min_val,
+  zmax = z_max_val,
+  # Title Colorbar/Legend
+  colorbar = list(
+    title = "Total Revenue (USD$)"
+  ),
+  # Color-blind friendly color scale
+  colorscale = "Viridis",
+  reversescale = TRUE,
+  showscale = TRUE,
+  # Give national boundaries a dark gray outline
+  marker = list(line = list(color = "darkgrey", width = 0.5))
+)
+
+# Layout with animation controls
+fig <- fig %>%
+  plotly::layout(
+    title = list(
+      text = "Total Revenue by Country <br> 2009-01-01 to 2013-12-22",
+      x = 0.5,
+      xanchor = "center",
+      font = list(size = 18)
+    ),
+    geo = list(
+      # Add a neat little frame around the world
+      showframe = TRUE, 
+      # Add coast lines - ensures countries that aren't in data are seen
+      showcoastlines = TRUE, 
+      # Use natural earth projection
+      projection = list(type = 'natural earth')
+      ),
+    updatemenus = list(
+      list(
+        type = "dropdown",
+        showactive = TRUE,
+        buttons = purrr::map(years, function(yr) {
+          list(
+            method = "animate",
+            args = list(list(yr), list(mode = "immediate", frame = list(duration = 0, redraw = TRUE))),
+            label = yr
+          )
+        }),
+        # Positioning of dropdown menu
+        x = 0.1,
+        y = 1.15,
+        xanchor = "left",
+        yanchor = "top"
+      )
+    ),
+    margin = list(t = 80)
+  ) %>%
+  plotly::animation_opts(frame = 1000, transition = 0, redraw = TRUE)
+
+# Display interactive plot
+fig
+```
+
+#### Python
+
+```{python}
+#| label: python-q1-vis-choropleth-totalrev-agg-by-country
+
+# SQL Queries
+## Yearly Breakdown
+res_yearly_df = con_chinook.execute(
+    """SELECT 
+      -- Get Country and Year for grouping
+      i.BillingCountry as Country, 
+      YEAR(i.InvoiceDate) as Year,
+      -- Calculate Total Revenue
+      SUM(i.Total) AS TotalRevenue,
+      -- Calculate % of Total/Global Revenue
+      ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+      -- Get Number of Customers
+      COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+      -- Calculate Revenue per Customer
+      ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+  FROM Customer c
+  JOIN Invoice i on c.CustomerId == i.CustomerId
+  GROUP BY i.BillingCountry, Year
+  -- Sort Revenue (Highest to Lowest)
+  ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+
+## Total (all years)
+res_agg_df = con_chinook.execute(
+    """SELECT 
+      -- Get Country for grouping
+      i.BillingCountry as Country,
+      -- Set 'Year' to 'All' for grouping
+      'All' AS Year,
+      -- Calculate Total Revenue
+      SUM(i.Total) AS TotalRevenue,
+      -- Calculate % of Total/Global Revenue
+      ROUND(SUM(i.Total)*100.0 / (SELECT SUM(Total) from Invoice), 2) AS PercentGlobalRevenue,
+      -- Get Number of Customers
+      COUNT(DISTINCT c.CustomerId) AS NumCustomers,
+      -- Calculate Revenue per Customer
+      ROUND(SUM(i.Total) / COUNT(DISTINCT c.CustomerId), 2) AS RevenuePerCustomer
+  FROM Customer c
+  JOIN Invoice i on c.CustomerId == i.CustomerId
+  GROUP BY i.BillingCountry,
+  -- Sort Revenue (Highest to Lowest)
+  ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+
+# Combine data frames and ensure consistent types
+res_df = pd.concat([
+  res_agg_df,
+  res_yearly_df.assign(Year=res_yearly_df['Year'].astype(str))
+  ], ignore_index=True)
+
+# Add ISO Country Codes
+def get_iso_alpha3(country_name):
+ try:
+   return pycountry.countries.lookup(country_name).alpha_3
+ except LookupError:
+   return None
+ 
+res_df['iso_alpha'] = res_df['Country'].apply(get_iso_alpha3)
+
+# Specify hover text
+res_df['hover_text'] = res_df.apply( \
+  lambda row: f"<b>{row['Country']}</b><br> ${row['TotalRevenue']:.2f}", axis = 1 \
+  )
+
+# Get unique years (layers/traces) - order with "All" first.
+years = ["All"] + sorted(res_df[res_df['Year'] != 'All']['Year'].unique().tolist())
+
+# Get maximum and minimum TotalRevenue values (consistent scale)
+z_min_val = res_df['TotalRevenue'].min()
+z_max_val = res_df['TotalRevenue'].max()
+
+# Create traces
+traces = []
+
+## One trace per year, with aggregate ("All") as the initial/default
+for i,year in enumerate(years):
+  df_year = res_df[res_df['Year'] == year]
+  
+  trace = go.Choropleth(
+    locations = df_year['iso_alpha'],
+    z = df_year['TotalRevenue'],
+    zmin = z_min_val,
+    zmax = z_max_val,
+    text = df_year['hover_text'],
+    hoverinfo = 'text',
+    # Color-blind friendly color scale (reversed: darker with higher revenues)
+    colorscale = 'Viridis_r',
+    # Give national boundaries a dark grey outline
+    marker = dict(line=dict(color='darkgrey', width=0.5)),
+    # Title Colorbar/Legend
+    colorbar = dict(title='Total Revenue (USD$)'),
+    # Set aggregate (year == 'All') to default for visibility
+    visible = True if year == 'All' else False,
+    name = year
+  )
+  
+  traces.append(trace)
+
+# Create buttons for dropdown menu to select visible year
+buttons = []
+
+for i, year in enumerate(years):
+  visibility = [j == i for j in range(len(years))]
+  
+  buttons.append(dict(
+    label = year,
+    method = 'update',
+    args = [{'visible':visibility}]
+  ))
+
+# Generate plotly Choropleth
+fig = go.Figure(data=traces)
+
+# Format Layout with Dropdown
+fig.update_layout(
+  title = dict(
+    text = "Total Revenue by Country <br> 2009-01-01 to 2013-12-22",
+    x = 0.5,  # Center the title
+    xanchor = 'center',
+    font = dict(size=18)
+  ),
+  # Frame and view
+  geo = dict(
+    # Show countries and boundaries
+    showcountries = True,
+    # Give national boundaries a dark gray outline
+    countrycolor="darkgrey",
+    # Add coast lines - ensure scountries that aren't in data are seen
+    showcoastlines = True,
+    coastlinecolor = "gray",
+    #  Ad a neat little frame around the world
+    showframe = True,
+    framecolor = "black",
+    # Use natural earth projection
+    projection_type = "natural earth"
+  ),
+  updatemenus = [dict(
+        # First button active by default (yr == "All")
+        active = 0,
+        buttons = buttons,
+        # Positioning of dropdown menu
+        x = 0.15,
+        y = 2,
+        xanchor = "left",
+        yanchor = "top"
+      )]
+    );
+
+# Display interactive plot
+fig.show()
+```
+
+:::
+
+## Question 2: What genres or artists generate the most income?
+
+-   **Key Tables**: `InvoiceLine`, `Track`, `Artist`, `Genre`
+-   **Explanation**: `InvoiceLine` provides data relating to individual unit sales. Links between `Track`, `Artist`, and `Genre` provide additional details, such as artist name and genre, characterizing these unit sales.
+
+## Question 3: How many customers are repeat buyers?
+
+-   **Key Tables**: `Invoice`, `Customer`, `InvoiceLine`
+-   **Explanation**: `Customer` provides key customer data. Links to `Invoice` provide sales frequency information linked to each `Customer`, which may be further broken down to individual units or cost-per-unit with links to `InvoiceLine`.
+
+## Question 4. How do sales trends evolve over time?
+
+-   **Key Tables**: `Invoice`, `InvoiceLine`, `Customer`
+-   **Explanation**: `Invoice` provides sales data, including date of sale and revenue. This data may be further broken down to individual units or cost-per-unit with links to `InvoiceLine`. Further characterization may be done with links to `Customer` or other tables linked to `InvoiceLine`.
+
+
+# BOTTOM
+
+Disconnect from the database.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-cleanup
+DBI::dbDisconnect(con_chinook)
+rm(list = ls())
+```
+
+#### Python
+
+```{python}
+#| label: python-cleanup
+# conn_chinook.close()
+```
+
+:::
