@@ -6,3 +6,6 @@
 .RData
 .Rhistory
 *.Rproj
+
+# Temporary (while testing things)
+/_extensions/

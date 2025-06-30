@@ -4,9 +4,20 @@ listing:
   id: project-listings
   contents: projects
   type: "default"
-  sort: "publishDate desc"
+  sort: "date desc"
+  filter-ui: true
   categories: true
-  filter-ui: [category, title, date]
+  # TO DO: Build a filter sidebar that's better than categories 
+  # with the following fields: 
+  #   - prog_lang
+  #   - use_case
+  #   - domain
+  #   - product
+  #   - ml_type
+  #   - depth
+  #   - tools
+  #   - data_source
+page-layout: article
 ---
 
 Welcome! Here you'll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore — use the filters to browse by category and dive into the areas that interest you the most.
