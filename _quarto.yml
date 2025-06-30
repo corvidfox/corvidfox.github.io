@@ -7,7 +7,6 @@ website:
   favicon: ./img/favicon-32x32.png
   repo-url: https://github.com/corvidfox/corvidfox.github.io/
   repo-actions: [source, issue]
-  reader-mode: true
   page-navigation: true
   back-to-top-navigation: true
   navbar:
@@ -28,8 +27,11 @@ website:
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme:
+      light: [cosmo, styles-light.scss]
+      dark: [cosmo, styles-dark.scss]
+    respect-user-color-scheme: true
+    theme-toggle: true
     toc: true
     toc_depth: 3
     toc_float: true
@@ -39,4 +41,4 @@ format:
     code-summary: "Show Code"
 
 execute:
-  python: "qmd_profile_py_env"
+  python: qmd_profile_py_env

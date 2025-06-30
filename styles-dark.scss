@@ -1,0 +1,49 @@
+// DARK MODE //
+
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: #181818;
+$body-color: #ccc;
+$link-color: #75AADB;
+
+// Code blocks
+$code-block-bg-alpha: -.9;
+
+// Navbar (top header bar)
+$navbar-bg: #222;                 
+$navbar-color: #ccc;              
+$navbar-hover-color: #fff;        
+$navbar-active-color: #75AADB;    
+$navbar-brand-color: #ccc;
+$navbar-brand-hover-color: #fff;
+
+// Dropdowns (e.g. navbar dropdowns)
+$dropdown-bg: #333;
+$dropdown-color: #ccc;
+$dropdown-link-color: #ccc;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-hover-bg: #444;
+
+// Tabset Tabs (clickable headers)
+$nav-tabs-border-color: #444;
+$nav-tabs-link-active-color: #fff;
+$nav-tabs-link-active-bg: #333;
+$nav-tabs-link-hover-border-color: #666;
+$nav-tabs-link-color: #ccc;
+
+// Tab content area
+$card-bg: #222;
+
+// Category Bubbles (Listings)
+.listing-category {
+  background-color: #333 !important;
+  color: #ccc !important;
+  border: 1px solid #444 !important;
+}
+
+// Category Bubbles (Post)
+.quarto-category {
+  background-color: #333 !important;
+  color: #ccc !important;
+  border: 1px solid #444 !important;
+}
