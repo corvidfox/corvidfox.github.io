@@ -39,13 +39,32 @@ library(reticulate)
 reticulate::use_condaenv("qmd_profile_py_env",required=TRUE)
 ```
 
-# Project Overview
+# Project Overview {#overview}
 
 -   **Goal**: Build a BI dashboard for a fictional digital media business.
 -   **Focus**: Revenue insights, customer analysis, business performance.
--   **Why it matters**: Business stakeholders need quick, clear access to KPIs.
+-   **Why it matters**: Business stakeholders benefit from fast, accessible reporting on key performance indicators (KPIs) to support decision-making.
 
-## Technology Stack
+This project is intended for both technical and business audiences, with clear visual insights supported by SQL-based exploration.
+
+For the best visualization experience, browser is recommended - optimization of these exploratory visualizations is limited.
+
+## Business Questions {#business-questions}
+
+This project is designed to help answer the following business questions:
+
+1.  **Where is revenue coming from geographically?**
+2.  **What genres or artists generate the most income?**
+3.   **How many customers are repeat buyers?**
+4.  **How do sales trends evolve over time?**
+
+## Deliverables {#deliverables}
+
+-   SQL-based analysis of key business metrics with visualizations in both R and Python.
+-   Dashboards built in R (Shiny) and Python (Dash) [TO DO].
+-   [Considering a tableau version of the dashboard; TO DO]
+
+## Technology Stack {#tech-stack}
 
 The following tools were used to merge, analyze, and present the data:
 
@@ -56,7 +75,7 @@ The following tools were used to merge, analyze, and present the data:
 | R + Shiny     | Dashboard development (R-based)           |
 | Python + Dash | Dashboard development (Python-based)      |
 
-The project demonstrates dashboard development using both R (Shiny) and Python (Dash) to showcase flexibility across ecosystems.
+This project demonstrates dashboard development in both R (Shiny) and Python (Dash), highlighting flexibility across technical ecosystems.
 
 \[NOTE TO SELF - DELETE ONCE REVISED: This is a work in progress.
 I plan to make a dashboard with R and one with Python, just to show I can do both.
@@ -72,34 +91,30 @@ I will update this to reflect the final project once it's done.\]
 #| warning: FALSE
 library(duckdb)
 library(dplyr)
+library(forcats)
 library(DBI)
 library(plotly)
 library(countrycode)
+library(ggplot2)
+library(patchwork)
 ```
 
 #### Python
 
 ```{python}
-#| label: python-load-pkgs
+#| label: py-load-pkgs
 import duckdb
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from plotly.graph_objs import Figure
 import pycountry
 ```
 
 :::
 
-## Business Questions
-
-This project is designed to help answer the following business questions:
-
-1.  **Where is revenue coming from geographically?**
-2.  **What genres or artists generate the most income?**
-3.   **How many customers are repeat buyers?**
-4.  **How do sales trends evolve over time?**
-
-# Data Exploration & Schema Understanding
+# Data Exploration & Schema Understanding {#data-schema}
 
 The [Chinook Database](https://github.com/lerocha/chinook-database) is a well documented, publicly available data set.
 The SQLite version of the data was downloaded and converted into a [DuckDB](https://duckdb.org/) database for this project to take advantage of DuckDB's speed and in-memory querying capabilities.
@@ -138,7 +153,7 @@ Joining to the `Track` table provides track-level metadata through further links
 
 With the schema understood and key tables identified, the next step is to query the data using SQL and create exploratory R visualizations to begin answering the business questions.
 
-## Connection and Validation
+## Connection and Validation {#connection-validation}
 
 A connection was made to the DuckDB database file.
 
@@ -159,14 +174,14 @@ con_chinook <- DBI::dbConnect(
 #### Python
 
 ```{python}
-#| label: python-db-conn
+#| label: py-db-conn
 
 con_chinook = duckdb.connect("../data/chinook.duckdb", read_only = True)
 ```
 
 :::
 
-Initial exploration aimed to verify the expected data range and structure described in the documentation.
+Initial exploration confirmed the data’s structure and date range matched documentation.
 
 A query of date values in the `InvoiceDate` table confirmed that the data contained records with a date range from `2009-01-01` to `2013-12-22`.
 
@@ -240,15 +255,24 @@ FROM Playlist
 ORDER BY UniqueKeys DESC;
 ```
 
-With structure confirmed, attention was turned towards the identified business questions.
+**Next Step:** Key performance indicators (KPIs) will be extracted with SQL and visualized with R and Python to answer the [business questions outlined previously](#business-questions), beginning with a geographic revenue analysis.
 
-# Question 1: Where is revenue coming from geographically?
+# Question 1: Where is revenue coming from geographically? {#q1}
+
+::: {.callout-tip}
+
+#### Executive Summary
+Global revenue is highly concentrated, with the U.S., Canada, and France driving over 50% of total earnings. Yet, smaller markets like Chile and Hungary show outsized revenue per customer, indicating growth potential. Geographic disparities in engagement suggest tailored strategies — retention and upsell in large markets, acquisition in high-value niches. Visual analysis also reveals year-specific anomalies that merit further exploration
+
+:::
+
+The data set documented revenue of $2,328.60 (USD) from customers in 24 countries.
 
 Analysis of geographic revenue began with the country recorded in the `Invoice` table.
 This geographic value reflected where purchases were billed, which is often used as the default location reference for financial reporting.
 
 ```{sql}
-#| label: sql-revenue-country-billing
+#| label: sql-q1-revenue-country-billing
 #| connection: con_chinook
 #| filename: SQL
 -- Revenue by Country (Billing)
@@ -265,10 +289,10 @@ GROUP BY i.BillingCountry
 ORDER BY TotalRevenue DESC;
 ```
 
-::: callout-note
+::: {.callout-note}
 #### Insights
 
-The customer base is geographically uneven.
+Revenue is geographically concentrated, with a few countries dominating global totals.
 
 -   The United States alone accounts for a quarter of global revenue (22.46%).
 -   The top five countries (USA, Canada, France, Brazil, Germany) contribute over half (58.77%) of global revenue.
@@ -276,14 +300,14 @@ The customer base is geographically uneven.
 **Opportunity**: Expanding to underrepresented regions could be a growth opportunity, if demand can be identified and activated.
 :::
 
-::: callout-note
+::: {.callout-note}
 #### Insights
 
 There are different customer behavior patterns in each country.
 
 -   None of the top revenue-generating countries appear in the top five for *revenue-per-customer* (Chile, Hungary, Ireland, Czech Republic, Austria).
--   High total revenue countries likely have large but casual user bases.
--   High per-customer revenue countries likely reflect smaller but more valuable audiences..
+-   High total revenue countries likely have broad but less engaged customer bases.
+-   High revenue per customer regions represent smaller but highly engaged audiences.
 
 **Opportunities**: 
 
@@ -295,7 +319,7 @@ However, the `Customer` table also contained a `Country` field.
 Differences between billing and customer country could reflect travel, gift purchases, or mismatched contact vs. billing addresses.
 
 ```{sql}
-#| label: sql-revenue-country-customer
+#| label: sql-q1-revenue-country-customer
 #| connection: con_chinook
 #| filename: SQL
 -- Total Revenue by Country (Customer)
@@ -315,7 +339,7 @@ ORDER BY TotalRevenue DESC;
 To identify any countries with mismatched revenue attribution, the aggregated views were joined and compared.
 
 ```{sql}
-#| label: sql-revenue-country-comparison
+#| label: sql-q1-revenue-country-comparison
 #| connection: con_chinook
 #| filename: SQL
 -- Rows with discrepancies in Revenue by Country
@@ -354,14 +378,15 @@ WHERE
 ORDER BY Country;
 ```
 
-::: callout-note
+::: {.callout-note}
 #### Insights
 
 Billing and customer country match exactly in this data set, indicating no divergence due to travel, gifting, or alternate addresses.
 This simplifies location-based analysis but may also reflect a limitation in the data set's realism.
+
 :::
 
-## Exploratory Visualizations
+## Exploratory Visualizations {#q1-vis}
 
 In preparation for exploratory visualization generation, the data is retrieved using SQL queries and prepared in both R and Python.
 
@@ -443,7 +468,7 @@ years <- c("All", sort(unique(res_yearly_df$Year)))
 #### Python
 
 ```{python}
-#| label: python-q1-prep
+#| label: py-q1-prep
 # SQL Queries
 ## Yearly Breakdown
 res_yearly_df = con_chinook.execute(
@@ -497,7 +522,8 @@ res_df = pd.concat([
 # Add ISO Country Codes
 def get_iso_alpha3(country_name):
  try:
-   return pycountry.countries.lookup(country_name).alpha_3
+   match = pycountry.countries.search_fuzzy(country_name)
+   return match[0].alpha_3
  except LookupError:
    return None
  
@@ -509,11 +535,9 @@ years = ["All"] + sorted(res_df[res_df['Year'] != 'All']['Year'].unique().tolist
 
 :::
 
-### Total Revenue by Country
+### Total Revenue: Choropleth by Country {#q1-vis-rev-by-country}
 
 Total revenue per country across the entire data set was visualized with a Choropeth plot. 
-
-For best viewing experience, browser is recommended - optimization of these exploratory visualizations is limited.
 
 ::: {.panel-tabset}
 
@@ -673,7 +697,7 @@ fig.update_layout(
     showcountries = True,
     # Give national boundaries a dark gray outline
     countrycolor="darkgrey",
-    # Add coast lines - ensure scountries that aren't in data are seen
+    # Add coast lines - ensure countries that aren't in data are seen
     showcoastlines = True,
     coastlinecolor = "gray",
     #  Ad a neat little frame around the world
@@ -760,14 +784,14 @@ fig.show()
 
 :::
 
-::: callout-note
+::: {.callout-note}
 #### Insights
 
-The customer base is consistently geographically uneven.
+The customer base exhibits persistent geographic disparities in both scale and engagement.
 
--   Revenue trends remain flat overall.
+-   Overall revenue trends are relatively flat, with limited signs of organic growth.
 -   North America and Brazil consistently drive the highest revenues, indicating strong market presence and sustained demand.
--   India and parts of Central Europe maintain low but steady revenue, suggesting a stable (though modest) consumer base that may respond well to targeted growth strategies.
+-   India and parts of Central Europe maintain modest but consistent revenue, suggesting a stable (though modest) consumer base that may respond well to targeted growth strategies.
 -   Australia showed signs of growth until 2013, after which revenue dropped to zero — this may reflect market exit, operational changes, or demand saturation.
 -   Other parts of South America and Europe show sporadic revenue, possibly tied to one-time purchases or minimal customer engagement.
 
@@ -775,14 +799,1393 @@ The customer base is consistently geographically uneven.
 
 -   There is untapped potential in underrepresented regions. If market demand can be properly assessed and activated — through localized marketing, partnerships, or product adaptation — these regions could represent growth markets.
 -   South America and Europe may benefit from customer acquisition and retention strategies.
--   Australia may be a strong case-study: understanding why Australia stopped producing revenue may identify key vulnerabilities that might translate to other markets.
+-   Australia’s sharp revenue drop in 2013 warrants deeper investigation — identifying root causes could help preempt similar risks in other markets.
 
 :::
 
-# Question 2: What genres or artists generate the most income?
+### Revenue per Customer: Choropleth by Country {#q1-vis-rev-per-cust-by-country}
 
--   **Key Tables**: `InvoiceLine`, `Track`, `Artist`, `Genre`
--   **Explanation**: `InvoiceLine` provides data relating to individual unit sales. Links between `Track`, `Artist`, and `Genre` provide additional details, such as artist name and genre, characterizing these unit sales.
+Initial exploration revealed a significant mismatch between total revenue and revenue per customer. This was further explored by forming a similar Choropeth plot.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q1-vis-choropleth-revpercust-agg-by-country
+# Format Hover Text (<b>Country:</b><br> $RevenuePerCustomer.##")
+res_df <- res_df |> 
+  dplyr::mutate(
+    hover_text = paste0(
+      "<b>", Country, ":</b><br> $",
+      formatC(RevenuePerCustomer, format = 'f', big.mark =",'", digits = 2)
+      )
+    ) 
+
+# Get minimum and maximum values for RevenuePerCustomer (Colorbar consistency)
+z_min_val <- min(res_df$RevenuePerCustomer, na.rm = TRUE)
+z_max_val <- max(res_df$RevenuePerCustomer, na.rm = TRUE)
+
+# Generate plotly Choropleth
+fig <- plotly::plot_ly(
+  data = res_df,
+  type = 'choropleth',
+  locations = ~iso_alpha,
+  z = ~RevenuePerCustomer,
+  # Set hover text to only display our desired, formatted output
+  text = ~hover_text,
+  hoverinfo = "text",
+  frame = ~Year,
+  # Set minimum and maximum RevenuePerCustomer values, for consistent scale
+  zmin = z_min_val,
+  zmax = z_max_val,
+  # Title Colorbar/Legend
+  colorbar = list(
+    title = "Revenue per Customer (USD$)"
+  ),
+  # Color-blind friendly color scale
+  colorscale = "Viridis",
+  reversescale = TRUE,
+  showscale = TRUE,
+  # Give national boundaries a dark gray outline
+  marker = list(line = list(color = "darkgrey", width = 0.5))
+)
+
+# Layout with animation controls
+fig <- fig %>%
+  plotly::layout(
+    title = list(
+      text = "Revenue per Customer by Country <br> 2009-01-01 to 2013-12-22",
+      x = 0.5,
+      xanchor = "center",
+      font = list(size = 18)
+    ),
+    geo = list(
+      # Add a neat little frame around the world
+      showframe = TRUE, 
+      # Add coast lines - ensures countries that aren't in data are seen
+      showcoastlines = TRUE, 
+      # Use natural earth projection
+      projection = list(type = 'natural earth')
+      ),
+    updatemenus = list(
+      list(
+        type = "dropdown",
+        showactive = TRUE,
+        buttons = purrr::map(years, function(yr) {
+          list(
+            method = "animate",
+            args = list(list(yr), list(mode = "immediate", frame = list(duration = 0, redraw = TRUE))),
+            label = yr
+          )
+        }),
+        # Positioning of dropdown menu
+        x = 0.1,
+        y = 1.15,
+        xanchor = "left",
+        yanchor = "top"
+      )
+    ),
+    margin = list(t = 80)
+  ) %>%
+  plotly::animation_opts(frame = 1000, transition = 0, redraw = TRUE)
+
+# Display interactive plot
+fig
+```
+
+#### Python
+
+```{python}
+#| label: py-q1-vis-choropleth-revpercust-agg-by-country
+# Specify hover text
+res_df['hover_text'] = res_df.apply( \
+  lambda row: f"<b>{row['Country']}</b><br> ${row['RevenuePerCustomer']:.2f}", axis = 1 \
+  )
+
+# Get maximum and minimum RevenuePerCustomer values (consistent scale)
+z_min_val = res_df['RevenuePerCustomer'].min()
+z_max_val = res_df['RevenuePerCustomer'].max()
+
+# Create frames (one per year, and aggregate)
+frames = []
+
+for year in years:
+  df_year = res_df[res_df['Year'] == year]
+  frames.append(go.Frame(
+    name = str(year),
+    data = [go.Choropleth(
+      locations = df_year['iso_alpha'],
+      z = df_year['RevenuePerCustomer'],
+      zmin = z_min_val,
+      zmax = z_max_val,
+      text = df_year['hover_text'],
+      hoverinfo = 'text',
+      # Color-blind friendly color scale (reversed: darker with higher revenues)
+      colorscale = 'Viridis_r',
+      # Give national boundaries a dark grey outline
+      marker = dict(line=dict(color='darkgrey', width=0.5))
+    )]
+  ))
+  
+# First frame (initial state)
+init_df = res_df[res_df['Year'] == 'All']
+
+# Generate plotly Choropleth
+fig = go.Figure(
+  data=[go.Choropleth(
+        locations=init_df['iso_alpha'],
+        z=init_df['RevenuePerCustomer'],
+        text=init_df['hover_text'],
+        hoverinfo='text',
+        # Color-blind friendly color scale (reversed: darker with higher revenues)
+        colorscale='Viridis_r',
+        zmin=z_min_val,
+        zmax=z_max_val,
+        # Give national boundaries a dark grey outline
+        marker=dict(line=dict(color='darkgrey', width=0.5)),
+        # Title Colorbar/Legend
+        colorbar=dict(title='Revenue per Customer (USD$)')
+    )],
+    frames=frames
+  )
+  
+# Format Layout with Animation Controls
+fig.update_layout(
+  title = dict(
+    text = "Revenue per Customer by Country <br> 2009-01-01 to 2013-12-22",
+    x = 0.5,
+    xanchor = 'center',
+    font = dict(size=18)
+  ),
+  margin=dict(t=80),
+  # Frame and view
+  geo = dict(
+    # Show countries and boundaries
+    showcountries = True,
+    # Give national boundaries a dark gray outline
+    countrycolor="darkgrey",
+    # Add coast lines - ensure countries that aren't in data are seen
+    showcoastlines = True,
+    coastlinecolor = "gray",
+    #  Ad a neat little frame around the world
+    showframe = True,
+    framecolor = "black",
+    # Use natural earth projection
+    projection_type = "natural earth"
+  ),
+  # Buttons/Menus
+  updatemenus = [dict(
+    ## Play/Pause
+        # First button active by default (yr == "All")
+        type = "buttons",
+        direction = "left",
+        x = 0,
+        y = 0,
+        showactive = False,
+        xanchor = "left",
+        yanchor = "bottom",
+        pad = dict(r = 10, t = 70),
+        buttons = [dict(
+          label = "Play",
+          method = "animate",
+          args = [None, {
+            "frame": {"duration": 1000, "redraw": True},
+            "fromcurrent": True,
+            "transition": {"duration": 300, "easing": "quadratic-in-out"}
+          }]
+        ), dict(
+          label = "Pause",
+          method = "animate",
+          args=[[None], {"frame": {"duration": 0}, "mode": "immediate"}] 
+          )] 
+      )] +
+  ## Year Dropdown Menu
+    [dict(
+      type="dropdown",
+      x = 0.1,
+      y = 1.15,
+      xanchor="left",
+      yanchor="top",
+      showactive=True,
+      buttons=[dict(
+        label=str(year),
+        method="animate",
+        args=[
+            [str(year)],
+            {"mode": "immediate",
+             "frame": {"duration": 0, "redraw": True},
+             "transition": {"duration": 0}}
+        ]
+    ) for year in years]
+  )],
+  sliders = [dict(
+      active = 0,
+      # Positioning of slider menu
+      x = 0.1,
+      y = -0.2,
+      len = 0.8,
+      xanchor = "left",
+      yanchor = "bottom",
+      pad = dict(t= 30, b=10),
+      currentvalue = dict(
+        visible = True,
+        prefix = "Year: ",
+        xanchor = "right",
+        font = dict(size=14, color = "#666")
+      ),
+    steps = [dict(
+      method = 'animate',
+      args =[[str(year)], {
+        "mode": "immediate",
+        "frame": {"duration": 1000, "redraw": True},
+        "transition": {"duration": 300}
+        }],
+        label = str(year) 
+      ) for year in years]
+    )] 
+  );
+
+# Display interactive plot
+fig.show()
+```
+
+:::
+
+::: {.callout-note}
+#### Insights
+
+Year-over-year shifts in revenue per customer suggest evolving engagement patterns across regions.
+
+-   High total-revenue countries (USA, Canada, Brazil) and India show *flat revenue per customer trends*, indicating stable but possibly casual engagement.
+-   South America saw increases in revenue per customer in both 2010 and 2013, suggesting periods of heightened individual customer value — possibly driven by regional promotions or market-specific trends.
+-   Europe experienced a spike in 2011, with multiple countries (e.g., Austria, Hungary, Ireland) showing high per-customer revenue. The cause is unclear but may reflect a surge in high-value purchases or regional campaigns
+
+**Opportunities**: 
+
+-   High per-customer revenue regions (especially those with smaller total revenue footprints) may benefit from *customer acquisition efforts*, as existing users demonstrate strong engagement or purchasing behavior.
+-   Flat or declining per-customer revenue in large markets highlights a need for *upselling, bundling, or personalized offers* to increase customer lifetime value.
+-   Investigating year-over-year anomalies (e.g., Australia's 2012 spike, Europe in 2011) could uncover replicable growth levers or emerging market trends.
+
+:::
+
+## Summary of Exploratory findings {#q1-summary}
+
+Total revenue measures market size, while revenue per customer reflects intensity of engagement. Both are important for guiding different types of strategic decisions (e.g., acquisition vs. retention).
+
+Geographic revenue in the Chinook dataset is concentrated in a few strong markets, while many others remain underdeveloped. This disparity presents both risk and opportunity: efforts to deepen engagement in large casual markets (e.g., USA, Brazil) and expand in high-value but small markets (e.g., Austria, Chile) could lead to measurable revenue growth. Year-over-year changes — such as Australia’s exit and Europe's 2011 spike — suggest that regional trends and operational shifts have meaningful financial impacts worth further investigation.
+
+-   **Top 5 Countries by Total Revenue:** USA, Canada, France, Brazil, Germany
+-   **Top 5 Countries by Revenue per Customer:** Chile, Hungary, Ireland, Czech Republic, Austria
+
+::: {.callout-tip}
+
+#### Possible Next Steps
+
+If this were real-world data, the following actions could strengthen both analytical insight and strategic decision-making.
+
+**Deepen the Analysis:**
+
+-   *Investigate Australia's 2012–13 drop-off.*  
+  Examine customer churn, pricing changes, or external events that may explain the abrupt loss of revenue.
+-   *Analyze U.S. cohort churn to identify upsell opportunities.*  
+  As the largest revenue contributor with moderate revenue-per-customer, the U.S. market may contain untapped upsell or retention opportunities.
+
+**Strategic Business Opportunities:**
+
+-   *Launch targeted consumer acquisition campaigns in underpenetrated, high-potential markets.*  
+  Focus on Chile, Hungary, the Czech Republic and Irelan  —  all show strong revenue-per-customer despite smaller customer bases.
+-   *Localize and invest in regional content for India and Asia.*  
+  These high-population markets show minimal engagement. Tailored content, pricing, or distribution could unlock substantial growth.
+-   *Re-engage customers in stalled or declining regions.*  
+  Countries like Brazil and Sweden once generated revenue but saw sustained drop-offs. A targeted win-back campaign could reclaim lapsed users.
+
+:::
+
+# Question 2: What genres or artists generate the most income? {#q2}
+
+::: {.callout-tip}
+
+#### Executive Summary
+
+Revenue across genres and artists is highly concentrated, with a few categories (e.g., Rock, TV-related genres) accounting for most earnings. Yet, when normalized by catalog size, smaller genres like Sci Fi & Fantasy and Bossa Nova outperform in per-track efficiency. These findings suggest that *total revenue alone understates the value of high-margin, niche content*. Year-over-year trends also reveal temporal spikes that signal short-term demand surges — potential targets for agile promotion or bundling strategies.
+
+:::
+
+To understand commercial performance across the catalog, revenue was analyzed at both the genre and artist levels.
+
+The pertinent sales data was stored in the `InvoiceLine` table, where each row corresponded to a purchased track. These transaction records were linked to metadata through the `Track`, `Genre`, and `Artist` tables.
+
+Initial exploration focused on genre-level revenue, with metrics capturing total earnings, sales volume, average revenue per track, and share of overall income.
+
+```{sql}
+#| label: sql-q2-revenue-by-genre
+#| connection: con_chinook
+#| filename: SQL
+-- Revenue by Genre
+SELECT 
+  g.Name AS Genre,
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog in this genre
+  track_counts.TotalTracksInGenre,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksInGenre, 2) AS PercentOfTracksSold,
+  -- Revenue per total track in genre
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksInGenre, 2) AS RevenuePerTotalTrack,
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Genre g ON t.GenreId = g.GenreId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT GenreId, COUNT(*) AS TotalTracksInGenre
+    FROM Track
+    GROUP BY GenreId
+) AS track_counts ON g.GenreId = track_counts.GenreId
+GROUP BY g.Name, track_counts.TotalTracksInGenre
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY TotalRevenue DESC;
+```
+
+::: {.callout-note}
+
+#### Insights
+
+-   Revenue is highly concentrated.
+    -   The top four genres — Rock, Latin, Metal, Alternative & Punk — generate *73.5% of total income* and account for *77.2% of unit sales*.
+    -   Rock alone contributes *35.5% of total revenue*, establishing it as the primary commercial driver.
+-   *Revenue is predominantly volume-driven* across genres, with minimal pricing differentiation.
+    -   The average revenue per track across genres is approximately $0.99, indicating *consistent pricing strategies*.
+    -   A small subset of non-music genres (e.g. TV Shows, Science Fiction, Sci Fi & Fantasy, Comedy, and Drama) command significantly higher per-unit revenue (~$1.99 per track). These categories contribute minimally to total volume but represent *higher-margin segments*.
+-   Sales penetration varies by genre:
+    -   The top five genres by percentage of catalog sold are Bossa Nova (93.3%), Sci Fi & Fantasy (76.9%), Blues (65.4%), Metal (61.8%), and Alternative & Punk (61.1%).
+    -   Total track count within genres closely aligns with total revenue, highlighting the *impact of catalog size on sales*.
+-   Some mid-sized genres — including Sci Fi & Fantasy, Comedy, and TV Shows — deliver *above-average revenue per track in catalog*, outperforming larger genres in revenue efficiency.
+
+**Opportunities**:
+
+-   Premium-priced genres may offer growth potential if supported through improved visibility, targeted marketing, or content expansion strategies.
+-   The strong correlation between catalog size suggests sales are heavily dependent on the volume of available content within each genre. *Diversifying through strategic content acquisition or development* in underrepresented genres could mitigate risk from shifts in consumer preferences while creating new revenue streams.
+
+:::
+
+```{sql}
+#| label: sql-q2-revenue-by-artist
+#| connection: con_chinook
+#| filename: SQL
+-- Revenue by Artist
+SELECT 
+  ar.Name AS Artist,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist
+  track_counts.TotalTracksByArtist,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksByArtist, 2) AS PercentOfTracksSold,
+  -- Revenue per total track by artist
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksByArtist, 2) AS RevenuePerTotalTrack
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON ar.ArtistId = al.ArtistId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT 
+      al.ArtistId,
+      COUNT(*) AS TotalTracksByArtist
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId
+) AS track_counts ON ar.ArtistId = track_counts.ArtistId
+GROUP BY ar.Name, track_counts.TotalTracksByArtist
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY TotalRevenue DESC
+-- Limit output for readability (165 total artists)
+LIMIT 25;
+```
+
+::: {.callout-note}
+#### Insights
+
+-   Revenue is more *evenly distributed among artists*, with lower concentration than at the genre level The top four artists  — Iron Maiden, U2, Metallica, and Led Zeppelin — generate only *18.08% of total revenue*, in contrast to the much higher concentration observed across genres.
+-   *Non-music content features prominently among top performers.*  
+  TV Shows, such as *Lost* (#5, 3.50% of revenue) and *The Office* (#6, 2.14% of revenue), rank among the top revenue-generating artists, reflecting the impact of premium pricing and niche appeal.
+-   *Catalog penetration varies widely across artists.*  
+  The use of a single "artist" value for each track complicates interpretation, as each combination or collaboration is listed as a separate artist (rather than attributed to all artists). Single-track contributors (often collaborations or soundtrack entries) show near-complete sales penetration, despite limited catalog depth.
+-   *Catalog size strongly correlates with total revenue,* reinforcing the importance of content volume in driving performance.
+
+**Opportunities**:
+
+-   *Investment in high-margin non-music content.*  
+  Episodic and cinematic media command higher per-unit performance and penetration despite smaller catalogs. *Expanding premium non-music offerings* —  such as curated soundtracks and narrative series — could unlock high-margin growth.
+-   *Diversify the artist portfolio.*  
+  With revenue spread broadly across many artists, expanding representation — particularly in underdeveloped genres or emerging niches — could *mitigate risk* and attract a wider audience.
+-   *Maximize existing catalog performance.*  
+  High-performing artists with unsold tracks represent untapped value. Targeted promotions, playlists, or bundling strategies could increase catalog penetration and enhance revenue efficiency.
+
+:::
+
+```{sql}
+#| label: sql-q2-revenue-by-artist-genre-combo
+#| connection: con_chinook
+#| filename: SQL
+-- Top Artists within the Top Genres
+SELECT 
+  g.Name AS Genre,
+  ar.Name AS Artist,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks Sold
+  COUNT(*) AS NumTracksSold,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity) * 100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity) / COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Volume (Units Sold)
+  COUNT(DISTINCT il.TrackId) * 100.0 / (SELECT COUNT(DISTINCT TrackId) FROM InvoiceLine) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist-genre combo
+  catalog_stats.TotalTracksInCatalog,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / catalog_stats.TotalTracksInCatalog, 2) AS PercentOfCatalogSold,
+  -- Revenue per total track by artist-genre combo
+  ROUND(SUM(il.UnitPrice * il.Quantity) / catalog_stats.TotalTracksInCatalog, 2) AS RevenuePerCatalogTrack
+
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON al.ArtistId = ar.ArtistId
+JOIN Genre g ON t.GenreId = g.GenreId
+
+-- Subquery to get the total catalog size for each Artist-Genre pair
+JOIN (
+    SELECT 
+      al.ArtistId,
+      t.GenreId,
+      COUNT(*) AS TotalTracksInCatalog
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId, t.GenreId
+) AS catalog_stats 
+  ON al.ArtistId = catalog_stats.ArtistId AND t.GenreId = catalog_stats.GenreId
+  
+GROUP BY g.Name, ar.Name, catalog_stats.TotalTracksInCatalog
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY TotalRevenue DESC
+-- Limit output for readability (165 total artists)
+LIMIT 50;
+```
+
+::: {.callout-note}
+#### Insights
+
+-   *Artist-Genre revenue leaders align with broader trends.*   
+  The top artist-genre combinations by revenue mirror those from individual artist and genre views. For example, Metallica and Iron Maiden dominate within the Metal genre while U2, Led Zeppelin, and Iron Maiden lead within Rock. Together, the top 5 artist-genre combinations account for *17.13% of total revenue*, and *16.72% of unit sales*, underscoring their importance in driving overall volume.
+-   *High-efficiency revenue segments are concentrated in niche content.*   
+  The top entries by *revenue per track in catalog* are overwhelmingly skewed towards TV shows and classical music ensembles, such as *Aquaman* (TV Show, $3.98 per catalog track), *Battlestar Galactica*  (Sci Fi & Fantasy, $1.99 per catalog track), and *Emerson String Quartet* (Classical, $1.98 catalog track). These offerings, while limited in volume, generate significantly more revenue per track than mainstream genres and artists, reflecting *strong premium pricing* and *dedicated niche demand*.
+-   *Catalog penetration varies widely by artist–genre combo.*   
+  Several high-revenue artists still show less-than-complete catalog sales, revealing unrealized value within popular genres. On the other hand, certain one-off soundtrack or TV show entries show 100% catalog penetration, despite having only one or two tracks.
+
+**Opportunities**:
+
+-   *Expand and promote high-margin, niche content.*  
+  TV Shows demonstrate high catalog penetration while maintaining premium pricing and small catalog size. These segments offer disproportionately high returns and could benefit from *improved discoverabiltity* (e.g. curated collections, themed playlists), *bundling or pricing experiments* (e.g., multi-track purchase bundles), and/or *licensing or development of similar content* with proven formats.
+-   *Drive deeper engagement within top genres and artists.*  
+  High performing combinations like Metallica (Metal) and U2 (Rock) have both scale and engagement, yet still show gaps in catalog sales. Tactics like *targeted re-promotions*, *anniversary releases*, or *live/rare editions* could convert more of the existing catalog into revenue.
+-   *Leverage genre-artist analytics for marketing segmentation.*  
+  This crossover view reveals which artist–genre pairs have loyal followings and which may benefit from strategic push. *Personalized marketing* based on known affinities (e.g. fans of Battlestar Galactica may enjoy other Sci-Fi media) could unlock untapped audiences.
+-   *Mitigate risk through diversified content investment.*  
+  Concentration remains a factor — a small number of artist–genre pairs account for a large share of unit sales. Expanding representation in emerging or underrepresented artist–genre combinations could *reduce dependency on top performers* while *broadening reach*.
+  
+:::
+
+## Exploratory Visualizations
+
+In preparation for exploratory visualization generation, the data is retrieved using SQL queries and prepared in both R and Python.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q2-vis-prep
+# SQL Queries
+## Genre
+### Yearly Breakdown
+res_genre_yearly_df <- DBI::dbGetQuery(
+  con_chinook, 
+  "SELECT 
+  -- Get Genre and Year for grouping
+  g.Name AS Genre,
+  YEAR(i.InvoiceDate) as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog in this genre
+  track_counts.TotalTracksInGenre,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksInGenre, 2) AS PercentOfTracksSold,
+  -- Revenue per total track in genre
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksInGenre, 2) AS RevenuePerTotalTrack,
+FROM InvoiceLine il
+JOIN Invoice i on il.InvoiceId = i.InvoiceId
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Genre g ON t.GenreId = g.GenreId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT GenreId, COUNT(*) AS TotalTracksInGenre
+    FROM Track
+    GROUP BY GenreId
+) AS track_counts ON g.GenreId = track_counts.GenreId
+GROUP BY g.Name, Year, track_counts.TotalTracksInGenre
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;")
+
+## Aggregate
+res_genre_agg_df <- DBI::dbGetQuery(
+  con_chinook,
+  "SELECT 
+  -- Get Genre and Year for grouping
+  g.Name AS Genre,
+  'All' as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog in this genre
+  track_counts.TotalTracksInGenre,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksInGenre, 2) AS PercentOfTracksSold,
+  -- Revenue per total track in genre
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksInGenre, 2) AS RevenuePerTotalTrack,
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Genre g ON t.GenreId = g.GenreId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT GenreId, COUNT(*) AS TotalTracksInGenre
+    FROM Track
+    GROUP BY GenreId
+) AS track_counts ON g.GenreId = track_counts.GenreId
+GROUP BY g.Name, Year, track_counts.TotalTracksInGenre
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;")
+
+## Artist
+res_artist_yearly_df <- DBI::dbGetQuery(
+  con_chinook,
+  "SELECT 
+  -- Select Artist and Year for Grouping
+  ar.Name AS Artist,
+  YEAR(i.InvoiceDate) as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist
+  track_counts.TotalTracksByArtist,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksByArtist, 2) AS PercentOfTracksSold,
+  -- Revenue per total track by artist
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksByArtist, 2) AS RevenuePerTotalTrack
+FROM InvoiceLine il
+JOIN Invoice i on il.InvoiceId = i.InvoiceId
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON ar.ArtistId = al.ArtistId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT 
+      al.ArtistId,
+      COUNT(*) AS TotalTracksByArtist
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId
+) AS track_counts ON ar.ArtistId = track_counts.ArtistId
+GROUP BY ar.Name, Year, track_counts.TotalTracksByArtist
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"
+)
+
+res_artist_agg_df <- DBI::dbGetQuery(
+  con_chinook,
+  "SELECT 
+  -- Select Artist and Year for Grouping
+  ar.Name AS Artist,
+  'All' as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist
+  track_counts.TotalTracksByArtist,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksByArtist, 2) AS PercentOfTracksSold,
+  -- Revenue per total track by artist
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksByArtist, 2) AS RevenuePerTotalTrack
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON ar.ArtistId = al.ArtistId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT 
+      al.ArtistId,
+      COUNT(*) AS TotalTracksByArtist
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId
+) AS track_counts ON ar.ArtistId = track_counts.ArtistId
+GROUP BY ar.Name, Year, track_counts.TotalTracksByArtist
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"
+)
+
+# Combine data frames in R
+res_genre_df <- dplyr::bind_rows(
+  res_genre_agg_df,
+  res_genre_yearly_df |> dplyr::mutate(Year = as.character(Year))
+  )
+
+res_artist_df <- dplyr::bind_rows(
+  res_artist_agg_df,
+  res_artist_yearly_df |> dplyr::mutate(Year = as.character(Year))
+  )
+
+# Get vector of unique years (layers/traces) - order with "All" first.
+years <- c("All", sort(unique(res_genre_yearly_df$Year)))
+
+# Make "Year" an ordered factor (Plot generation ordering)
+res_genre_df <- res_genre_df |>
+  dplyr::mutate(Year = factor(Year, levels = years, ordered = TRUE))
+
+res_artist_df <- res_artist_df |>
+  dplyr::mutate(Year = factor(Year, levels = years, ordered = T))
+
+# Get vector of unique Genres - order by total revenue overall
+genres <- res_genre_agg_df |>
+  dplyr::arrange(dplyr::desc(TotalRevenue)) |>
+  dplyr::select(Genre) |>
+  dplyr::distinct() |> 
+  dplyr::pull()
+
+# Make "Genre" an ordered factor (Plot generation ordering)
+res_genre_df <- res_genre_df |>
+  dplyr::mutate(
+    Genre = factor(Genre, levels = genres, ordered = T)
+  )
+
+# Get vector of unique Artists - order by total revenue overall
+artists <- res_artist_agg_df |>
+  dplyr::arrange(dplyr::desc(TotalRevenue)) |>
+  dplyr::select(Artist) |>
+  dplyr::distinct() |> 
+  dplyr::pull()
+
+# Make "Genre" an ordered factor (Plot generation ordering)
+res_artist_df <- res_artist_df |>
+  dplyr::mutate(
+    Genre = factor(Artist, levels = artists, ordered = T)
+  )
+```
+
+
+#### Python
+
+```{python}
+#| label: py-q2-prep
+# SQL Queries
+## Genre
+### Yearly Breakdown
+res_genre_yearly_df = con_chinook.execute(
+  """SELECT 
+  -- Get Genre and Year for grouping
+  g.Name AS Genre,
+  YEAR(i.InvoiceDate) as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog in this genre
+  track_counts.TotalTracksInGenre,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksInGenre, 2) AS PercentOfTracksSold,
+  -- Revenue per total track in genre
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksInGenre, 2) AS RevenuePerTotalTrack,
+FROM InvoiceLine il
+JOIN Invoice i on il.InvoiceId = i.InvoiceId
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Genre g ON t.GenreId = g.GenreId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT GenreId, COUNT(*) AS TotalTracksInGenre
+    FROM Track
+    GROUP BY GenreId
+) AS track_counts ON g.GenreId = track_counts.GenreId
+GROUP BY g.Name, Year, track_counts.TotalTracksInGenre
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+  
+### Aggregate
+res_genre_agg_df = con_chinook.execute(
+  """SELECT 
+  -- Get Genre and Year for grouping
+  g.Name AS Genre,
+  'All' as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog in this genre
+  track_counts.TotalTracksInGenre,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksInGenre, 2) AS PercentOfTracksSold,
+  -- Revenue per total track in genre
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksInGenre, 2) AS RevenuePerTotalTrack,
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Genre g ON t.GenreId = g.GenreId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT GenreId, COUNT(*) AS TotalTracksInGenre
+    FROM Track
+    GROUP BY GenreId
+) AS track_counts ON g.GenreId = track_counts.GenreId
+GROUP BY g.Name, Year, track_counts.TotalTracksInGenre
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+  
+## Arist
+### Yearly Breakdown
+res_artist_yearly_df = con_chinook.execute(
+  """SELECT 
+  -- Select Artist and Year for Grouping
+  ar.Name AS Artist,
+  YEAR(i.InvoiceDate) as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist
+  track_counts.TotalTracksByArtist,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksByArtist, 2) AS PercentOfTracksSold,
+  -- Revenue per total track by artist
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksByArtist, 2) AS RevenuePerTotalTrack
+FROM InvoiceLine il
+JOIN Invoice i on il.InvoiceId = i.InvoiceId
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON ar.ArtistId = al.ArtistId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT 
+      al.ArtistId,
+      COUNT(*) AS TotalTracksByArtist
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId
+) AS track_counts ON ar.ArtistId = track_counts.ArtistId
+GROUP BY ar.Name, Year, track_counts.TotalTracksByArtist
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+  
+### Aggregate
+res_artist_agg_df = con_chinook.execute(
+  """SELECT 
+  -- Select Artist and Year for Grouping
+  ar.Name AS Artist,
+  'All' as Year,
+  -- Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS TotalRevenue,
+  -- Number of Tracks
+  COUNT(*) AS NumTracksSold,
+  -- Average Revenue per Track Sold
+  ROUND(SUM(il.UnitPrice * il.Quantity)/COUNT(*), 2) AS AvgRevenuePerTrack,
+  -- Percentage of Total Revenue
+  ROUND(SUM(il.UnitPrice * il.Quantity)*100.0 / (SELECT SUM(UnitPrice * Quantity) FROM InvoiceLine), 2) AS PercentOfRevenue,
+  -- Percentage of Volume (Units Sold)
+  ROUND(COUNT(*)*100.0 / (SELECT COUNT(*) FROM InvoiceLine),2) AS PercentOfUnitSales,
+  -- Total number of tracks in the catalog for artist
+  track_counts.TotalTracksByArtist,
+  -- Proportion of catalog that was actually sold
+  ROUND(COUNT(DISTINCT il.TrackId) * 100.0 / track_counts.TotalTracksByArtist, 2) AS PercentOfTracksSold,
+  -- Revenue per total track by artist
+  ROUND(SUM(il.UnitPrice * il.Quantity) / track_counts.TotalTracksByArtist, 2) AS RevenuePerTotalTrack
+FROM InvoiceLine il
+JOIN Track t ON il.TrackId = t.TrackId
+JOIN Album al ON t.AlbumId = al.AlbumId
+JOIN Artist ar ON ar.ArtistId = al.ArtistId
+-- Subquery to get total number of tracks in each genre
+JOIN (
+    SELECT 
+      al.ArtistId,
+      COUNT(*) AS TotalTracksByArtist
+    FROM Track t
+    JOIN Album al ON t.AlbumId = al.AlbumId
+    GROUP BY al.ArtistId
+) AS track_counts ON ar.ArtistId = track_counts.ArtistId
+GROUP BY ar.Name, Year, track_counts.TotalTracksByArtist
+-- Arrange by TotalRevenue (Highest to Lowest)
+ORDER BY Year, TotalRevenue DESC;"""
+  ).df()
+  
+# Combine data frames and ensure consistent types
+res_genre_df = pd.concat([
+  res_genre_agg_df,
+  res_genre_yearly_df.assign(Year=res_genre_yearly_df['Year'].astype(str))
+  ], ignore_index=True)
+  
+res_artist_df = pd.concat([
+  res_artist_agg_df,
+  res_artist_yearly_df.assign(Year=res_artist_yearly_df['Year'].astype(str))
+  ], ignore_index=True)
+
+# Get unique years
+years = ["All"] + sorted(res_genre_df[res_genre_df['Year'] != 'All']['Year'].unique().tolist())
+
+# Get unique genres, sorted by total revenue share
+genres = (
+    res_genre_df[res_genre_df['Year'] == 'All']
+    .sort_values(by='TotalRevenue', ascending=False)['Genre']
+    .tolist()
+)
+
+## Make Genre an ordered categorical (for plots)
+res_genre_df['Genre'] = pd.Categorical(
+  res_genre_df['Genre'], 
+  categories=genres, 
+  ordered=True
+  )
+
+res_genre_df = res_genre_df.sort_values(['Genre', 'Year'])
+
+# Get unique artists, sorted by total revenue share
+artists = (
+    res_artist_df[res_artist_df['Year'] == 'All']
+    .sort_values(by='TotalRevenue', ascending=False)['Artist']
+    .tolist()
+)
+
+## Make Artist an ordered categorical (for plots)
+res_artist_df['Artist'] = pd.Categorical(
+  res_artist_df['Artist'], 
+  categories=artists, 
+  ordered=True
+  )
+  
+res_artist_df = res_artist_df.sort_values(['Artist', 'Year'])
+```
+
+:::
+
+### Revenue by Genre: Stacked Bar Chart {#q2-vis-rev-by-genre}
+
+To better understand genre-level commercial performance, revenue was analyzed both in total and normalized by catalog size. This approach distinguished high-volume genres from those that generated more revenue per available track. The results were visualized with stacked plots to compare total earnings and catalog-adjusted efficiency over time.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q2-vis-bar-rev-by-genre
+# TO DO: Figure out how to get the x-axis values to show
+
+# Stacked Area Plot: Total Revenue by Genre
+p1 <- ggplot2::ggplot(
+  res_genre_df |>
+    dplyr::filter(Year != "All") |>
+    dplyr::mutate(Year =  forcats::fct_rev(Year)), 
+  ggplot2::aes(x = Genre, y = TotalRevenue, fill = Year)
+  ) +
+  ggplot2::geom_bar(stat="identity") +
+  # Format Y-xis into dollars
+  ggplot2::scale_y_continuous(labels = scales::dollar) +
+  # Labels
+  ggplot2::labs(
+    title = "Total Revenue",
+    x = "Genre",
+    y = "Total Revenue (USD$)",
+    fill = "Year"
+    ) +
+  # Colorblind friendly color scheme
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme_minimal() +
+  # Make Legend Vertical, Turn X-axis text horizontal (legibility)
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.direction = "vertical",
+    axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)
+    )
+
+# Stacked Area Plot: Revenue per Track in Catalog by Genre
+p2 <- ggplot2::ggplot(
+  res_genre_df |>
+    dplyr::filter(Year != "All") |>
+    dplyr::mutate(Year = forcats::fct_rev(Year)), 
+  ggplot2::aes(x = Genre, y = RevenuePerTotalTrack, fill = Year)
+  ) +
+  ggplot2::geom_bar(stat="identity") +
+  # Format Y-xis into dollars
+  ggplot2::scale_y_continuous(labels = scales::dollar) +
+  # Labels
+  ggplot2::labs(
+    title = "Revenue per Track in Catalog",
+    x = "Genre",
+    y = "Revenue per Track (USD$)",
+    fill = "Year"
+    ) +
+  # Colorblind friendly color scheme
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme_minimal() +
+  # Make Legend Vertical, Remove X-axis label (large text & in prev plot)
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.direction = "vertical",
+    axis.text.x=element_blank()
+    )
+
+## Convert to interactive plotly plots
+p1_int <- plotly::ggplotly(p1)
+p2_int <- plotly::ggplotly(p2)
+
+# For p2, turn off legend for all traces (already in p1)
+for (i in seq_along(p2_int$x$data)) {
+  p2_int$x$data[[i]]$showlegend <- FALSE
+}
+
+# Combine plots and display
+plotly::subplot(
+  p1_int, 
+  p2_int, 
+  nrows = 2, 
+  shareX = TRUE, 
+  titleY = TRUE
+) %>%
+  plotly::layout(
+    title = list(text = "Revenue by Genre<br><sup>2009-01-01 to 2013-12-22</sup>"),
+    legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.1)
+  )
+```
+
+#### Python
+
+```{python}
+#| label: py-q2-vis-bar-rev-by-genre
+# Filter out "All" year
+df = res_genre_df[res_genre_df["Year"] != "All"]
+
+# Sort years in reverse
+years_r = sorted(df["Year"].unique(), reverse=True)
+
+# Create subplot
+fig = make_subplots(
+    rows=2, cols=1,
+    shared_xaxes=True,
+    vertical_spacing=0.08,
+    subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
+)
+
+# Colorblind-friendly color scheme
+colors = px.colors.sequential.Viridis[:-len(years_r)]
+
+# Plot 1: Total Revenue
+for i, year in enumerate(years_r):
+    subset = df[df["Year"] == year]
+    fig.add_trace(
+        go.Bar(
+            x=subset["Genre"],
+            y=subset["TotalRevenue"],
+            name=str(year),
+            marker_color=colors[i],
+            showlegend=True if i == 0 else False  # only once for cleaner display
+        ),
+        row=1, col=1
+    )
+
+# Plot 1: Revenue per Track in Catalog
+for i, year in enumerate(years_r):
+    subset = df[df["Year"] == year]
+    fig.add_trace(
+        go.Bar(
+            x=subset["Genre"],
+            y=subset["RevenuePerTotalTrack"],
+            name=str(year),
+            marker_color=colors[i],
+            showlegend=True  # show for all so full legend appears
+        ),
+        row=2, col=1
+    )
+
+# Format Layout
+fig.update_layout(
+  ## Make stacked bar plot
+    barmode='stack',
+    title=dict(
+        text='Revenue by Genre<br><sub>2009-01-01 to 2013-12-22</sub>',
+        x=0.5,
+        xanchor='center',
+        font=dict(size=20)
+    ),
+    height=700,
+    margin=dict(t=120),
+    ## Legend on bottom, horizontal
+    legend=dict(
+        orientation='h',
+        yanchor='bottom',
+        y=-0.25,
+        xanchor='center',
+        x=0.5,
+        title='Year'
+    )
+)
+
+# Format axes
+## Y-axis as dollars
+fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
+fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
+## Ensure only one x-axis shows, rotated (for legibility)
+fig.update_xaxes(title_text=None, row=1, col=1)
+fig.update_xaxes(title_text="Genre", tickangle=45, row=2, col=1)
+
+# Display plot
+fig.show()
+```
+
+:::
+
+::: {.callout-note}
+#### Insights
+
+-   *Genre-level revenue remains stable over time*, with no significant year-over-year shifts. This aligns with earlier findings: a small number of genres — primarily Rock, along with Latin, Metal, Alternative & Punk, and TV Shows — consistently drive the majority of revenue.
+-   *Revenue per track in catalog tells a different story.* While Rock shows consistent but moderate returns (likely due to its large catalog volume), several niche genres outperform in efficiency:
+    -   Sci Fi & Fantasy shows disproportionately high revenue per track, largely driven by premium TV content such as *Battlestar Galactica*. This genre saw a strong spike in 2011–2012 before tapering off in 2013 — suggesting a temporary surge in popularity.
+    -   Comedy experienced an anomalous peak in 2012, attributable to sales of *The Office* episodes.
+    -   Bossa Nova displayed a notable jump in 2012 revenue per catalog track, indicating strong demand relative to catalog size. Though less pronounced, this trend continued into 2013, hinting at *sustained niche appeal*.
+    -   TV Show performance is likely undervalued in the current database structure, as *Battlestar Galactica* and *The Office* (TV Shows classified as Sci Fi & Frantasy and Comedy, respectively) are drivers of high per-track revenue in genres that are otherwise unrepresented in total revenue.
+
+**Opportunities**:
+
+-   *Invest in high-margin, premium content.*  
+  TV-based genres such as Sci Fi & Fantasy and Comedy show strong per-track performance despite limited catalog sizes. Expanding these offerings — particularly episodic or narrative-driven media — could unlock outsized returns relative to content volume.
+-   *Capitalize on short-term demand spikes.*  
+  Genres like Bossa Nova and Comedy demonstrated temporal revenue surges. Identifying and acting on these trends through *curated promotions*, *seasonal playlists*, or *limited-time bundles* may help convert interest into sustained revenue.
+-   *Reevaluate catalog strategies for large-volume genres.*  
+  While Rock contributes the most revenue overall, its performance per track is relatively modest. Optimizing underperforming catalog segments — through *targeted marketing* or *re-packaging* — may improve monetization efficiency without requiring new content.
+-   *Monitor genre saturation and track penetrance.*  
+  Genres with high sales penetration (e.g., Sci Fi & Fantasy) may signal either *strong consumer interest* or an *exhausted catalog*. Ensuring a consistent stream of new content in high-penetration genres can help maintain engagement and avoid plateaus.
+  
+:::
+
+### Artist Revenue
+
+### Revenue by Artist: Stacked Bar Chart {#q2-vis-rev-by-artist}
+
+To better understand artist-level commercial performance, revenue was analyzed both in total and normalized by catalog size. This approach distinguished high-volume artists from those that generated more revenue per available track. The results were visualized with stacked plots to compare total earnings and catalog-adjusted efficiency over time.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q2-vis-bar-rev-by-artist
+# TO DO: Figure out how to make the x-axis values show
+
+# Stacked Area Plot: Total Revenue by Artist
+p1 <- ggplot2::ggplot(
+  res_artist_df |>
+    dplyr::filter(Year != "All") |>
+    dplyr::mutate(Year =  forcats::fct_rev(Year)) |>
+   ## Restrict to top 20 artists for legibility
+    dplyr::filter(Artist %in% artists[1:20]) |>
+    dplyr::mutate(Artist = factor(Artist, levels = artists[1:20], ordered = T)), 
+  ggplot2::aes(x = Artist, y = TotalRevenue, fill = Year)
+  ) +
+  ggplot2::geom_bar(stat="identity") +
+  # Format Y-xis into dollars
+  ggplot2::scale_y_continuous(labels = scales::dollar) +
+  # Labels
+  ggplot2::labs(
+    title = "Total Revenue",
+    x = "Artist",
+    y = "Total Revenue (USD$)",
+    fill = "Year"
+    ) +
+  # Colorblind friendly color scheme
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme_minimal() +
+  # Make Legend Vertical, Turn X-axis text horizontal (legibility)
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.direction = "vertical",
+    axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)
+    )
+
+# Stacked Area Plot: Revenue per Track in Catalog by Artist
+p2 <- ggplot2::ggplot(
+  res_artist_df |>
+    dplyr::filter(Year != "All") |>
+    dplyr::mutate(Year = forcats::fct_rev(Year)) |>
+   ## Restrict to top 20 artists for legibility
+    dplyr::filter(Artist %in% artists[1:20]) |>
+    dplyr::mutate(Artist = factor(Artist, levels = artists[1:20], ordered = T)), 
+  ggplot2::aes(x = Artist, y = RevenuePerTotalTrack, fill = Year)
+  ) +
+  ggplot2::geom_bar(stat="identity") +
+  # Format Y-xis into dollars
+  ggplot2::scale_y_continuous(labels = scales::dollar) +
+  # Labels
+  ggplot2::labs(
+    title = "Revenue per Track in Catalog",
+    x = "Artist",
+    y = "Revenue per Track (USD$)",
+    fill = "Year"
+    ) +
+  # Colorblind friendly color scheme
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme_minimal() +
+  # Make Legend Vertical, Remove X-axis label (large text & in prev plot)
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.direction = "vertical",
+    axis.text.x=element_blank()
+    )
+
+## Convert to interactive plotly plots
+p1_int <- plotly::ggplotly(p1)
+p2_int <- plotly::ggplotly(p2)
+
+# For p2, turn off legend for all traces (already in p1)
+for (i in seq_along(p2_int$x$data)) {
+  p2_int$x$data[[i]]$showlegend <- FALSE
+}
+
+# Combine plots and display
+plotly::subplot(
+  p1_int, 
+  p2_int, 
+  nrows = 2, 
+  shareX = TRUE, 
+  titleY = TRUE
+) %>%
+  plotly::layout(
+    title = list(text = "Revenue by Artist<br><sup>2009-01-01 to 2013-12-22</sup>"),
+    legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.1)
+  )
+```
+
+
+#### Python
+
+```{python}
+#| label: py-q2-vis-bar-rev-by-artist
+# Filter out "All" year
+df = res_artist_df[res_artist_df["Year"] != "All"]
+# Restrict to top 20 artists (for legibility)
+df = df[df["Artist"].isin(artists[0:20])]
+
+# Sort years in reverse
+years_r = sorted(df["Year"].unique(), reverse=True)
+
+# Create subplot
+fig = make_subplots(
+    rows=2, cols=1,
+    shared_xaxes=True,
+    vertical_spacing=0.08,
+    subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
+)
+
+# Colorblind-friendly color scheme
+colors = px.colors.sequential.Viridis[:-len(years_r)]
+
+# Plot 1: Total Revenue
+for i, year in enumerate(years_r):
+    subset = df[df["Year"] == year]
+    fig.add_trace(
+        go.Bar(
+            x=subset["Artist"],
+            y=subset["TotalRevenue"],
+            name=str(year),
+            marker_color=colors[i],
+            showlegend=True if i == 0 else False  # only once for cleaner display
+        ),
+        row=1, col=1
+    )
+
+# Plot 1: Revenue per Track in Catalog
+for i, year in enumerate(years_r):
+    subset = df[df["Year"] == year]
+    fig.add_trace(
+        go.Bar(
+            x=subset["Artist"],
+            y=subset["RevenuePerTotalTrack"],
+            name=str(year),
+            marker_color=colors[i],
+            showlegend=True  # show for all so full legend appears
+        ),
+        row=2, col=1
+    )
+
+# Format Layout
+fig.update_layout(
+  ## Make stacked bar plot
+    barmode='stack',
+    title=dict(
+        text='Revenue by Artist<br><sub>2009-01-01 to 2013-12-22</sub>',
+        x=0.5,
+        xanchor='center',
+        font=dict(size=20)
+    ),
+    height=700,
+    margin=dict(t=120),
+    ## Legend on bottom, horizontal
+    legend=dict(
+        orientation='h',
+        yanchor='bottom',
+        y=-0.25,
+        xanchor='center',
+        x=0.5,
+        title='Year'
+    )
+)
+
+# Format axes
+## Y-axis as dollars
+fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
+fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
+## Ensure only one x-axis shows, rotated (for legibility)
+fig.update_xaxes(title_text=None, row=1, col=1)
+fig.update_xaxes(title_text="Artist", tickangle=45, row=2, col=1)
+
+# Display plot
+fig.show()
+```
+
+:::
+
+::: {.callout-note}
+
+#### Insights
+
+-   *Artist revenue is temporally consistent.*  
+  Most artists show stable annual revenue across the 2009–2013 period. While individual years may fluctuate (e.g., dips for Metallica and Led Zeppelin in 2011), these appear to be temporary rather than indicative of long-term trends.
+-   *Average revenue per track sold is remarkably stable (~$0.75).*  
+  A small number of high-volume artists (e.g., Deep Purple, Pearl Jam, Van Halen) show lower per-track revenue (~$0.50), suggesting that large catalogs may dilute revenue unless paired with sustained demand. This could indicate catalog saturation or uneven consumer engagement across their offerings.
+-   *Revenue per track in catalog highlights structural differences.*  
+  This metric remains consistent for most music artists, but *TV show content* (e.g., *Lost*, *The Office*) shows a different pattern: exceptionally high revenue per catalog track but concentrated in specific years. For instance, *Lost* peaked in 2012 before falling to zero in 2013, and *The Office* spiked from 2010–2012 with no revenue in adjacent years.
+-   *TV Shows demonstrate high efficiency per asset.*  
+  Despite small catalogs, TV content generates significantly higher revenue per track than traditional music. This suggests strong demand relative to supply — possibly pointing to unmet or episodic consumption patterns.
+
+**Opportunities**:
+
+-   *Expand premium TV show content.*  
+  The high return per catalog item in TV genres suggests an underexploited category. Adding similar content (episodic, narrative-driven media) could yield high revenue efficiency without requiring large-scale production.
+-   *Reinvigorate large but underperforming catalogs.*  
+  Artists with expansive libraries but low per-track revenue (e.g., Deep Purple, Pearl Jam) may benefit from targeted marketing efforts such as *curated collections*, *remastered releases*, or *highlight reels* that surface their most engaging content.
+-   *Use consumption patterns to guide licensing and promotions.*  
+  The temporal spikes in shows like *Lost* and *The Office* suggest windows of elevated demand. Monitor and act on these seasonal or cultural surges to time *promotions*, *exclusive bundles*, or *re-releases* effectively.
+-   *Monitor catalog saturation signals.*  
+  When large catalogs yield diminishing per-track returns, it may be time to reassess content strategy. This includes retiring underperforming assets or introducing new content types that align better with current listener interests.
+
+:::
+
+## Summary of Exploratory Findings {#q2-summary}
+
+While overall genre revenue remains stable across years, genre-specific performance varies widely depending on how it's measured:
+
+-   *Total Revenue* reflects market size. Rock dominates here, alongside Latin, Metal, and Alternative.
+-   *Revenue per Track in Catalog* reveals efficiency. Sci Fi & Fantasy, Comedy, and Bossa Nova perform disproportionately well relative to their catalog sizes — often driven by episodic TV content.
+
+These patterns suggest that catalog volume and monetization efficiency are often misaligned. Notably, the top-performing genres by revenue-per-track tend to be narrow in scope but high in engagement, hinting at an opportunity to rebalance the content portfolio.
+
+On the artist level, similar trends likely exist (see artist data prep), and deeper analysis could surface key revenue drivers hiding behind genre-level aggregates.
+
+-   *Most Efficient Genres by Revenue per Track (2012 spike):* Sci Fi & Fantasy (*Battlestar Galactica*), Comedy (*The Office*), Bossa Nova
+-   *Top Genres by Total Revenue:* Rock, Latin, Metal, Alternative & Punk, TV Shows
+
+::: {.callout-tip}
+
+#### Possible Next Steps
+
+**Deepen the Analysis:**
+
+-   *Attribute-level analysis for top-performing genres.*  
+  Disaggregate genre revenue by artist, album, or track to pinpoint the specific drivers of efficiency within high-performing niches.
+-   *Explore customer-level purchase behavior.*  
+  Are niche genre buyers also more valuable customers overall? Understanding cross-genre engagement can inform bundling or recommendation strategies.
+
+**Strategic Business Opportunities:**
+
+-   *Invest in premium, episodic content.*  
+  Sci Fi & Fantasy and Comedy genres — driven by TV content — deliver strong returns per track. Expanding this segment could yield high-margin growth.
+-   *React quickly to demand spikes.*  
+  Temporal surges in Bossa Nova and Comedy suggest that curated playlists or limited-time offers can help capitalize on emerging trends.
+-   *Reoptimize large, underperforming genres.*  
+  Rock has broad catalog coverage but moderate per-track performance. Marketing, repackaging, or removal of underperformers could improve efficiency.
+-   *Prioritize catalog expansion where penetration is high.*  
+  For genres with high track sales penetration (e.g., Sci Fi), maintaining momentum may require fresh content to meet continuing demand.
+
+:::
 
 # Question 3: How many customers are repeat buyers?
 
@@ -812,7 +2215,7 @@ rm(list = ls())
 #### Python
 
 ```{python}
-#| label: python-cleanup
+#| label: py-cleanup
 # conn_chinook.close()
 ```
 
