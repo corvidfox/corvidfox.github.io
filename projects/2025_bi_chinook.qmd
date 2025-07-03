@@ -3,8 +3,8 @@ title: "SQL-Driven Business Intelligence Dashboard (Chinook 'Digital Music Store
 description: "This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually."
 author: "Morrigan M."
 
-date: 2025-06-30
-date-modified: 2025-06-30
+date: 2025-07-02
+date-modified: 2025-07-02
 
 # TEMPORARY - until I get the sidebar thing done
 categories: ["SQL", "R", "Python", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
@@ -20,14 +20,9 @@ ml_type: None
 depth: ["Short"]
 tools: ["DuckDB"] #"Dash", "Shiny"]
 
-r_pkgs: ["DBI", "duckdb", "dplyr", "plotly"] #"shiny"]
-py_pkgs: ["duckdb", "plotly", "pandas"]
+r_pkgs: ["DBI", "duckdb", "dplyr", "ggplot2", "plotly", "tidyr", "forcats", "countrycode"] #"shiny"]
+py_pkgs: ["duckdb", "plotly", "pandas", "numpy"] #"dash"]
 
-# editor: 
-#   markdown: 
-#     wrap: sentence
-#filters: 
-#  - ../scripts/lua/filename-from-lang.lua
 ---
 
 ```{r}
@@ -51,12 +46,11 @@ For the best visualization experience, browser is recommended - optimization of 
 
 ## Business Questions {#business-questions}
 
-This project is designed to help answer the following business questions:
+This project aims to provide insights on the following key business questions, with a time-based perspective embedded throughout each analysis to identify trends and changes over time:
 
 1.  **Where is revenue coming from geographically?**
 2.  **What genres or artists generate the most income?**
-3.   **How many customers are repeat buyers?**
-4.  **How do sales trends evolve over time?**
+3.  **How many customers are repeat buyers?**
 
 ## Deliverables {#deliverables}
 
@@ -83,33 +77,35 @@ I will update this to reflect the final project once it's done.\]
 
 ::: {.panel-tabset}
 
-#### R
+#### R Packages
 
 ```{r}
 #| label: r-load-pkgs
 #| message: FALSE
 #| warning: FALSE
+library(DBI)
 library(duckdb)
 library(dplyr)
+library(tidyr)
 library(forcats)
-library(DBI)
-library(plotly)
 library(countrycode)
+library(plotly)
 library(ggplot2)
-library(patchwork)
 ```
 
-#### Python
+#### Python Packages
 
 ```{python}
 #| label: py-load-pkgs
 import duckdb
+import numpy as np
 import pandas as pd
+import pycountry
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from plotly.graph_objs import Figure
-import pycountry
+from plotly.colors import sample_colorscale
 ```
 
 :::
@@ -388,7 +384,7 @@ This simplifies location-based analysis but may also reflect a limitation in the
 
 ## Exploratory Visualizations {#q1-vis}
 
-In preparation for exploratory visualization generation, the data is retrieved using SQL queries and prepared in both R and Python.
+In preparation for exploratory visualization generation, the data was retrieved using SQL queries and prepared in both R and Python.
 
 ::: {.panel-tabset}
 
@@ -469,6 +465,7 @@ years <- c("All", sort(unique(res_yearly_df$Year)))
 
 ```{python}
 #| label: py-q1-prep
+#| fig-show: hold
 # SQL Queries
 ## Yearly Breakdown
 res_yearly_df = con_chinook.execute(
@@ -587,7 +584,7 @@ fig <- plotly::plot_ly(
 fig <- fig %>%
   plotly::layout(
     title = list(
-      text = "Total Revenue by Country <br> 2009-01-01 to 2013-12-22",
+      text = "Total Revenue by Country <br><sub>2009-01-01 to 2013-12-22</sub>",
       x = 0.5,
       xanchor = "center",
       font = list(size = 18)
@@ -630,6 +627,7 @@ fig
 
 ```{python}
 #| label: py-q1-vis-choropleth-totalrev-agg-by-country
+#| fig-show: hold
 # Specify hover text
 res_df['hover_text'] = res_df.apply( \
   lambda row: f"<b>{row['Country']}</b><br> ${row['TotalRevenue']:.2f}", axis = 1 \
@@ -685,7 +683,7 @@ fig = go.Figure(
 # Format Layout with Animation Controls
 fig.update_layout(
   title = dict(
-    text = "Total Revenue by Country <br> 2009-01-01 to 2013-12-22",
+    text = "Total Revenue by Country <br><sub>2009-01-01 to 2013-12-22</sub>",
     x = 0.5,
     xanchor = 'center',
     font = dict(size=18)
@@ -855,7 +853,7 @@ fig <- plotly::plot_ly(
 fig <- fig %>%
   plotly::layout(
     title = list(
-      text = "Revenue per Customer by Country <br> 2009-01-01 to 2013-12-22",
+      text = "Revenue per Customer by Country <br><sub>2009-01-01 to 2013-12-22</sub>",
       x = 0.5,
       xanchor = "center",
       font = list(size = 18)
@@ -898,6 +896,7 @@ fig
 
 ```{python}
 #| label: py-q1-vis-choropleth-revpercust-agg-by-country
+#| fig-show: hold
 # Specify hover text
 res_df['hover_text'] = res_df.apply( \
   lambda row: f"<b>{row['Country']}</b><br> ${row['RevenuePerCustomer']:.2f}", axis = 1 \
@@ -953,7 +952,7 @@ fig = go.Figure(
 # Format Layout with Animation Controls
 fig.update_layout(
   title = dict(
-    text = "Revenue per Customer by Country <br> 2009-01-01 to 2013-12-22",
+    text = "Revenue per Customer by Country <br><sub>2009-01-01 to 2013-12-22</sub>",
     x = 0.5,
     xanchor = 'center',
     font = dict(size=18)
@@ -1313,9 +1312,9 @@ LIMIT 50;
   
 :::
 
-## Exploratory Visualizations
+## Exploratory Visualizations {#q2-vis}
 
-In preparation for exploratory visualization generation, the data is retrieved using SQL queries and prepared in both R and Python.
+In preparation for exploratory visualization generation, the data was retrieved using SQL queries and prepared in both R and Python.
 
 ::: {.panel-tabset}
 
@@ -1832,83 +1831,91 @@ plotly::subplot(
 
 ```{python}
 #| label: py-q2-vis-bar-rev-by-genre
+#| fig-show: hold
 # Filter out "All" year
 df = res_genre_df[res_genre_df["Year"] != "All"]
 
 # Sort years in reverse
 years_r = sorted(df["Year"].unique(), reverse=True)
 
-# Create subplot
-fig = make_subplots(
-    rows=2, cols=1,
-    shared_xaxes=True,
-    vertical_spacing=0.08,
-    subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
-)
+# Use a function to suppress intermediate outputs from quarto rendering
+def build_plot(df):
 
-# Colorblind-friendly color scheme
-colors = px.colors.sequential.Viridis[:-len(years_r)]
+  # Create subplot
+  fig = make_subplots(
+      rows=2, cols=1,
+      shared_xaxes=True,
+      vertical_spacing=0.08,
+      subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
+  )
 
-# Plot 1: Total Revenue
-for i, year in enumerate(years_r):
-    subset = df[df["Year"] == year]
-    fig.add_trace(
-        go.Bar(
-            x=subset["Genre"],
-            y=subset["TotalRevenue"],
-            name=str(year),
-            marker_color=colors[i],
-            showlegend=True if i == 0 else False  # only once for cleaner display
-        ),
-        row=1, col=1
-    )
+  # Colorblind-friendly color scheme
+  colors = sample_colorscale("Viridis", [i/len(years_r) for i in range(len(years_r))])
+  
+  # Plot 1: Total Revenue
+  for i, year in enumerate(years_r):
+      subset = df[df["Year"] == year]
+      fig.add_trace(
+          go.Bar(
+              x=subset["Genre"],
+              y=subset["TotalRevenue"],
+              name=str(year),
+              marker_color=colors[i],
+              showlegend=True if i == 0 else False  # only once for cleaner display
+          ),
+          row=1, col=1
+      )
 
-# Plot 1: Revenue per Track in Catalog
-for i, year in enumerate(years_r):
-    subset = df[df["Year"] == year]
-    fig.add_trace(
-        go.Bar(
-            x=subset["Genre"],
-            y=subset["RevenuePerTotalTrack"],
-            name=str(year),
-            marker_color=colors[i],
-            showlegend=True  # show for all so full legend appears
-        ),
-        row=2, col=1
-    )
+  # Plot 1: Revenue per Track in Catalog
+  for i, year in enumerate(years_r):
+      subset = df[df["Year"] == year]
+      fig.add_trace(
+          go.Bar(
+              x=subset["Genre"],
+              y=subset["RevenuePerTotalTrack"],
+              name=str(year),
+              marker_color=colors[i],
+              showlegend=True  # show for all so full legend appears
+          ),
+          row=2, col=1
+      )
 
-# Format Layout
-fig.update_layout(
-  ## Make stacked bar plot
-    barmode='stack',
-    title=dict(
-        text='Revenue by Genre<br><sub>2009-01-01 to 2013-12-22</sub>',
-        x=0.5,
-        xanchor='center',
-        font=dict(size=20)
-    ),
-    height=700,
-    margin=dict(t=120),
-    ## Legend on bottom, horizontal
-    legend=dict(
-        orientation='h',
-        yanchor='bottom',
-        y=-0.25,
-        xanchor='center',
-        x=0.5,
-        title='Year'
-    )
-)
+  # Format Layout
+  fig.update_layout(
+    ## Make stacked bar plot
+      barmode='stack',
+      title=dict(
+          text='Revenue by Genre<br><sub>2009-01-01 to 2013-12-22</sub>',
+          x=0.5,
+          xanchor='center',
+          font=dict(size=20)
+      ),
+      height=700,
+      margin=dict(t=120),
+      ## Legend on bottom, horizontal
+      legend=dict(
+          orientation='h',
+          yanchor='bottom',
+          y=-0.25,
+          xanchor='center',
+          x=0.5,
+          title='Year'
+      )
+  )
 
-# Format axes
-## Y-axis as dollars
-fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
-fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
-## Ensure only one x-axis shows, rotated (for legibility)
-fig.update_xaxes(title_text=None, row=1, col=1)
-fig.update_xaxes(title_text="Genre", tickangle=45, row=2, col=1)
+  # Format axes
+  ## Y-axis as dollars
+  fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
+  fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
+  ## Ensure only one x-axis shows, rotated (for legibility)
+  fig.update_xaxes(title_text=None, row=1, col=1)
+  fig.update_xaxes(title_text="Genre", tickangle=45, row=2, col=1)
+
+  # return figure
+  return fig
 
 # Display plot
+fig = build_plot(df)
 fig.show()
 ```
 
@@ -2039,85 +2046,94 @@ plotly::subplot(
 
 ```{python}
 #| label: py-q2-vis-bar-rev-by-artist
+#| fig-show: hold
 # Filter out "All" year
 df = res_artist_df[res_artist_df["Year"] != "All"]
+
 # Restrict to top 20 artists (for legibility)
 df = df[df["Artist"].isin(artists[0:20])]
 
-# Sort years in reverse
-years_r = sorted(df["Year"].unique(), reverse=True)
+# Use a function to suppress intermediate outputs from quarto rendering
+def build_plot(df):
 
-# Create subplot
-fig = make_subplots(
-    rows=2, cols=1,
-    shared_xaxes=True,
-    vertical_spacing=0.08,
-    subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
-)
+  # Sort years in reverse
+  years_r = sorted(df["Year"].unique(), reverse=True)
+  
+  # Create subplot
+  fig = make_subplots(
+      rows=2, cols=1,
+      shared_xaxes=True,
+      vertical_spacing=0.08,
+      subplot_titles=("Total Revenue", "Revenue per Track in Catalog")
+  )
 
-# Colorblind-friendly color scheme
-colors = px.colors.sequential.Viridis[:-len(years_r)]
+  # Colorblind-friendly color scheme
+  colors = sample_colorscale("Viridis", [i/len(years_r) for i in range(len(years_r))])
 
-# Plot 1: Total Revenue
-for i, year in enumerate(years_r):
-    subset = df[df["Year"] == year]
-    fig.add_trace(
-        go.Bar(
-            x=subset["Artist"],
-            y=subset["TotalRevenue"],
-            name=str(year),
-            marker_color=colors[i],
-            showlegend=True if i == 0 else False  # only once for cleaner display
-        ),
-        row=1, col=1
-    )
+  # Plot 1: Total Revenue
+  for i, year in enumerate(years_r):
+      subset = df[df["Year"] == year]
+      fig.add_trace(
+          go.Bar(
+              x=subset["Artist"],
+              y=subset["TotalRevenue"],
+              name=str(year),
+              marker_color=colors[i],
+              showlegend=True if i == 0 else False  # only once for cleaner display
+          ),
+          row=1, col=1
+      )
 
-# Plot 1: Revenue per Track in Catalog
-for i, year in enumerate(years_r):
-    subset = df[df["Year"] == year]
-    fig.add_trace(
-        go.Bar(
-            x=subset["Artist"],
-            y=subset["RevenuePerTotalTrack"],
-            name=str(year),
-            marker_color=colors[i],
-            showlegend=True  # show for all so full legend appears
-        ),
-        row=2, col=1
-    )
+  # Plot 1: Revenue per Track in Catalog
+  for i, year in enumerate(years_r):
+      subset = df[df["Year"] == year]
+      fig.add_trace(
+          go.Bar(
+              x=subset["Artist"],
+              y=subset["RevenuePerTotalTrack"],
+              name=str(year),
+              marker_color=colors[i],
+              showlegend=True  # show for all so full legend appears
+          ),
+          row=2, col=1
+      )
 
-# Format Layout
-fig.update_layout(
-  ## Make stacked bar plot
-    barmode='stack',
-    title=dict(
-        text='Revenue by Artist<br><sub>2009-01-01 to 2013-12-22</sub>',
-        x=0.5,
-        xanchor='center',
-        font=dict(size=20)
-    ),
-    height=700,
-    margin=dict(t=120),
-    ## Legend on bottom, horizontal
-    legend=dict(
-        orientation='h',
-        yanchor='bottom',
-        y=-0.25,
-        xanchor='center',
-        x=0.5,
-        title='Year'
-    )
-)
+  # Format Layout
+  fig.update_layout(
+    ## Make stacked bar plot
+      barmode='stack',
+      title=dict(
+          text='Revenue by Artist<br><sub>2009-01-01 to 2013-12-22</sub>',
+          x=0.5,
+          xanchor='center',
+          font=dict(size=20)
+      ),
+      height=700,
+      margin=dict(t=120),
+      ## Legend on bottom, horizontal
+      legend=dict(
+          orientation='h',
+          yanchor='bottom',
+          y=-0.25,
+          xanchor='center',
+          x=0.5,
+          title='Year'
+      )
+  )
 
-# Format axes
-## Y-axis as dollars
-fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
-fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
-## Ensure only one x-axis shows, rotated (for legibility)
-fig.update_xaxes(title_text=None, row=1, col=1)
-fig.update_xaxes(title_text="Artist", tickangle=45, row=2, col=1)
+  # Format axes
+  ## Y-axis as dollars
+  fig.update_yaxes(title_text="Total Revenue (USD)", row=1, col=1, tickformat="$,.2f")
+  fig.update_yaxes(title_text="Revenue per Track (USD)", row=2, col=1, tickformat="$,.2f")
+  ## Ensure only one x-axis shows, rotated (for legibility)
+  fig.update_xaxes(title_text=None, row=1, col=1)
+  fig.update_xaxes(title_text="Artist", tickangle=45, row=2, col=1)
+  
+  # return figure
+  return fig
 
 # Display plot
+fig = build_plot(df)
 fig.show()
 ```
 
@@ -2167,6 +2183,8 @@ On the artist level, similar trends likely exist (see artist data prep), and dee
 
 #### Possible Next Steps
 
+If this were real-world data, the following actions could strengthen both analytical insight and strategic decision-making.
+
 **Deepen the Analysis:**
 
 -   *Attribute-level analysis for top-performing genres.*  
@@ -2187,36 +2205,803 @@ On the artist level, similar trends likely exist (see artist data prep), and dee
 
 :::
 
-# Question 3: How many customers are repeat buyers?
+# Question 3: How many customers are repeat buyers? {#q3}
 
 -   **Key Tables**: `Invoice`, `Customer`, `InvoiceLine`
 -   **Explanation**: `Customer` provides key customer data. Links to `Invoice` provide sales frequency information linked to each `Customer`, which may be further broken down to individual units or cost-per-unit with links to `InvoiceLine`.
 
-# Question 4. How do sales trends evolve over time?
+::: {.callout-tip}
 
--   **Key Tables**: `Invoice`, `InvoiceLine`, `Customer`
--   **Explanation**: `Invoice` provides sales data, including date of sale and revenue. This data may be further broken down to individual units or cost-per-unit with links to `InvoiceLine`. Further characterization may be done with links to `Customer` or other tables linked to `InvoiceLine`.
+#### Executive Summary
 
+Customer retention patterns reveals rapid decline in retention within the first six months post-purchase, with periodic spikes suggesting promotional or catalog-driven re-engagement. These findings suggest that *targeted re-engagement campaigns at the 4-6 months mark* and *long-term loyalty programs* are potential strategies to extend customer lifetime value beyond typical drop-off points (e.g., after 2-3 years).
 
-# BOTTOM
+:::
 
-Disconnect from the database.
+Initial exploration focused on any difference in average spend per purchase between one-time and repeat purchasers.
+
+```{sql}
+#| label: sql-q3-ltv-comp
+#| connection: con_chinook
+#| filename: SQL
+-- Average Spend per Customer (One-time vs Repeat)
+-- Purchase count and spend per customer
+WITH CustomerPurchases AS (
+    SELECT
+        CustomerId,
+        COUNT(*) AS PurchaseCount,
+        SUM(Total) AS TotalSpent
+    FROM Invoice
+    GROUP BY CustomerId
+)
+-- Classify customers (One-time vs Repeat), Calculate Avg Spend in Category
+SELECT
+    CASE 
+        WHEN PurchaseCount = 1 THEN 'One-Time Buyer'
+        ELSE 'Repeat Buyer'
+    END AS BuyerType,
+    COUNT(*) AS NumCustomers,
+    AVG(TotalSpent) AS AvgSpendPerCustomer
+FROM CustomerPurchases
+GROUP BY BuyerType;
+```
+
+::: {.callout-note}
+
+#### Insights
+
+All customers are repeat customers in this data set, indicating no one-time purchase behavior. This simplifies some analyses, but reflects a limitation in the data set's realism.
+
+Any business with such *exceptional customer retention* would be ideal for *subscription models*, *loyalty programs*, or *cross-sells* to improve lifetime value of such loyal customers.
+
+:::
+
+To further characterize customer spending patterns, purchase intervals were queried.
+
+```{sql}
+#| label: sql-q3-purchase-interval
+#| connection: con_chinook
+#| filename: SQL
+-- Repeat-customer purchase intervals
+-- Get date of each customer purchase
+WITH CustomerDates AS (
+    SELECT
+        CustomerId,
+        InvoiceId,
+        InvoiceDate,
+        ROW_NUMBER() OVER (PARTITION BY CustomerId ORDER BY InvoiceDate) AS rn
+    FROM Invoice
+),
+
+-- Calculate intervals between purchases
+DateDiffs AS (
+    SELECT
+        c1.CustomerId,
+        DATE_DIFF('day', c1.InvoiceDate, c2.InvoiceDate) AS DaysBetween
+    FROM CustomerDates c1
+    JOIN CustomerDates c2
+        ON c1.CustomerId = c2.CustomerId
+        AND c2.rn = c1.rn + 1
+),
+
+-- Aggregate purchases, tracks, and spend per customer
+CustomerPurchaseStats AS (
+    SELECT
+        i.CustomerId,
+        COUNT(DISTINCT i.InvoiceId) AS NumPurchases,
+        AVG(il.TrackCount) AS AvgTracksPerPurchase,
+        AVG(i.Total) AS AvgSpendPerPurchase
+    FROM Invoice i
+    JOIN (
+        SELECT
+            InvoiceId,
+            COUNT(*) AS TrackCount
+        FROM InvoiceLine
+        GROUP BY InvoiceId
+    ) il ON i.InvoiceId = il.InvoiceId
+    GROUP BY i.CustomerId
+)
+
+-- Combine everything
+SELECT
+    s.CustomerId,
+    s.NumPurchases,
+    s.AvgTracksPerPurchase,
+    s.AvgSpendPerPurchase,
+    AVG(d.DaysBetween) AS AvgDaysBetweenPurchases
+FROM CustomerPurchaseStats s
+LEFT JOIN DateDiffs d ON s.CustomerId = d.CustomerId
+GROUP BY s.CustomerId, s.NumPurchases, s.AvgTracksPerPurchase, s.AvgSpendPerPurchase
+-- Order by average days between purchases (High to Low)
+ORDER BY AvgDaysBetweenPurchases DESC;
+```
+
+::: {.callout-note}
+
+#### Insights
+
+Customers in this data set exhibited *uniform purchase behavior* in terms of track count per purchase (5.43), highlighting a limitation in the synthetic data set's realism.
+
+-   Average spend per purchase varies modestly, ranging from *$5.37 to $7.09*. 
+      -   *Top spenders* (≥ $6.00 per purchase) represent *18.6% of customers*.
+-   *Purchase intervals are long and inconsistent*.
+      -   All customers wait more than *200 days* (~6 months) between purchases on average. 
+      -   *37.29%* of customers wait over 8 months (243 days)*. 
+      -   Top spenders are evenly distributed across the range, with *no clear link between spend and purchase frequency*.
+
+**Opportunities**:
+
+-   *Re-engage customers sooner* through loyalty programs or timed promotions around the *180–200 day mark*, aiming to shorten long repurchase cycles.
+-   *Target high spenders* with exclusive offers or early access content to *maximize revenue from existing customers*.
+-   *Introduce upsell strategies*, such as larger or premium bundles, to grow average invoice size beyond the flat pattern observed here.
+
+:::
+
+The retention decay rate was examined as a proxy for cohort retention/retention decay.
+
+```{sql}
+#| label: sql-q3-repeat-rate
+#| connection: con_chinook
+#| filename: SQL
+-- Customer repeat rate (monthly return behavior)
+-- Obtain First Purchase Date (DuckDB required separate)
+WITH FirstPurchase AS (
+    SELECT
+        CustomerId,
+        MIN(DATE(InvoiceDate)) AS FirstPurchaseDate
+    FROM Invoice
+    GROUP BY CustomerId
+),
+
+-- Get subsequent purchase date info from invoice
+CustomerInvoices AS (
+    SELECT
+        i.CustomerId,
+        DATE(i.InvoiceDate) AS PurchaseDate,
+        fp.FirstPurchaseDate
+    FROM Invoice i
+    JOIN FirstPurchase fp ON i.CustomerId = fp.CustomerId
+),
+
+-- Calculate months since first purchase
+RepeatInfo AS (
+    SELECT
+        CustomerId,
+        DATE_DIFF('month', FirstPurchaseDate, PurchaseDate) AS MonthsSinceFirst
+    FROM CustomerInvoices
+)
+
+-- Count distinct returning customers per month offset
+SELECT
+    MonthsSinceFirst,
+    COUNT(DISTINCT CustomerId) AS ReturningCustomers,
+    (SELECT COUNT(*) FROM FirstPurchase) AS CohortSize,
+    ROUND(100.0 * COUNT(DISTINCT CustomerId) * 1.0 / (SELECT COUNT(*) FROM FirstPurchase), 1) AS RetentionPct
+FROM RepeatInfo
+WHERE MonthsSinceFirst > 0
+GROUP BY MonthsSinceFirst
+-- Arrange by "per month offset" (Low to High)
+ORDER BY MonthsSinceFirst;
+```
+
+::: {.callout-note}
+
+#### Insights
+
+-   Customer retention is *moderate and irregular* over time, with notable fluctuations rather than a smooth decay curve.
+-   The average retention rate across all months is relatively low at *16.6%*, reflecting infrequent repeat purchase behavior.
+-   Retention rates peak at *31 months (61.0%)*, suggesting some customers return in clusters far from their initial purchase.
+-   Early retention is moderate, with *30-37% of customers returning* at 1, 3, and 6 months.
+-   Retention drops below *20% after 42 months*, indicating most customers have ceased repeat purchases by then.
+
+**Opportunities**:
+
+-   Focus on *early engagement campaigns* to boost retention within the first 6 months, where natural return rates already show promise.
+-   Investigate drivers behind the *31-month retention spike*. Targeted marketing or product offerings around this timeline may reinforce repeat purchases.
+-   Consider *long-term loyalty programs* to extend customer lifetime value beyond typical drop-off points (e.g., after 2-3 years).
+-   Use *segmentation to tailor retention strategies* for different customer groups, given the irregular patterns observed.
+
+:::
+
+## Exploratory Visualizations {#q3-vis}
+
+In preparation for exploratory visualization generation, the data was retrieved using SQL queries and prepared in both R and Python.
 
 ::: {.panel-tabset}
 
 #### R
 
 ```{r}
-#| label: r-cleanup
-DBI::dbDisconnect(con_chinook)
-rm(list = ls())
+#| label: r-q3-vis-prep
+# SQL Queries
+## Retention Decay
+res_repeat_df <- DBI::dbGetQuery(
+  con_chinook, 
+  "-- Customer repeat rate (monthly return behavior)
+  -- Obtain First Purchase Date (DuckDB required separate)
+  WITH FirstPurchase AS (
+      SELECT
+          CustomerId,
+          MIN(DATE(InvoiceDate)) AS FirstPurchaseDate
+      FROM Invoice
+      GROUP BY CustomerId
+  ),
+  
+  -- Get subsequent purchase date info from invoice
+  CustomerInvoices AS (
+      SELECT
+          i.CustomerId,
+          DATE(i.InvoiceDate) AS PurchaseDate,
+          fp.FirstPurchaseDate
+      FROM Invoice i
+      JOIN FirstPurchase fp ON i.CustomerId = fp.CustomerId
+  ),
+  
+  -- Calculate months since first purchase
+  RepeatInfo AS (
+      SELECT
+          CustomerId,
+          DATE_DIFF('month', FirstPurchaseDate, PurchaseDate) AS MonthsSinceFirst
+      FROM CustomerInvoices
+  )
+  
+  -- Count distinct returning customers per month offset
+  SELECT
+      MonthsSinceFirst,
+      COUNT(DISTINCT CustomerId) AS ReturningCustomers,
+      (SELECT COUNT(*) FROM FirstPurchase) AS CohortSize,
+      ROUND(100.0 * COUNT(DISTINCT CustomerId) * 1.0 / (SELECT COUNT(*) FROM FirstPurchase), 1) AS RetentionPct
+  FROM RepeatInfo
+  WHERE MonthsSinceFirst > 0
+  GROUP BY MonthsSinceFirst
+  -- Arrange by 'per month offset' (Low to High)
+  ORDER BY MonthsSinceFirst;"
+  )
+
+## Retention Across Cohorts
+res_cohort_df <- DBI::dbGetQuery(
+  con_chinook,
+  "-- Retention across cohorts
+  -- First purchase per customer and cohort assignment
+  WITH FirstPurchases AS (
+      SELECT
+          CustomerId,
+          MIN(DATE(InvoiceDate)) AS FirstPurchaseDate,
+          DATE_TRUNC('month', MIN(InvoiceDate)) AS CohortMonth
+      FROM Invoice
+      GROUP BY CustomerId
+  ),
+  
+  -- All purchases labeled with cohort info
+  AllPurchases AS (
+      SELECT
+          i.CustomerId,
+          DATE(i.InvoiceDate) AS PurchaseDate,
+          DATE_TRUNC('month', i.InvoiceDate) AS PurchaseMonth,
+          fp.CohortMonth,
+          DATE_DIFF('month', fp.FirstPurchaseDate, i.InvoiceDate) AS MonthsSinceFirst
+      FROM Invoice i
+      JOIN FirstPurchases fp ON i.CustomerId = fp.CustomerId
+  ),
+  
+  -- Cohort sizes
+  CohortSizes AS (
+      SELECT
+          CohortMonth,
+          COUNT(DISTINCT CustomerId) AS CohortSize
+      FROM FirstPurchases
+      GROUP BY CohortMonth
+  ),
+  
+  -- Distinct customer activity per cohort/month
+  CustomerActivity AS (
+      SELECT DISTINCT
+          CustomerId,
+          CohortMonth,
+          MonthsSinceFirst
+      FROM AllPurchases
+  )
+  
+  -- Final aggregation with cohort size and retention %
+  SELECT
+      ca.CohortMonth,
+      ca.MonthsSinceFirst,
+      COUNT(DISTINCT ca.CustomerId) AS NumActiveCustomers,
+      cs.CohortSize,
+      ROUND(100.0 * COUNT(DISTINCT ca.CustomerId)::DOUBLE / cs.CohortSize, 1) AS RetentionPct
+  FROM CustomerActivity ca
+  JOIN CohortSizes cs ON ca.CohortMonth = cs.CohortMonth
+  GROUP BY ca.CohortMonth, ca.MonthsSinceFirst, cs.CohortSize
+  ORDER BY ca.CohortMonth, ca.MonthsSinceFirst;"
+  )
 ```
 
 #### Python
 
 ```{python}
-#| label: py-cleanup
-# conn_chinook.close()
+#| label: py-q3-vis-prep
+# SQL Queries
+## Retention Decay
+res_repeat_df = con_chinook.execute(
+  """-- Customer repeat rate (monthly return behavior)
+  -- Obtain First Purchase Date (DuckDB required separate)
+  WITH FirstPurchase AS (
+      SELECT
+          CustomerId,
+          MIN(DATE(InvoiceDate)) AS FirstPurchaseDate
+      FROM Invoice
+      GROUP BY CustomerId
+  ),
+  
+  -- Get subsequent purchase date info from invoice
+  CustomerInvoices AS (
+      SELECT
+          i.CustomerId,
+          DATE(i.InvoiceDate) AS PurchaseDate,
+          fp.FirstPurchaseDate
+      FROM Invoice i
+      JOIN FirstPurchase fp ON i.CustomerId = fp.CustomerId
+  ),
+  
+  -- Calculate months since first purchase
+  RepeatInfo AS (
+      SELECT
+          CustomerId,
+          DATE_DIFF('month', FirstPurchaseDate, PurchaseDate) AS MonthsSinceFirst
+      FROM CustomerInvoices
+  )
+  
+  -- Count distinct returning customers per month offset
+  SELECT
+      MonthsSinceFirst,
+      COUNT(DISTINCT CustomerId) AS ReturningCustomers,
+      (SELECT COUNT(*) FROM FirstPurchase) AS CohortSize,
+      ROUND(100.0 * COUNT(DISTINCT CustomerId) * 1.0 / (SELECT COUNT(*) FROM FirstPurchase), 1) AS RetentionPct
+  FROM RepeatInfo
+  WHERE MonthsSinceFirst > 0
+  GROUP BY MonthsSinceFirst
+  -- Arrange by "per month offset" (Low to High)
+  ORDER BY MonthsSinceFirst;"""
+  ).df()
+  
+## Retention Across Cohorts
+res_cohort_df = con_chinook.execute(
+  """-- Retention across cohorts
+  -- First purchase per customer and cohort assignment
+  WITH FirstPurchases AS (
+      SELECT
+          CustomerId,
+          MIN(DATE(InvoiceDate)) AS FirstPurchaseDate,
+          DATE_TRUNC('month', MIN(InvoiceDate)) AS CohortMonth
+      FROM Invoice
+      GROUP BY CustomerId
+  ),
+  
+  -- All purchases labeled with cohort info
+  AllPurchases AS (
+      SELECT
+          i.CustomerId,
+          DATE(i.InvoiceDate) AS PurchaseDate,
+          DATE_TRUNC('month', i.InvoiceDate) AS PurchaseMonth,
+          fp.CohortMonth,
+          DATE_DIFF('month', fp.FirstPurchaseDate, i.InvoiceDate) AS MonthsSinceFirst
+      FROM Invoice i
+      JOIN FirstPurchases fp ON i.CustomerId = fp.CustomerId
+  ),
+  
+  -- Cohort sizes
+  CohortSizes AS (
+      SELECT
+          CohortMonth,
+          COUNT(DISTINCT CustomerId) AS CohortSize
+      FROM FirstPurchases
+      GROUP BY CohortMonth
+  ),
+  
+  -- Distinct customer activity per cohort/month
+  CustomerActivity AS (
+      SELECT DISTINCT
+          CustomerId,
+          CohortMonth,
+          MonthsSinceFirst
+      FROM AllPurchases
+  )
+  
+  -- Final aggregation with cohort size and retention %
+  SELECT
+      ca.CohortMonth,
+      ca.MonthsSinceFirst,
+      COUNT(DISTINCT ca.CustomerId) AS NumActiveCustomers,
+      cs.CohortSize,
+      ROUND(100.0 * COUNT(DISTINCT ca.CustomerId)::DOUBLE / cs.CohortSize, 1) AS RetentionPct
+  FROM CustomerActivity ca
+  JOIN CohortSizes cs ON ca.CohortMonth = cs.CohortMonth
+  GROUP BY ca.CohortMonth, ca.MonthsSinceFirst, cs.CohortSize
+  ORDER BY ca.CohortMonth, ca.MonthsSinceFirst;"""
+  ).df()
 ```
 
 :::
+
+### Retention Decay Plot {#q3-vis-retention-decay}
+
+To better understand customer retention over time, a retention decay curve was generated. 
+
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q4-vis-retention-decay
+#| warning: FALSE
+# Retention Decay Plot
+# Add a column for formatted hover text
+res_repeat_df$hover_text <- paste0(
+  "Month: ", res_repeat_df$MonthsSinceFirst, "\n",
+  "Retention: ", res_repeat_df$RetentionPct, "%"
+)
+
+# Retention Curve Line Plot
+p <- ggplot2::ggplot(
+  res_repeat_df, 
+  ggplot2::aes(x = MonthsSinceFirst, y = RetentionPct)) +
+  # Make line plot - emphasize points
+  ggplot2::geom_line(color = "cadetblue4", size = 1.2) +
+  ggplot2::geom_point(color = "cadetblue4", size = 2, ggplot2::aes(text = hover_text)) +
+  # Mark every 3 months on the x axis
+  ggplot2::scale_x_continuous(
+    breaks = seq(0, max(res_repeat_df$MonthsSinceFirst), by = 3)
+  ) +
+  # Label y axis with "%"
+  scale_y_continuous(labels = function(x) paste0(x, "%"), limits = c(0, 100)) +
+  # Add labels
+  ggplot2::labs(
+    title = "Customer Retention Decay <br><sub>2009-01-01 to 2013-12-22</sub>",
+    x = "Months Since First Purchase",
+    y = "Retention (%)"
+  ) +
+  theme_minimal(base_size = 14)
+
+# Convert to interactive plotly for quarto display
+plotly::ggplotly(p, tooltip = "text")
+```
+
+#### Python
+
+```{python}
+#| label: py-q4-vis-retention-decay
+#| fig-show: hold
+# Retention Decay Plot
+# Add a column for formatted hover text
+res_repeat_df["hover_text"] = (
+    "Month: " + res_repeat_df["MonthsSinceFirst"].astype(str) + "<br>" +
+    "Retention: " + res_repeat_df["RetentionPct"].astype(str) + "%"
+)
+
+# Use a function to suppress intermediate outputs from quarto rendering
+def build_plot(df):
+
+  # Initialize the plot
+  fig = go.Figure()
+
+  # Retention Curve Line Plot
+  fig.add_trace(go.Scatter(
+      x=res_repeat_df["MonthsSinceFirst"],
+      y=res_repeat_df["RetentionPct"],
+      mode="lines+markers",
+      line=dict(color="cadetblue", width=2),
+      marker=dict(size=6),
+      hovertext=res_repeat_df["hover_text"],
+      hoverinfo="text",
+      name="Retention"
+  ))
+
+  # Labels
+  fig.update_layout(
+      title=dict(
+          text="Customer Retention Decay <br><sub>2009-01-01 to 2013-12-22</sub>",
+          x=0.5,
+          xanchor="center",
+          font=dict(size=20)
+      ),
+      xaxis=dict(
+          title="Months Since First Purchase",
+          tickmode="linear",
+          tick0=0,
+          dtick=3
+      ),
+      yaxis=dict(
+          title="Retention (%)",
+          range=[0, 100],
+          ticksuffix="%"
+      ),
+      template="plotly_white",
+      height=500
+  )
+
+  # return figure
+  return fig
+
+# Display plot
+fig = build_plot(res_repeat_df)
+fig.show()
+```
+
+:::
+
+::: {.callout-note}
+
+#### Insights
+
+-   Retention decays quickly *after the first 6 months*, indicating limited long-term engagement. appears to be sporadic, but largely flat.
+-   The pattern is *sporadic and largely flat*, suggesting irregular purchase cycles or infrequent triggers for re-engagement.
+-   *Unexpected retention spikes between months 28-33* (peaking at 61% in month 31) may reflect anomalies in the synthetic data set, delayed reactivation behavior, or an unknown promotional triggers.
+-   After month 42, retention levels flatten at or below 20%, indicating *minimal long-term customer activity*.
+
+**Opportunities**:
+
+-   Implement *re-engagement campaigns at the 4-6 months mark*, when drop-off risk is highest.
+-   Introduce *loyalty programs* or time-based offers to reward continued engagement in the first year.
+-   *Investigate drivers behind the month 28-31 spike*. If this behavior was tied to promotions or catalog changes, similar tactics could be used to reactivate dormant customers.
+
+:::
+
+### Retention Across Cohorts: Heatmap {#q3-vis-retention-heatmap}
+
+For further perspective of customer retention dynamics, a retention heatmap was generated.
+
+::: {.panel-tabset}
+
+#### R
+
+```{r}
+#| label: r-q4-vis-retention-heatmap
+# Cohort Retention Heatmap
+# Fill in missing Cohort-Month combinations with missing values (`NA`)
+res_cohort_df <- tidyr::complete(
+  res_cohort_df,
+  CohortMonth = seq.Date(
+    min(res_cohort_df$CohortMonth), 
+    max(res_cohort_df$CohortMonth), 
+    by = "month"
+    ),
+  MonthsSinceFirst = seq(
+    min(res_cohort_df$MonthsSinceFirst), 
+    max(res_cohort_df$MonthsSinceFirst), 
+    by = 1
+    )
+  ) |>
+# Filter out any non-included values (Cohort pre Jan 2009, MonthsSince <= 0)
+  dplyr::filter(
+    MonthsSinceFirst > 0 & CohortMonth >= "2009-01-01"
+  )
+
+# Add a column for formatted hover text
+res_cohort_df <- res_cohort_df |>
+  dplyr::mutate(
+    hover_text = ifelse(
+      !is.na(RetentionPct), 
+      paste0(
+        "Cohort: ", format(CohortMonth, "%b %Y"), "\n",
+        "Cohort Size: ", CohortSize, "\n",
+        "Month: ", MonthsSinceFirst, "\n",
+        "Retention: ", sprintf("%1.2f%%", RetentionPct)
+        ),
+      paste0(
+        "Cohort: ", format(CohortMonth, "%b %Y"), "\n",
+        "Month: ", MonthsSinceFirst, "\n",
+        "No data"
+        )
+      )
+    )
+
+# Retention Heatmap
+p <- ggplot2::ggplot(
+  res_cohort_df, 
+  ggplot2::aes(
+    x = MonthsSinceFirst, 
+    y = CohortMonth, 
+    fill = RetentionPct,
+    text = hover_text
+    )
+  ) +
+  # Put a white box around each tile
+  geom_tile(color = "white", size = 0.2) +
+  # Use Color-blind friendly color scheme
+  ggplot2::scale_fill_viridis_c(
+    # Make empty/missing tiles a gray color - does not transfer to plotly
+    na.value = "gray90",      
+    # Default version
+    option = "D",                
+    # Make higher values a darker color
+    direction = -1               
+  ) +
+  # Make x axis evenly marked 
+  ggplot2::scale_x_continuous(breaks = pretty(res_cohort_df$MonthsSinceFirst)) +
+  # Label Y axis in human legible format (Month short name + YYYY)
+  ggplot2::scale_y_date(date_breaks = "1 month", date_labels = "%b %Y") +
+  # Labels
+  ggplot2::labs(
+    title = "Customer Retention by Cohort <br><sub>2009-01-01 to 2013-12-22</sub>",
+    x = "Months Since First Purchase",
+    y = "Cohort Month (First Purchase)",
+    fill = "Retention (%)"
+  ) +
+  # Optional styling
+  ggplot2::theme_minimal(base_size = 14) +
+  ggplot2::theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank()
+  )
+
+# Convert to interactive plotly for quarto display
+plotly::ggplotly(p, tooltip = "text")
+```
+
+#### Python
+
+```{python}
+#| label: py-q4-vis-retention-heatmap
+# Cohort Retention Heatmap
+# Create grid that fills in missing Cohort-Month combinations with missing values (`NA`)
+cohort_range = pd.date_range(
+  start = res_cohort_df['CohortMonth'].min(), 
+  end = res_cohort_df['CohortMonth'].max(), 
+  freq='MS'
+  )
+  
+month_range = range(
+  res_cohort_df['MonthsSinceFirst'].min(),
+  res_cohort_df['MonthsSinceFirst'].max() + 1
+  )
+
+# Create complete combination grid
+full_grid = pd.MultiIndex.from_product(
+    [cohort_range, month_range],
+    names=['CohortMonth', 'MonthsSinceFirst']
+).to_frame(index=False)
+
+## Merge with actual data to fill in missing combinations
+res_df = full_grid.merge(
+  res_cohort_df, 
+  on=['CohortMonth', 'MonthsSinceFirst'], 
+  how='left'
+  )
+
+# Filter out any non-included values (Cohort pre Jan 2009, MonthsSince <= 0)
+res_df = res_df[
+    (res_df['CohortMonth'] >= pd.to_datetime('2009-01-01')) & 
+    (res_df['MonthsSinceFirst'] > 0)
+]
+
+# Create a human-legible version of the cohort month for labels
+res_df['CohortLabel'] = res_df['CohortMonth'].dt.strftime('%b %Y')
+
+# Ensure they stay in order
+res_df['CohortLabel'] = pd.Categorical(
+    res_df['CohortLabel'], 
+    ordered=True,
+    categories=sorted(res_df['CohortMonth'].dt.strftime('%b %Y').unique(), key=lambda x: pd.to_datetime(x))
+)
+
+# Add a column for formatted hover text
+res_df['hover_text'] = np.where(
+    ~res_df['RetentionPct'].isna(),
+    "Cohort: " + res_df['CohortMonth'].dt.strftime("%b %Y") +
+    "<br>Cohort Size: " + res_df['CohortSize'].astype(str) +
+    "<br>Month: " + res_df['MonthsSinceFirst'].astype(str) +
+    "<br>Retention: " + (res_df['RetentionPct']).round(2).astype(str) + "%",
+    "Cohort: " + res_df['CohortLabel'].astype(str) +
+    "<br>Month: " + res_df['MonthsSinceFirst'].astype(str) +
+    "<br>No data"
+)
+
+# Use a function to suppress intermediate outputs from quarto rendering
+def build_plot(df):
+  # Create pivot tables
+  retention = df.pivot(index="CohortLabel", columns="MonthsSinceFirst", values="RetentionPct")
+  text = df.pivot(index="CohortLabel", columns="MonthsSinceFirst", values="hover_text")
+
+  # Create heatmap with Plotly
+  fig = go.Figure(
+      data=go.Heatmap(
+          z=retention.values,
+          x=retention.columns,
+          y=retention.index,
+          # Set hover-text
+          text=text.values,
+          hoverinfo='text',
+          # Colorblind-friendly color scheme (Reverse - darker is higher %)
+          colorscale='Viridis_r',
+          zmin=0,
+          zmax=100,
+          colorbar=dict(title="Retention (%)"),
+          showscale=True,
+          hoverongaps=False,
+          zauto=False
+      )
+  )
+
+  # Layout (Labels)
+  fig.update_layout(
+      title="Customer Retention by Cohort<br><sub>2009-01-01 to 2013-12-22</sub>",
+      xaxis_title="Months Since First Purchase",
+      yaxis_title="Cohort Month (First Purchase)",
+      xaxis=dict(type='category'),
+      yaxis=dict(type='category'),
+      height=600
+  )
+  
+  # return figure
+  return fig
+
+# Display plot
+fig = build_plot(res_df)
+fig.show()
+```
+
+:::
+
+::: {.callout-note}
+
+#### Insights
+
+-   There are no strong diagnoal trends, suggesting that *retention behavior is not driven by seasonality* or time-of-year events.
+-   Vertical spikes at months 1, 3, 6, 9, 14, 28, 31, 33, 40, and 42 indicate that *certain months consistently see higher re-engagement*, regardless of cohort. These patterns are more pronounced in later cohorts (September 2009 and onward).
+-   Earlier cohorts (Jan - Aug 2009) show more scattered retention spikes in later months (e.g, 18-27, 46-53), though these are generally smaller in magnitude.
+-   The strongest retention occurs at month 31, with most cohorts retaining 50% or more of their users.
+-   The *absence of a consistent decay slope* and the presence of *periodic spikes* suggest *irregular customer behavior*, potentially influenced by catalog changes, promotions, or synthetic data quirks.
+
+**Opportunities**:
+
+-   *Investigate month 31 and other spike periods for possible triggers*. Catalog expansions, price changes, or customer lifecycle milestones could be *replicated or scaled*.
+-   Design *targeted campaigns around known high-retention intervals* (e.g., months 1, 3, 6, 9) to encourage early and repeat engagement.
+-   Consider *dynamic lifecycle-based messaging* rather than time-based marketing, given the erratic nature of long-term retention.
+-   Explore *subscription models* or *bundling strategies* to stabilize and extend engagement beyond the initial 6–9 month window.
+
+:::
+
+## Summary of Exploratory Findings {#q3-summary}
+
+Customer retention drops steeply within the first 6 months after initial purchase, with retention falling below 20% beyond month 42. This indicates that long-term engagement is limited, and most customers do not return frequently after their initial purchases. Unexpected spikes in retention at months 28–33 suggest irregular purchase cycles or promotional triggers. These spikes are consistent across cohorts, especially in later cohorts after September 2009.
+
+-   *Peak retention* at month 31.
+-   *Initial drop-off* after month 6.
+
+::: {.callout-tip}
+
+#### Possible Next Steps
+
+If this were real-world data, the following actions could strengthen both analytical insight and strategic decision-making.
+
+**Deepen the Analysis:**
+
+-   *Investigate the causes of retention spikes*, particularly around month 31, through detailed promotional or catalog event logs.
+-   *Analyze customer segments to identify differences* in retention behavior and tailor marketing strategies accordingly.
+-   *Explore product-level repeat purchase patterns* for granular insights.
+
+**Strategic Business Opportunities:**
+
+-   Implement *re-engagement campaigns at the 4-6 months mark*, when drop-off risk is highest.
+-   Introduce *loyalty programs* or time-based offers to reward continued engagement in the first year.
+-   *Track customer reactivation triggers* more systematically to reduce sporadic behavior and increase predictable retention patterns.
+
+:::
+
+# Summary
+
+TO DO
+
+```{r}
+#| label: r-cleanup
+#| echo: false
+DBI::dbDisconnect(con_chinook)
+rm(list = ls())
+```
+
+```{python}
+#| label: py-cleanup
+#| echo: false
+# conn_chinook.close()
+```
