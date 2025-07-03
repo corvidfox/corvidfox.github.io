@@ -44,6 +44,18 @@ This project is intended for both technical and business audiences, with clear v
 
 For the best visualization experience, browser is recommended - optimization of these exploratory visualizations is limited.
 
+## Why This Project?
+
+This project was selected for its relevance to real-world business intelligence scenarios and its flexibility as a learning and demonstration tool. The [Chinook dataset](https://github.com/lerocha/chinook-database) provides a realistic simulation of sales and customer data, enabling exploration of KPIs commonly used in industries such as retail, e-commerce, and SaaS.
+
+Key focus areas include:
+
+-   **End-to-end analytical workflow** from data exploration in DuckDB to dashboard construction—highlighting technical fluency and analytical structure.
+-   **Emphasis on stakeholder communication** showcasing the ability to translate complex queries into clear, business-oriented narratives.
+-   **Broad applicability** with insights around customer retention, regional performance, and product demand transferable across diverse verticals.
+
+By combining strong SQL capabilities with clear business insight, this project demonstrates how structured data exploration can inform decisions and strategy at scale.
+
 ## Business Questions {#business-questions}
 
 This project aims to provide insights on the following key business questions, with a time-based perspective embedded throughout each analysis to identify trends and changes over time:
@@ -110,15 +122,15 @@ from plotly.colors import sample_colorscale
 
 :::
 
+# Executive Summary {#executive-summary}
+
+The Chinook dataset reveals that revenue is predominantly concentrated in North America and Central Europe, with stable year-over-year trends punctuated by notable regional anomalies—such as Australia’s revenue drop and a Europe-wide spike in 2011—indicating operational or market influences worth deeper exploration. Genre remains consistent overall, but efficiency varies significantly: top genres by revenue-per-track tend to be niche with high engagement, while top artists by total revenue rely on volume across many tracks rather than high per-track returns. Customer retention drops sharply within the first six months but shows unexpected spikes around months 28–33, suggesting irregular purchase behavior or promotional effects. Strategic opportunities include expanding in underpenetrated yet high-value markets, tailoring content and marketing by region and genre, optimizing large but underperforming catalogs, and implementing targeted retention and re-engagement campaigns.
+
 # Data Exploration & Schema Understanding {#data-schema}
 
-The [Chinook Database](https://github.com/lerocha/chinook-database) is a well documented, publicly available data set.
 The SQLite version of the data was downloaded and converted into a [DuckDB](https://duckdb.org/) database for this project to take advantage of DuckDB's speed and in-memory querying capabilities.
 
-The Chinook Database simulates a digital music store, similar to platforms like iTunes.
-It includes tables for artists, albums, tracks, customers, invoices, employees, and more.
-
-A diagram of the database schema was created with [dbdiagram](https://dbdiagram.io/home).
+The database schema was examined through [existing documentation](https://github.com/lerocha/chinook-database) and query-based exploration. A schema diagram was created with [dbdiagram](https://dbdiagram.io/home).
 
 :::{.light-content}
 ![Chinook Database Schema](../img/project_imgs/chinook_schema_light.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
@@ -1093,7 +1105,7 @@ If this were real-world data, the following actions could strengthen both analyt
 **Strategic Business Opportunities:**
 
 -   *Launch targeted consumer acquisition campaigns in underpenetrated, high-potential markets.*  
-  Focus on Chile, Hungary, the Czech Republic and Irelan  —  all show strong revenue-per-customer despite smaller customer bases.
+  Focus on Chile, Hungary, the Czech Republic and Ireland  —  all show strong revenue-per-customer despite smaller customer bases.
 -   *Localize and invest in regional content for India and Asia.*  
   These high-population markets show minimal engagement. Tailored content, pricing, or distribution could unlock substantial growth.
 -   *Re-engage customers in stalled or declining regions.*  
@@ -2174,7 +2186,7 @@ While overall genre revenue remains stable across years, genre-specific performa
 
 These patterns suggest that catalog volume and monetization efficiency are often misaligned. Notably, the top-performing genres by revenue-per-track tend to be narrow in scope but high in engagement, hinting at an opportunity to rebalance the content portfolio.
 
-On the artist level, similar trends likely exist (see artist data prep), and deeper analysis could surface key revenue drivers hiding behind genre-level aggregates.
+Artist level trends are similar, suggesting artists with expansive libraries but low per-track revenue may benefit from targeted marketing efforts such as *curated collections*, *remastered releases*, or *highlight reels* that surface their most engaging content.
 
 -   *Most Efficient Genres by Revenue per Track (2012 spike):* Sci Fi & Fantasy (*Battlestar Galactica*), Comedy (*The Office*), Bossa Nova
 -   *Top Genres by Total Revenue:* Rock, Latin, Metal, Alternative & Punk, TV Shows
@@ -2991,7 +3003,37 @@ If this were real-world data, the following actions could strengthen both analyt
 
 # Summary
 
-TO DO
+Revenue is primarily driven by North American and Central European markets, with consistent year-over-year patterns. However, anomalies like Australia’s steep revenue decline post-2011 and Europe’s spike in the same year suggest operational shifts or market events that merit further investigation. Markets like the USA and Brazil offer growth potential through deeper engagement, while smaller but lucrative markets such as Austria and Chile present attractive expansion opportunities.
+
+Overall genre revenue is stable, but there is considerable variation in monetization efficiency. High revenue-per-track genres tend to be narrowly focused with strong audience engagement, whereas top artists by total revenue typically generate income through large catalogs with lower revenue per track. Artists with expansive libraries and low per-track returns could benefit from marketing strategies like curated collections or remastered releases to surface their most compelling content.
+
+Retention declines steeply in the first six months after purchase, with an unusual spike in months 28–33, possibly due to promotional campaigns or irregular buying cycles. Understanding these patterns is critical to designing effective re-engagement and loyalty programs.
+
+## Possible Next Steps
+
+If this were real-world data, the following actions could strengthen both analytical insight and strategic decision-making.
+
+### Deepen the Analysis
+-   Investigate Australia's 2012–13 revenue decline to identify churn drivers or external influences.
+-   Analyze U.S. customer cohorts for upsell and retention opportunities given its dominant revenue role.
+-   Perform attribute-level analysis within top genres to uncover key drivers of efficiency.
+-   Examine cross-genre customer behavior and its impact on lifetime value.
+-   Explore causes behind retention spikes and identify effective promotional triggers.
+-   Segment customers by retention behavior for tailored marketing.
+-   Study product-level repeat purchases for granular insights.
+
+
+### Strategic Business Opportunities
+
+-   Target acquisition in underpenetrated but high-value markets like Chile, Hungary, and Ireland.
+-   Localize content and marketing for emerging regions such as India and broader Asia.
+-   Re-engage lapsed users in markets with past revenue declines (e.g., Brazil, Sweden).
+-   Expand premium, episodic content in high-return genres like Sci Fi and Comedy.
+-   Capitalize on temporal demand spikes with curated playlists and limited-time offers.
+-   Optimize large but underperforming catalogs (e.g., Rock) through marketing or pruning.
+-   Maintain content momentum in high-penetration genres by refreshing catalogs.
+-   Implement targeted re-engagement campaigns at 4-6 months to counter early churn.
+-   Develop loyalty programs and systematically track reactivation triggers to enhance retention.
 
 ```{r}
 #| label: r-cleanup
