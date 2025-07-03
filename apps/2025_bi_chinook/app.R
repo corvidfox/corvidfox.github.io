@@ -15,7 +15,7 @@ library(scales)
 library(countrycode)
 
 # Connect to DuckDB and Chinook data
-con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "../data/chinook.duckdb")
+con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "../../data/chinook.duckdb")
 
 # Set colors and sizes for plots
 line_color <- 'cadetblue4'
