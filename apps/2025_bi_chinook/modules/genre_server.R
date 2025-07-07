@@ -147,7 +147,7 @@ safe_kpi_card(
             paste0(
               "<li><strong>", scales::dollar(top$revenue), 
               "</strong> (", 
-              scales::percent(k$revenue_pct / 1), ")", 
+              scales::percent(k$revenue_pct / 100), ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
