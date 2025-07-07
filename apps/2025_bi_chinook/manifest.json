@@ -3,15 +3,11 @@
   "locale": "en_US",
   "platform": "4.4.1",
   "metadata": {
-    "appmode": "quarto-static",
-    "primary_rmd": "index.qmd",
+    "appmode": "shiny",
+    "primary_rmd": null,
     "primary_html": null,
     "content_category": null,
     "has_parameters": false
-  },
-  "quarto": {
-    "version": "1.7.32",
-    "engines": ["markdown", "knitr"]
   },
   "packages": {
     "DBI": {
@@ -44,6 +40,33 @@
         "Repository": "CRAN",
         "Date/Publication": "2024-06-02 21:50:02 UTC",
         "Built": "R 4.4.1; ; 2024-10-14 00:31:28 UTC; windows"
+      }
+    },
+    "DT": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Package": "DT",
+        "Type": "Package",
+        "Title": "A Wrapper of the JavaScript Library 'DataTables'",
+        "Version": "0.33",
+        "Authors@R": "c(\n    person(\"Yihui\", \"Xie\", role = \"aut\"),\n    person(\"Joe\", \"Cheng\", email = \"joe@posit.co\", role = c(\"aut\", \"cre\")),\n    person(\"Xianying\", \"Tan\", role = \"aut\"),\n    person(\"JJ\", \"Allaire\", role = \"ctb\"),\n    person(\"Maximilian\", \"Girlich\", role = \"ctb\"),\n    person(\"Greg\", \"Freedman Ellis\", role = \"ctb\"),\n    person(\"Johannes\", \"Rauh\", role = \"ctb\"),\n    person(\"SpryMedia Limited\", role = c(\"ctb\", \"cph\"), comment = \"DataTables in htmlwidgets/lib\"),\n    person(\"Brian\", \"Reavis\", role = c(\"ctb\", \"cph\"), comment = \"selectize.js in htmlwidgets/lib\"),\n    person(\"Leon\", \"Gersen\", role = c(\"ctb\", \"cph\"), comment = \"noUiSlider in htmlwidgets/lib\"),\n    person(\"Bartek\", \"Szopka\", role = c(\"ctb\", \"cph\"), comment = \"jquery.highlight.js in htmlwidgets/lib\"),\n    person(\"Alex\", \"Pickering\", role = c(\"ctb\")),\n    person(\"William\", \"Holmes\", role = c(\"ctb\")),\n    person(\"Mikko\", \"Marttila\", role = c(\"ctb\")),\n    person(\"Andres\", \"Quintero\", role = c(\"ctb\")),\n    person(\"Stéphane\", \"Laurent\", role = c(\"ctb\")),\n    person(given = \"Posit Software, PBC\", role = c(\"cph\", \"fnd\"))\n    )",
+        "Description": "Data objects in R can be rendered as HTML tables using the\n    JavaScript library 'DataTables' (typically via R Markdown or Shiny). The\n    'DataTables' library has been included in this R package. The package name\n    'DT' is an abbreviation of 'DataTables'.",
+        "URL": "https://github.com/rstudio/DT",
+        "BugReports": "https://github.com/rstudio/DT/issues",
+        "License": "GPL-3 | file LICENSE",
+        "Imports": "htmltools (>= 0.3.6), htmlwidgets (>= 1.3), httpuv, jsonlite\n(>= 0.9.16), magrittr, crosstalk, jquerylib, promises",
+        "Suggests": "knitr (>= 1.8), rmarkdown, shiny (>= 1.6), bslib, future,\ntestit, tibble",
+        "VignetteBuilder": "knitr",
+        "RoxygenNote": "7.3.1",
+        "Encoding": "UTF-8",
+        "NeedsCompilation": "no",
+        "Packaged": "2024-04-03 14:36:50 UTC; yihui",
+        "Author": "Yihui Xie [aut],\n  Joe Cheng [aut, cre],\n  Xianying Tan [aut],\n  JJ Allaire [ctb],\n  Maximilian Girlich [ctb],\n  Greg Freedman Ellis [ctb],\n  Johannes Rauh [ctb],\n  SpryMedia Limited [ctb, cph] (DataTables in htmlwidgets/lib),\n  Brian Reavis [ctb, cph] (selectize.js in htmlwidgets/lib),\n  Leon Gersen [ctb, cph] (noUiSlider in htmlwidgets/lib),\n  Bartek Szopka [ctb, cph] (jquery.highlight.js in htmlwidgets/lib),\n  Alex Pickering [ctb],\n  William Holmes [ctb],\n  Mikko Marttila [ctb],\n  Andres Quintero [ctb],\n  Stéphane Laurent [ctb],\n  Posit Software, PBC [cph, fnd]",
+        "Maintainer": "Joe Cheng <joe@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2024-04-04 05:03:17 UTC",
+        "Built": "R 4.4.3; ; 2025-07-02 03:00:54 UTC; windows"
       }
     },
     "MASS": {
@@ -185,35 +208,6 @@
         "Archs": "x64"
       }
     },
-    "RcppTOML": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "RcppTOML",
-        "Type": "Package",
-        "Title": "'Rcpp' Bindings to Parser for \"Tom's Obvious Markup Language\"",
-        "Version": "0.2.3",
-        "Date": "2025-03-08",
-        "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\",\n                    comment = c(ORCID = \"0000-0001-6419-907X\")),\n             person(\"Mark\", \"Gillard\", role = \"aut\",\n                    comment = \"Author of 'toml++' header library\"))",
-        "Description": "The configuration format defined by 'TOML' (which expands to\n \"Tom's Obvious Markup Language\") specifies an excellent format\n (described at <https://toml.io/en/>) suitable for both human editing\n as well as the common uses of a machine-readable format. This package\n uses 'Rcpp' to connect to the 'toml++' parser written by Mark Gillard\n to R.",
-        "SystemRequirements": "A C++17 compiler",
-        "BugReports": "https://github.com/eddelbuettel/rcpptoml/issues",
-        "URL": "http://dirk.eddelbuettel.com/code/rcpp.toml.html",
-        "Imports": "Rcpp (>= 1.0.8)",
-        "Depends": "R (>= 3.3.0)",
-        "LinkingTo": "Rcpp",
-        "Suggests": "tinytest",
-        "License": "GPL (>= 2)",
-        "NeedsCompilation": "yes",
-        "Packaged": "2025-03-08 13:54:57 UTC; edd",
-        "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>),\n  Mark Gillard [aut] (Author of 'toml++' header library)",
-        "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-03-08 14:30:06 UTC",
-        "Built": "R 4.4.3; x86_64-w64-mingw32; 2025-06-28 01:08:28 UTC; windows",
-        "Archs": "x64"
-      }
-    },
     "askpass": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -264,13 +258,40 @@
         "Archs": "x64"
       }
     },
+    "bsicons": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Package": "bsicons",
+        "Title": "Easily Work with 'Bootstrap' Icons",
+        "Version": "0.1.2",
+        "Authors@R": "c(\n    person(\"Carson\", \"Sievert\", , \"carson@posit.co\", role = c(\"cre\", \"aut\"),\n           comment = c(ORCID = \"0000-0002-4958-2844\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n    person(\"Mark\", \"Otto\", role = \"cph\",\n           comment = \"Bootstrap icons maintainer\")\n  )",
+        "Description": "Easily use 'Bootstrap' icons inside 'Shiny' apps and 'R\n    Markdown' documents. More generally, icons can be inserted in any\n    'htmltools' document through inline 'SVG'.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/rstudio/bsicons",
+        "BugReports": "https://github.com/rstudio/bsicons/issues",
+        "Depends": "R (>= 2.10)",
+        "Imports": "cli, htmltools, rlang, utils",
+        "Suggests": "bslib, processx, testthat, webshot2, withr",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.2.3",
+        "NeedsCompilation": "no",
+        "Packaged": "2023-11-03 23:29:00 UTC; cpsievert",
+        "Author": "Carson Sievert [cre, aut] (<https://orcid.org/0000-0002-4958-2844>),\n  Posit Software, PBC [cph, fnd],\n  Mark Otto [cph] (Bootstrap icons maintainer)",
+        "Maintainer": "Carson Sievert <carson@posit.co>",
+        "Repository": "CRAN",
+        "Date/Publication": "2023-11-04 00:30:05 UTC",
+        "Built": "R 4.4.3; ; 2025-07-04 01:38:03 UTC; windows"
+      }
+    },
     "bslib": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
       "description": {
         "Package": "bslib",
         "Title": "Custom 'Bootstrap' 'Sass' Themes for 'shiny' and 'rmarkdown'",
-        "Version": "0.8.0",
+        "Version": "0.9.0",
         "Authors@R": "c(\n    person(\"Carson\", \"Sievert\", , \"carson@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-4958-2844\")),\n    person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"),\n    person(\"Garrick\", \"Aden-Buie\", , \"garrick@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7111-0077\")),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")),\n    person(, \"Bootstrap contributors\", role = \"ctb\",\n           comment = \"Bootstrap library\"),\n    person(, \"Twitter, Inc\", role = \"cph\",\n           comment = \"Bootstrap library\"),\n    person(\"Javi\", \"Aguilar\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootstrap colorpicker library\"),\n    person(\"Thomas\", \"Park\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootswatch library\"),\n    person(, \"PayPal\", role = c(\"ctb\", \"cph\"),\n           comment = \"Bootstrap accessibility plugin\")\n  )",
         "Description": "Simplifies custom 'CSS' styling of both 'shiny' and\n    'rmarkdown' via 'Bootstrap' 'Sass'. Supports 'Bootstrap' 3, 4 and 5 as\n    well as their various 'Bootswatch' themes. An interactive widget is\n    also provided for previewing themes in real time.",
         "License": "MIT + file LICENSE",
@@ -278,8 +299,8 @@
         "BugReports": "https://github.com/rstudio/bslib/issues",
         "Depends": "R (>= 2.10)",
         "Imports": "base64enc, cachem, fastmap (>= 1.1.1), grDevices, htmltools\n(>= 0.5.8), jquerylib (>= 0.1.3), jsonlite, lifecycle, memoise\n(>= 2.0.1), mime, rlang, sass (>= 0.4.9)",
-        "Suggests": "bsicons, curl, fontawesome, future, ggplot2, knitr, magrittr,\nrappdirs, rmarkdown (>= 2.7), shiny (> 1.8.1), testthat,\nthematic, withr",
-        "Config/Needs/deploy": "BH, chiflights22, colourpicker, commonmark, cpp11,\ncpsievert/chiflights22, cpsievert/histoslider, dplyr, DT,\nggplot2, ggridges, gt, hexbin, histoslider, htmlwidgets,\nlattice, leaflet, lubridate, modelr, plotly, reactable,\nreshape2, rprojroot, rsconnect, rstudio/shiny, scales, styler,\ntibble",
+        "Suggests": "bsicons, curl, fontawesome, future, ggplot2, knitr, magrittr,\nrappdirs, rmarkdown (>= 2.7), shiny (> 1.8.1), testthat,\nthematic, tools, utils, withr, yaml",
+        "Config/Needs/deploy": "BH, chiflights22, colourpicker, commonmark, cpp11,\ncpsievert/chiflights22, cpsievert/histoslider, dplyr, DT,\nggplot2, ggridges, gt, hexbin, histoslider, htmlwidgets,\nlattice, leaflet, lubridate, markdown, modelr, plotly,\nreactable, reshape2, rprojroot, rsconnect, rstudio/shiny,\nscales, styler, tibble",
         "Config/Needs/routine": "chromote, desc, renv",
         "Config/Needs/website": "brio, crosstalk, dplyr, DT, ggplot2, glue,\nhtmlwidgets, leaflet, lorem, palmerpenguins, plotly, purrr,\nrprojroot, rstudio/htmltools, scales, stringr, tidyr, webshot2",
         "Config/testthat/edition": "3",
@@ -287,14 +308,41 @@
         "Config/testthat/start-first": "zzzz-bs-sass, fonts, zzz-precompile,\ntheme-*, rmd-*",
         "Encoding": "UTF-8",
         "RoxygenNote": "7.3.2",
-        "Collate": "'accordion.R' 'breakpoints.R' 'bs-current-theme.R'\n'bs-dependencies.R' 'bs-global.R' 'bs-remove.R'\n'bs-theme-layers.R' 'bs-theme-preset-bootswatch.R'\n'bs-theme-preset-builtin.R' 'bs-theme-preset.R' 'utils.R'\n'bs-theme-preview.R' 'bs-theme-update.R' 'bs-theme.R'\n'bslib-package.R' 'buttons.R' 'card.R' 'deprecated.R' 'files.R'\n'fill.R' 'imports.R' 'input-dark-mode.R' 'input-switch.R'\n'layout.R' 'nav-items.R' 'nav-update.R' 'navs-legacy.R'\n'navs.R' 'onLoad.R' 'page.R' 'popover.R' 'precompiled.R'\n'print.R' 'shiny-devmode.R' 'sidebar.R' 'staticimports.R'\n'tooltip.R' 'utils-deps.R' 'utils-shiny.R' 'utils-tags.R'\n'value-box.R' 'version-default.R' 'versions.R'",
+        "Collate": "'accordion.R' 'breakpoints.R' 'bs-current-theme.R'\n'bs-dependencies.R' 'bs-global.R' 'bs-remove.R'\n'bs-theme-layers.R' 'bs-theme-preset-bootswatch.R'\n'bs-theme-preset-brand.R' 'bs-theme-preset-builtin.R'\n'bs-theme-preset.R' 'utils.R' 'bs-theme-preview.R'\n'bs-theme-update.R' 'bs-theme.R' 'bslib-package.R' 'buttons.R'\n'card.R' 'deprecated.R' 'files.R' 'fill.R' 'imports.R'\n'input-dark-mode.R' 'input-switch.R' 'layout.R' 'nav-items.R'\n'nav-update.R' 'navbar_options.R' 'navs-legacy.R' 'navs.R'\n'onLoad.R' 'page.R' 'popover.R' 'precompiled.R' 'print.R'\n'shiny-devmode.R' 'sidebar.R' 'staticimports.R' 'tooltip.R'\n'utils-deps.R' 'utils-shiny.R' 'utils-tags.R' 'value-box.R'\n'version-default.R' 'versions.R'",
         "NeedsCompilation": "no",
-        "Packaged": "2024-07-29 18:49:12 UTC; cpsievert",
+        "Packaged": "2025-01-30 22:04:52 UTC; garrick",
         "Author": "Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>),\n  Joe Cheng [aut],\n  Garrick Aden-Buie [aut] (<https://orcid.org/0000-0002-7111-0077>),\n  Posit Software, PBC [cph, fnd],\n  Bootstrap contributors [ctb] (Bootstrap library),\n  Twitter, Inc [cph] (Bootstrap library),\n  Javi Aguilar [ctb, cph] (Bootstrap colorpicker library),\n  Thomas Park [ctb, cph] (Bootswatch library),\n  PayPal [ctb, cph] (Bootstrap accessibility plugin)",
         "Maintainer": "Carson Sievert <carson@posit.co>",
         "Repository": "CRAN",
-        "Date/Publication": "2024-07-29 19:20:02 UTC",
-        "Built": "R 4.4.1; ; 2024-10-14 01:47:41 UTC; windows"
+        "Date/Publication": "2025-01-30 23:20:02 UTC",
+        "Built": "R 4.4.3; ; 2025-07-04 02:06:22 UTC; windows"
+      }
+    },
+    "bsplus": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com",
+      "description": {
+        "Package": "bsplus",
+        "Type": "Package",
+        "Title": "Adds Functionality to the R Markdown + Shiny Bootstrap Framework",
+        "Version": "0.1.5",
+        "Authors@R": "c(\n    person(\n      given = \"Ian\",\n      family = \"Lyttle\",\n      email = \"ijlyttle@me.com\",\n      role = c(\"aut\", \"cre\"),\n      comment = c(ORCID = \"0000-0001-9962-4849\"),\n    ),\n    person(given = \"Alex\", family = \"Shum\", email = \"alex@ALShum.com\", role = c(\"ctb\")),\n    person(given = \"Emerson\", family = \"Berry\", email = \"berrye123@gmail.com\", role = c(\"ctb\"))\n  )",
+        "Description": "The Bootstrap framework lets you add some JavaScript functionality to your web site by\n  adding attributes to your HTML tags - Bootstrap takes care of the JavaScript\n  <https://getbootstrap.com/docs/3.3/javascript/>. If you are using R Markdown or Shiny, you can\n  use these functions to create collapsible sections, accordion panels, modals, tooltips,\n  popovers, and an accordion sidebar framework (not described at Bootstrap site).\n  Please note this package was designed for Bootstrap 3.3.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://ijlyttle.github.io/bsplus/,\nhttps://github.com/ijlyttle/bsplus",
+        "Depends": "R (>= 3.3.0)",
+        "Imports": "htmltools, magrittr, purrr, lubridate, stringr, rmarkdown,\nglue, jsonlite, methods",
+        "BugReports": "https://github.com/ijlyttle/bsplus/issues",
+        "RoxygenNote": "7.3.2",
+        "Encoding": "UTF-8",
+        "Suggests": "testthat, shiny, covr, knitr, markdown, withr, litedown",
+        "NeedsCompilation": "no",
+        "Packaged": "2025-04-06 11:54:20 UTC; ijlyttle",
+        "Author": "Ian Lyttle [aut, cre] (<https://orcid.org/0000-0001-9962-4849>),\n  Alex Shum [ctb],\n  Emerson Berry [ctb]",
+        "Maintainer": "Ian Lyttle <ijlyttle@me.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2025-04-06 12:20:01 UTC",
+        "Built": "R 4.4.3; ; 2025-07-04 02:25:01 UTC; windows"
       }
     },
     "cachem": {
@@ -783,36 +831,6 @@
         "Built": "R 4.4.1; ; 2024-10-14 01:29:54 UTC; windows"
       }
     },
-    "forcats": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "forcats",
-        "Title": "Tools for Working with Categorical Variables (Factors)",
-        "Version": "1.0.0",
-        "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = c(\"aut\", \"cre\")),\n    person(\"RStudio\", role = c(\"cph\", \"fnd\"))\n  )",
-        "Description": "Helpers for reordering factor levels (including moving\n    specified levels to front, ordering by first appearance, reversing,\n    and randomly shuffling), and tools for modifying factor levels\n    (including collapsing rare levels into other, 'anonymising', and\n    manually 'recoding').",
-        "License": "MIT + file LICENSE",
-        "URL": "https://forcats.tidyverse.org/,\nhttps://github.com/tidyverse/forcats",
-        "BugReports": "https://github.com/tidyverse/forcats/issues",
-        "Depends": "R (>= 3.4)",
-        "Imports": "cli (>= 3.4.0), glue, lifecycle, magrittr, rlang (>= 1.0.0),\ntibble",
-        "Suggests": "covr, dplyr, ggplot2, knitr, readr, rmarkdown, testthat (>=\n3.0.0), withr",
-        "VignetteBuilder": "knitr",
-        "Config/Needs/website": "tidyverse/tidytemplate",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "LazyData": "true",
-        "RoxygenNote": "7.2.3",
-        "NeedsCompilation": "no",
-        "Packaged": "2023-01-27 14:11:11 UTC; hadleywickham",
-        "Author": "Hadley Wickham [aut, cre],\n  RStudio [cph, fnd]",
-        "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2023-01-29 22:20:02 UTC",
-        "Built": "R 4.4.1; ; 2024-10-14 02:08:23 UTC; windows"
-      }
-    },
     "fs": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -880,7 +898,7 @@
       "Repository": "https://cran.rstudio.com",
       "description": {
         "Package": "ggplot2",
-        "Version": "3.5.1",
+        "Version": "3.5.2",
         "Title": "Create Elegant Data Visualisations Using the Grammar of Graphics",
         "Authors@R": "c(\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\",\n           comment = c(ORCID = \"0000-0003-4757-117X\")),\n    person(\"Winston\", \"Chang\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-1576-2126\")),\n    person(\"Lionel\", \"Henry\", role = \"aut\"),\n    person(\"Thomas Lin\", \"Pedersen\", , \"thomas.pedersen@posit.co\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-5147-4711\")),\n    person(\"Kohske\", \"Takahashi\", role = \"aut\"),\n    person(\"Claus\", \"Wilke\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-7470-9261\")),\n    person(\"Kara\", \"Woo\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-5125-4188\")),\n    person(\"Hiroaki\", \"Yutani\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-3385-7233\")),\n    person(\"Dewey\", \"Dunnington\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-9415-4582\")),\n    person(\"Teun\", \"van den Brand\", role = \"aut\",\n           comment = c(ORCID = \"0000-0002-9335-7468\")),\n    person(\"Posit, PBC\", role = c(\"cph\", \"fnd\"))\n  )",
         "Description": "A system for 'declaratively' creating graphics, based on \"The\n    Grammar of Graphics\". You provide the data, tell 'ggplot2' how to map\n    variables to aesthetics, what graphical primitives to use, and it\n    takes care of the details.",
@@ -896,15 +914,15 @@
         "Config/testthat/edition": "3",
         "Encoding": "UTF-8",
         "LazyData": "true",
-        "RoxygenNote": "7.3.1",
+        "RoxygenNote": "7.3.2",
         "Collate": "'ggproto.R' 'ggplot-global.R' 'aaa-.R'\n'aes-colour-fill-alpha.R' 'aes-evaluation.R'\n'aes-group-order.R' 'aes-linetype-size-shape.R'\n'aes-position.R' 'compat-plyr.R' 'utilities.R' 'aes.R'\n'utilities-checks.R' 'legend-draw.R' 'geom-.R'\n'annotation-custom.R' 'annotation-logticks.R' 'geom-polygon.R'\n'geom-map.R' 'annotation-map.R' 'geom-raster.R'\n'annotation-raster.R' 'annotation.R' 'autolayer.R' 'autoplot.R'\n'axis-secondary.R' 'backports.R' 'bench.R' 'bin.R' 'coord-.R'\n'coord-cartesian-.R' 'coord-fixed.R' 'coord-flip.R'\n'coord-map.R' 'coord-munch.R' 'coord-polar.R'\n'coord-quickmap.R' 'coord-radial.R' 'coord-sf.R'\n'coord-transform.R' 'data.R' 'docs_layer.R' 'facet-.R'\n'facet-grid-.R' 'facet-null.R' 'facet-wrap.R' 'fortify-lm.R'\n'fortify-map.R' 'fortify-multcomp.R' 'fortify-spatial.R'\n'fortify.R' 'stat-.R' 'geom-abline.R' 'geom-rect.R'\n'geom-bar.R' 'geom-bin2d.R' 'geom-blank.R' 'geom-boxplot.R'\n'geom-col.R' 'geom-path.R' 'geom-contour.R' 'geom-count.R'\n'geom-crossbar.R' 'geom-segment.R' 'geom-curve.R'\n'geom-defaults.R' 'geom-ribbon.R' 'geom-density.R'\n'geom-density2d.R' 'geom-dotplot.R' 'geom-errorbar.R'\n'geom-errorbarh.R' 'geom-freqpoly.R' 'geom-function.R'\n'geom-hex.R' 'geom-histogram.R' 'geom-hline.R' 'geom-jitter.R'\n'geom-label.R' 'geom-linerange.R' 'geom-point.R'\n'geom-pointrange.R' 'geom-quantile.R' 'geom-rug.R' 'geom-sf.R'\n'geom-smooth.R' 'geom-spoke.R' 'geom-text.R' 'geom-tile.R'\n'geom-violin.R' 'geom-vline.R' 'ggplot2-package.R'\n'grob-absolute.R' 'grob-dotstack.R' 'grob-null.R' 'grouping.R'\n'theme-elements.R' 'guide-.R' 'guide-axis.R'\n'guide-axis-logticks.R' 'guide-axis-stack.R'\n'guide-axis-theta.R' 'guide-legend.R' 'guide-bins.R'\n'guide-colorbar.R' 'guide-colorsteps.R' 'guide-custom.R'\n'layer.R' 'guide-none.R' 'guide-old.R' 'guides-.R'\n'guides-grid.R' 'hexbin.R' 'import-standalone-obj-type.R'\n'import-standalone-types-check.R' 'labeller.R' 'labels.R'\n'layer-sf.R' 'layout.R' 'limits.R' 'margins.R' 'performance.R'\n'plot-build.R' 'plot-construction.R' 'plot-last.R' 'plot.R'\n'position-.R' 'position-collide.R' 'position-dodge.R'\n'position-dodge2.R' 'position-identity.R' 'position-jitter.R'\n'position-jitterdodge.R' 'position-nudge.R' 'position-stack.R'\n'quick-plot.R' 'reshape-add-margins.R' 'save.R' 'scale-.R'\n'scale-alpha.R' 'scale-binned.R' 'scale-brewer.R'\n'scale-colour.R' 'scale-continuous.R' 'scale-date.R'\n'scale-discrete-.R' 'scale-expansion.R' 'scale-gradient.R'\n'scale-grey.R' 'scale-hue.R' 'scale-identity.R'\n'scale-linetype.R' 'scale-linewidth.R' 'scale-manual.R'\n'scale-shape.R' 'scale-size.R' 'scale-steps.R' 'scale-type.R'\n'scale-view.R' 'scale-viridis.R' 'scales-.R' 'stat-align.R'\n'stat-bin.R' 'stat-bin2d.R' 'stat-bindot.R' 'stat-binhex.R'\n'stat-boxplot.R' 'stat-contour.R' 'stat-count.R'\n'stat-density-2d.R' 'stat-density.R' 'stat-ecdf.R'\n'stat-ellipse.R' 'stat-function.R' 'stat-identity.R'\n'stat-qq-line.R' 'stat-qq.R' 'stat-quantilemethods.R'\n'stat-sf-coordinates.R' 'stat-sf.R' 'stat-smooth-methods.R'\n'stat-smooth.R' 'stat-sum.R' 'stat-summary-2d.R'\n'stat-summary-bin.R' 'stat-summary-hex.R' 'stat-summary.R'\n'stat-unique.R' 'stat-ydensity.R' 'summarise-plot.R'\n'summary.R' 'theme.R' 'theme-defaults.R' 'theme-current.R'\n'utilities-break.R' 'utilities-grid.R' 'utilities-help.R'\n'utilities-matrix.R' 'utilities-patterns.R'\n'utilities-resolution.R' 'utilities-tidy-eval.R' 'zxx.R'\n'zzz.R'",
         "NeedsCompilation": "no",
-        "Packaged": "2024-04-22 10:39:16 UTC; thomas",
+        "Packaged": "2025-04-08 10:58:01 UTC; thomas",
         "Author": "Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>),\n  Winston Chang [aut] (<https://orcid.org/0000-0002-1576-2126>),\n  Lionel Henry [aut],\n  Thomas Lin Pedersen [aut, cre]\n    (<https://orcid.org/0000-0002-5147-4711>),\n  Kohske Takahashi [aut],\n  Claus Wilke [aut] (<https://orcid.org/0000-0002-7470-9261>),\n  Kara Woo [aut] (<https://orcid.org/0000-0002-5125-4188>),\n  Hiroaki Yutani [aut] (<https://orcid.org/0000-0002-3385-7233>),\n  Dewey Dunnington [aut] (<https://orcid.org/0000-0002-9415-4582>),\n  Teun van den Brand [aut] (<https://orcid.org/0000-0002-9335-7468>),\n  Posit, PBC [cph, fnd]",
         "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
         "Repository": "CRAN",
-        "Date/Publication": "2024-04-23 08:00:08 UTC",
-        "Built": "R 4.4.1; ; 2024-10-14 02:08:23 UTC; windows"
+        "Date/Publication": "2025-04-09 09:40:10 UTC",
+        "Built": "R 4.4.3; ; 2025-07-04 02:35:24 UTC; windows"
       }
     },
     "glue": {
@@ -965,35 +983,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2024-04-22 20:40:02 UTC",
         "Built": "R 4.4.1; ; 2024-10-14 01:29:48 UTC; windows"
-      }
-    },
-    "here": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "here",
-        "Title": "A Simpler Way to Find Your Files",
-        "Version": "1.0.1",
-        "Date": "2020-12-13",
-        "Authors@R": "\n    c(person(given = \"Kirill\",\n             family = \"M\\u00fcller\",\n             role = c(\"aut\", \"cre\"),\n             email = \"krlmlr+r@mailbox.org\",\n             comment = c(ORCID = \"0000-0002-1416-3412\")),\n      person(given = \"Jennifer\",\n             family = \"Bryan\",\n             role = \"ctb\",\n             email = \"jenny@rstudio.com\",\n             comment = c(ORCID = \"0000-0002-6983-2759\")))",
-        "Description": "Constructs paths to your project's files.\n    Declare the relative path of a file within your project with 'i_am()'.\n    Use the 'here()' function as a drop-in replacement for 'file.path()',\n    it will always locate the files relative to your project root.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://here.r-lib.org/, https://github.com/r-lib/here",
-        "BugReports": "https://github.com/r-lib/here/issues",
-        "Imports": "rprojroot (>= 2.0.2)",
-        "Suggests": "conflicted, covr, fs, knitr, palmerpenguins, plyr, readr,\nrlang, rmarkdown, testthat, uuid, withr",
-        "VignetteBuilder": "knitr",
-        "Encoding": "UTF-8",
-        "LazyData": "true",
-        "RoxygenNote": "7.1.1.9000",
-        "Config/testthat/edition": "3",
-        "NeedsCompilation": "no",
-        "Packaged": "2020-12-13 06:59:33 UTC; kirill",
-        "Author": "Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),\n  Jennifer Bryan [ctb] (<https://orcid.org/0000-0002-6983-2759>)",
-        "Maintainer": "Kirill Müller <krlmlr+r@mailbox.org>",
-        "Repository": "CRAN",
-        "Date/Publication": "2020-12-13 07:30:02 UTC",
-        "Built": "R 4.4.1; ; 2024-10-14 01:15:49 UTC; windows"
       }
     },
     "highr": {
@@ -1700,28 +1689,6 @@
         "Built": "R 4.4.3; ; 2025-06-25 04:06:07 UTC; windows"
       }
     },
-    "png": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "png",
-        "Version": "0.1-8",
-        "Title": "Read and write PNG images",
-        "Author": "Simon Urbanek <Simon.Urbanek@r-project.org>",
-        "Maintainer": "Simon Urbanek <Simon.Urbanek@r-project.org>",
-        "Depends": "R (>= 2.9.0)",
-        "Description": "This package provides an easy and simple way to read, write and display bitmap images stored in the PNG format. It can read and write both files and in-memory raw vectors.",
-        "License": "GPL-2 | GPL-3",
-        "SystemRequirements": "libpng",
-        "URL": "http://www.rforge.net/png/",
-        "NeedsCompilation": "yes",
-        "Packaged": "2022-11-29 09:42:31 UTC; rforge",
-        "Repository": "CRAN",
-        "Date/Publication": "2022-11-29 11:12:53 UTC",
-        "Built": "R 4.4.0; x86_64-w64-mingw32; 2024-04-23 00:24:52 UTC; windows",
-        "Archs": "x64"
-      }
-    },
     "promises": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -1814,38 +1781,6 @@
         "Archs": "x64"
       }
     },
-    "reticulate": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "reticulate",
-        "Type": "Package",
-        "Title": "Interface to 'Python'",
-        "Version": "1.42.0",
-        "Authors@R": "c(\n  person(\"Tomasz\", \"Kalinowski\", role = c(\"ctb\", \"cre\"),\n         email = \"tomasz@posit.co\"),\n  person(\"Kevin\", \"Ushey\", role = c(\"aut\"),\n         email = \"kevin@posit.co\"),\n  person(\"JJ\", \"Allaire\", role = c(\"aut\"), email = \"jj@posit.co\"),\n  person(\"RStudio\", role = c(\"cph\", \"fnd\")),\n  person(\"Yuan\", \"Tang\", role = c(\"aut\", \"cph\"),\n         email = \"terrytangyuan@gmail.com\",\n         comment = c(ORCID = \"0000-0001-5243-233X\")),\n  person(\"Dirk\", \"Eddelbuettel\", role = c(\"ctb\", \"cph\"),\n         email = \"edd@debian.org\"),\n  person(\"Bryan\", \"Lewis\", role = c(\"ctb\", \"cph\"),\n         email = \"blewis@illposed.net\"),\n  person(\"Sigrid\", \"Keydana\", role = c(\"ctb\"),\n         email = \"sigrid@posit.co\"),\n  person(\"Ryan\", \"Hafen\", role = c(\"ctb\", \"cph\"),\n         email = \"rhafen@gmail.com\"),\n  person(\"Marcus\", \"Geelnard\", role = c(\"ctb\", \"cph\"),\n         comment = \"TinyThread library, http://tinythreadpp.bitsnbites.eu/\")\n  )",
-        "Description": "Interface to 'Python' modules, classes, and functions. When calling\n    into 'Python', R data types are automatically converted to their equivalent 'Python'\n    types. When values are returned from 'Python' to R they are converted back to R\n    types. Compatible with all versions of 'Python' >= 2.7.",
-        "License": "Apache License 2.0",
-        "URL": "https://rstudio.github.io/reticulate/,\nhttps://github.com/rstudio/reticulate",
-        "BugReports": "https://github.com/rstudio/reticulate/issues",
-        "SystemRequirements": "Python (>= 2.7.0)",
-        "Encoding": "UTF-8",
-        "Depends": "R (>= 3.5)",
-        "Imports": "Matrix, Rcpp (>= 1.0.7), RcppTOML, graphics, here, jsonlite,\nmethods, png, rappdirs, utils, rlang, withr",
-        "Suggests": "callr, knitr, glue, cli, rmarkdown, pillar, testthat",
-        "LinkingTo": "Rcpp",
-        "RoxygenNote": "7.3.2",
-        "VignetteBuilder": "knitr",
-        "Config/build/compilation-database": "true",
-        "NeedsCompilation": "yes",
-        "Packaged": "2025-03-25 17:06:29 UTC; tomasz",
-        "Author": "Tomasz Kalinowski [ctb, cre],\n  Kevin Ushey [aut],\n  JJ Allaire [aut],\n  RStudio [cph, fnd],\n  Yuan Tang [aut, cph] (<https://orcid.org/0000-0001-5243-233X>),\n  Dirk Eddelbuettel [ctb, cph],\n  Bryan Lewis [ctb, cph],\n  Sigrid Keydana [ctb],\n  Ryan Hafen [ctb, cph],\n  Marcus Geelnard [ctb, cph] (TinyThread library,\n    http://tinythreadpp.bitsnbites.eu/)",
-        "Maintainer": "Tomasz Kalinowski <tomasz@posit.co>",
-        "Repository": "CRAN",
-        "Date/Publication": "2025-03-25 20:40:01 UTC",
-        "Built": "R 4.4.3; x86_64-w64-mingw32; 2025-06-28 01:31:38 UTC; windows",
-        "Archs": "x64"
-      }
-    },
     "rlang": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -1907,33 +1842,6 @@
         "Repository": "CRAN",
         "Date/Publication": "2024-08-17 04:50:13 UTC",
         "Built": "R 4.4.1; ; 2024-10-14 01:59:05 UTC; windows"
-      }
-    },
-    "rprojroot": {
-      "Source": "CRAN",
-      "Repository": "https://cran.rstudio.com",
-      "description": {
-        "Package": "rprojroot",
-        "Title": "Finding Files in Project Subdirectories",
-        "Version": "2.0.4",
-        "Authors@R": "\n    person(given = \"Kirill\",\n           family = \"M\\u00fcller\",\n           role = c(\"aut\", \"cre\"),\n           email = \"kirill@cynkra.com\",\n           comment = c(ORCID = \"0000-0002-1416-3412\"))",
-        "Description": "Robust, reliable and flexible paths to files below\n    a project root. The 'root' of a project is defined as a directory that\n    matches a certain criterion, e.g., it contains a certain regular file.",
-        "License": "MIT + file LICENSE",
-        "URL": "https://rprojroot.r-lib.org/, https://github.com/r-lib/rprojroot",
-        "BugReports": "https://github.com/r-lib/rprojroot/issues",
-        "Depends": "R (>= 3.0.0)",
-        "Suggests": "covr, knitr, lifecycle, mockr, rlang, rmarkdown, testthat (>=\n3.0.0), withr",
-        "VignetteBuilder": "knitr",
-        "Config/testthat/edition": "3",
-        "Encoding": "UTF-8",
-        "RoxygenNote": "7.2.3",
-        "NeedsCompilation": "no",
-        "Packaged": "2023-11-05 06:47:23 UTC; kirill",
-        "Author": "Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>)",
-        "Maintainer": "Kirill Müller <kirill@cynkra.com>",
-        "Repository": "CRAN",
-        "Date/Publication": "2023-11-05 10:20:02 UTC",
-        "Built": "R 4.4.1; ; 2024-10-14 00:32:00 UTC; windows"
       }
     },
     "sass": {
@@ -2536,218 +2444,53 @@
     }
   },
   "files": {
-    ".nojekyll": {
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    "global.R": {
+      "checksum": "c1f248a986f4bd340645d0c912b7a0db"
     },
-    ".RData": {
-      "checksum": "ad0c8f637fd259c81d4b48c592334633"
+    "helpers/get_kpis.R": {
+      "checksum": "2a73fabd39e29dc1bb9308322c070e91"
     },
-    ".vscode/settings.json": {
-      "checksum": "3d29a75fcf0ed7dfff86d3db8f92fc69"
+    "helpers/kpi_cards.R": {
+      "checksum": "87db0c040b8328fc19a963854d52481e"
     },
-    "_extensions/listing.html": {
-      "checksum": "4d59d4c411485d7c0e9a8af931c6be6d"
+    "helpers/sql_query_funs.R": {
+      "checksum": "0733aac8ab0d2f265735a1cb3aaade6a"
     },
-    "_extensions/my-layout/layouts/post.html": {
-      "checksum": "2cd326c6cddd7baa8464a824bf9df30a"
+    "helpers/stylers.R": {
+      "checksum": "fa2a34985e6e5fc9c1627ff32a6ddab5"
     },
-    "_quarto.yml": {
-      "checksum": "4dbee0b8dc5836fcab10b74294d3619a"
+    "modules/artist_server.R": {
+      "checksum": "814cab3feab728dc3dabe0786d58b960"
     },
-    "about.qmd": {
-      "checksum": "d671b76aea677cfb67566e8197b2b7ae"
+    "modules/artist_ui.R": {
+      "checksum": "12514000ef226986b9ad917043fb5aa4"
     },
-    "apps/2025_bi_chinook_r.R": {
-      "checksum": "79a1f5393a9b1a82267b81e3d7346544"
+    "modules/choro_server.R": {
+      "checksum": "ae8b7c156d0fc0e4eaf8b5db6841cd92"
     },
-    "data/chinook.duckdb": {
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    "modules/choropleth_ui.R": {
+      "checksum": "0b5a7ac7a5c83bf16c650e022dc1823a"
     },
-    "data/chinook_geocoded_addrs.csv": {
-      "checksum": "247b50a6dbb9730a3be6d5ceb32cb3c1"
+    "modules/genre_server.R": {
+      "checksum": "59fecc0cccd3a18592004896db89404e"
     },
-    "data/Chinook_Sqlite.sqlite": {
-      "checksum": "b9d1a314222ca1b89e1ff192f4e9bd93"
+    "modules/genre_ui.R": {
+      "checksum": "60136a006680c59002565a9ee7de89db"
     },
-    "docs/.nojekyll": {
-      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    "modules/ts_server.R": {
+      "checksum": "64a322ea43981b0870090eb2f922c19e"
     },
-    "docs/about.html": {
-      "checksum": "7822b65bd5baaa1116d733b8413a495c"
+    "modules/ts_ui.R": {
+      "checksum": "f012def0942929af95c7c602387e8d01"
     },
-    "docs/img/favicon-32x32.png": {
-      "checksum": "cf2d25c0985f68f03146d10977026720"
+    "server.R": {
+      "checksum": "608caf790aa9f010ca1aa7f1e54b05fe"
     },
-    "docs/img/project_imgs/chinook_schema_dark.png": {
-      "checksum": "40bad5d5e4dac7248e944087c6503a81"
+    "ui.R": {
+      "checksum": "7f1004c20ab018a36f393086c2a37cb8"
     },
-    "docs/img/project_imgs/chinook_schema_light.png": {
-      "checksum": "0fd2fef21c5df57c0d529baa3232d147"
-    },
-    "docs/index.html": {
-      "checksum": "68d6494591998bc7d72375648266808d"
-    },
-    "docs/listings.json": {
-      "checksum": "f244f93f639ccd8776888fda890211fe"
-    },
-    "docs/projects.html": {
-      "checksum": "9de587b310a4711492980b9a053616a1"
-    },
-    "docs/projects/2025_bi_chinook.html": {
-      "checksum": "da1439db496bbdf47372d6ffd495d308"
-    },
-    "docs/search.json": {
-      "checksum": "fca9a4cacd236b2c1e29ec9b51c1ae73"
-    },
-    "docs/site_libs/bootstrap/bootstrap-a8daa347c29f3bce361fb1b75b940d3b.min.css": {
-      "checksum": "a8daa347c29f3bce361fb1b75b940d3b"
-    },
-    "docs/site_libs/bootstrap/bootstrap-dark-ca131377d38971f765fa5a67f280c60e.min.css": {
-      "checksum": "ca131377d38971f765fa5a67f280c60e"
-    },
-    "docs/site_libs/bootstrap/bootstrap-icons.css": {
-      "checksum": "2318f137d201fbf51601fa0faba6bef7"
-    },
-    "docs/site_libs/bootstrap/bootstrap-icons.woff": {
-      "checksum": "1a51dfbe5467607389d603c02a77cd10"
-    },
-    "docs/site_libs/bootstrap/bootstrap.min.js": {
-      "checksum": "e2b09c06f0e714b6144a6788a28e3950"
-    },
-    "docs/site_libs/clipboard/clipboard.min.js": {
-      "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
-    },
-    "docs/site_libs/crosstalk-1.2.1/css/crosstalk.min.css": {
-      "checksum": "3372343a6739e49faffeb858d451558e"
-    },
-    "docs/site_libs/crosstalk-1.2.1/js/crosstalk.js": {
-      "checksum": "0cedbe7e922170c10db55772f82139e3"
-    },
-    "docs/site_libs/crosstalk-1.2.1/js/crosstalk.js.map": {
-      "checksum": "6f4eb7fff5f7965637440ad7be0fb877"
-    },
-    "docs/site_libs/crosstalk-1.2.1/js/crosstalk.min.js": {
-      "checksum": "66b6e84d85256249d722c6e94143eb73"
-    },
-    "docs/site_libs/crosstalk-1.2.1/js/crosstalk.min.js.map": {
-      "checksum": "7a0a37270ea71dee56cebc627c58ca03"
-    },
-    "docs/site_libs/crosstalk-1.2.1/scss/crosstalk.scss": {
-      "checksum": "e5410240dcb4f51691eab5f9a62720d7"
-    },
-    "docs/site_libs/htmltools-fill-0.5.8.1/fill.css": {
-      "checksum": "0c307b2ce7a3fa7f260a0451457c809f"
-    },
-    "docs/site_libs/htmlwidgets-1.6.4/htmlwidgets.js": {
-      "checksum": "237f59bc086ccf24f39be55311023b91"
-    },
-    "docs/site_libs/jquery-3.5.1/jquery-AUTHORS.txt": {
-      "checksum": "dd27520eef04b799446eee1483b8ecc5"
-    },
-    "docs/site_libs/jquery-3.5.1/jquery.js": {
-      "checksum": "23c7c5d2d1317508e807a6c7f777d6ed"
-    },
-    "docs/site_libs/jquery-3.5.1/jquery.min.js": {
-      "checksum": "dc5e7f18c8d36ac1d3d4753a87c98d0a"
-    },
-    "docs/site_libs/jquery-3.5.1/jquery.min.map": {
-      "checksum": "c146c0e93beb81320c0f98cd7c2f4890"
-    },
-    "docs/site_libs/plotly-binding-4.11.0/plotly.js": {
-      "checksum": "3c7c9d64b95cebf57b0180d466b17239"
-    },
-    "docs/site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css": {
-      "checksum": "150e4929cfd53a8a39835d40a108a54e"
-    },
-    "docs/site_libs/plotly-main-2.11.1/plotly-latest.min.js": {
-      "checksum": "1fc102cdbb70da7c36352fa857d2fac3"
-    },
-    "docs/site_libs/quarto-html/anchor.min.js": {
-      "checksum": "91bcf6cd1fd88fec3f109811e5fc3546"
-    },
-    "docs/site_libs/quarto-html/popper.min.js": {
-      "checksum": "3a4a291ccf3f1ea0f82b641542fd3827"
-    },
-    "docs/site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css": {
-      "checksum": "37eea08aefeeee20ff55810ff984fec1"
-    },
-    "docs/site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css": {
-      "checksum": "2fef5ea3f8957b3e4ecc936fc74692ca"
-    },
-    "docs/site_libs/quarto-html/quarto.js": {
-      "checksum": "6f4245742deb3cc92337dbe2701ccfe1"
-    },
-    "docs/site_libs/quarto-html/tabsets/tabsets.js": {
-      "checksum": "e8d6a8862b33ccc461f8fd532e05b365"
-    },
-    "docs/site_libs/quarto-html/tippy.css": {
-      "checksum": "ebd6f8ce46a677e1a4f5f8a8317109a9"
-    },
-    "docs/site_libs/quarto-html/tippy.umd.min.js": {
-      "checksum": "d828775275749701b48bd9d958814111"
-    },
-    "docs/site_libs/quarto-listing/list.min.js": {
-      "checksum": "d9fe78988e4cf7a26ac9e06aca9ce679"
-    },
-    "docs/site_libs/quarto-listing/quarto-listing.js": {
-      "checksum": "919f171782f2658435097266e834d316"
-    },
-    "docs/site_libs/quarto-nav/headroom.min.js": {
-      "checksum": "ace0360e576db9b6e7df48ac68ddbbf4"
-    },
-    "docs/site_libs/quarto-nav/quarto-nav.js": {
-      "checksum": "12d334846b27bdb493298c08277bdf7f"
-    },
-    "docs/site_libs/quarto-search/autocomplete.umd.js": {
-      "checksum": "c64544db941e048f2652217cb9a7f29c"
-    },
-    "docs/site_libs/quarto-search/fuse.min.js": {
-      "checksum": "de7d60e4a6881074275feca14b84a49d"
-    },
-    "docs/site_libs/quarto-search/quarto-search.js": {
-      "checksum": "bb16b7e73be13eba97c99d25b2a476b3"
-    },
-    "docs/site_libs/typedarray-0.1/typedarray.min.js": {
-      "checksum": "4db25a9ed5c5fcf2dd1746f27be2ef39"
-    },
-    "img/favicon-16x16.png": {
-      "checksum": "7248b0f752a1ca5ac596244f4c4f1a81"
-    },
-    "img/favicon-32x32.png": {
-      "checksum": "cf2d25c0985f68f03146d10977026720"
-    },
-    "img/project_imgs/chinook_schema.png": {
-      "checksum": "1386bf8908ec15677fe38859dc0a84bf"
-    },
-    "img/project_imgs/chinook_schema_dark.png": {
-      "checksum": "40bad5d5e4dac7248e944087c6503a81"
-    },
-    "img/project_imgs/chinook_schema_light.png": {
-      "checksum": "0fd2fef21c5df57c0d529baa3232d147"
-    },
-    "index.qmd": {
-      "checksum": "fc66284ea727014bdc104a535d74cdfe"
-    },
-    "projects.qmd": {
-      "checksum": "013c9f7109844be22cc25cb8d2ad62c4"
-    },
-    "projects/.RData": {
-      "checksum": "843f885a13b397630e7e2db781789cbc"
-    },
-    "projects/2025_bi_chinook.qmd": {
-      "checksum": "6a6572d20c9a10316b5491af0773263c"
-    },
-    "README.md": {
-      "checksum": "d1a9836ff31765c3a8bd1afcc691b75f"
-    },
-    "scripts/lua/filename-from-lang.lua": {
-      "checksum": "41b467442d4ae1530589bfbd0a523635"
-    },
-    "styles-dark.scss": {
-      "checksum": "3d33004608e3969f01396ca71583d14e"
-    },
-    "styles-light.scss": {
-      "checksum": "ccaadcccd166d946a7b68140c72b6569"
+    "www/dt-theming.css": {
+      "checksum": "eb0d779641e99f7bfafa09c4304926a5"
     }
   },
   "users": null

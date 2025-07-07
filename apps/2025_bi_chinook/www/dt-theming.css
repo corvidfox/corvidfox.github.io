@@ -1,0 +1,34 @@
+/* Reset weird DT button styles */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: transparent !important;
+  color: var(--bs-body-color) !important;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  margin: 0 2px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: var(--bs-tertiary-bg, #e9ecef) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background-color: var(--bs-primary) !important;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+/* Pagination center alignment */
+.dataTables_wrapper .dataTables_paginate {
+  text-align: center !important;
+  margin-top: 0.75rem;
+}
+
+/* Match theme text color */
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  color: var(--bs-body-color) !important;
+}
