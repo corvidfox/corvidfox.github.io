@@ -81,7 +81,7 @@ bslib::page_fluid(
           "About This Data",
           p(
             bsicons::bs_icon("vector-pen"), 
-            "Dashboard created by", 
+            "Created by", 
             a(
               "Morrigan M.", 
               href = "https://github.com/corvidfox", 
@@ -102,7 +102,7 @@ bslib::page_fluid(
               "Portfolio Post", 
               href = paste0(
                 "https://corvidfox.github.io/projects/2025_bi_chinook.html"
-                ), 
+              ), 
               target = "_blank")
           ),
           p(
@@ -128,8 +128,10 @@ bslib::page_fluid(
       bslib::nav_panel("Geographic Distribution", choro_ui("choro")),
       bslib::nav_panel("Performance by Genre", genre_ui("genre")),
       bslib::nav_panel("Performance by Artist", artist_ui("artist")),
-      bslib::nav_panel("Customer Retention", "Coming soon."),
-      bslib::nav_panel("Key Insights", "Coming soon.")
+      bslib::nav_panel("Customer Retention", retention_ui("retention")),
+      bslib::nav_panel("Key Insights", "Coming Soon." 
+                       #insights_ui("insights")
+                       )
     )
   )
 )

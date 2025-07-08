@@ -19,6 +19,7 @@ library(shinyWidgets)
 library(bslib)
 library(bsicons)
 library(bsplus)
+library(rlang)
 
 library(DBI)
 library(duckdb)

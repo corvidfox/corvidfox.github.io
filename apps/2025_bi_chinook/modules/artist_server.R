@@ -96,7 +96,7 @@ artist_server <- function(id, con, filters, styles) {
         kpis <- artist_data()$kpis,
         body_fn = function() {
           k <- artist_data()$kpis
-          top <- k$top_artists
+          
           metric_label <- names(metric_choices)[
             metric_choices == filters()$metric
           ]
@@ -105,9 +105,8 @@ artist_server <- function(id, con, filters, styles) {
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>",
             paste0(
-              "<li><strong>", top$artist, ":</strong> ",
-              format(top[[filters()$metric]], big.mark = ","),
-              "</li>", collapse = "\n"
+              "<li><strong>", k$top_artist_names, ":</strong> ",
+              k$top5_metric, "</li>", collapse = "\n"
             ),
             "</ol>"
           )
@@ -139,15 +138,13 @@ artist_server <- function(id, con, filters, styles) {
         kpis <- artist_data()$kpis,
         body_fn = function() {
           k <- artist_data()$kpis
-          top <- k$top_artists
           
           # Create numbered HTML list
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", scales::dollar(top$revenue), 
-              "</strong> (", 
-              scales::percent(k$revenue_pct / 100), ")", 
+              "<li><strong>", k$total_revenue,  "</strong> (", 
+              k$revenue_pct, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -179,9 +176,8 @@ artist_server <- function(id, con, filters, styles) {
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", format(k$catalog_size, big.mark = ", "), 
-              "</strong> (", 
-              scales::percent(k$catalog_pct_sold / 100), ")", 
+              "<li><strong>", k$catalog_size, 
+              "</strong> (", k$catalog_pct_sold, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -190,7 +186,7 @@ artist_server <- function(id, con, filters, styles) {
           # Body Items for KPI
           list(
             build_kpi(
-              label = "Tracks",  
+              label = "Tracks (% of Catalog Sold)",  
               value = list_items,
               tooltip = paste0(
                 "Total tracks in catalog ",

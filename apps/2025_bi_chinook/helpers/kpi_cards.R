@@ -139,7 +139,7 @@ render_kpi_card <- function(
 #' @return Output of render_kpi_card() with either real KPIs or fallback
 safe_kpi_card <- function(
     kpis, body_fn, title, icon = NULL, tooltip = NULL, styles = NULL
-    ) {
+) {
   
   if (is.null(kpis)) {
     return(render_kpi_card(
@@ -150,7 +150,7 @@ safe_kpi_card <- function(
       styles = styles
     ))
   }
-
+  
   kpi_list <- body_fn()
   
   render_kpi_card(

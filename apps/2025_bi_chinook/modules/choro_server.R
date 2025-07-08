@@ -105,7 +105,7 @@ choro_server <- function(id, con, filters, styles) {
         kpis <- choro_data()$kpis,
         body_fn = function() {
           k <- choro_data()$kpis
-          top <- k$top_countries
+          
           metric_label <- names(metric_choices)[
             metric_choices == filters()$metric
           ]
@@ -114,8 +114,8 @@ choro_server <- function(id, con, filters, styles) {
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>",
             paste0(
-              "<li><strong>", top$country_with_flag, ":</strong> ",
-              format(top[[filters()$metric]], big.mark = ","),
+              "<li><strong>", k$top_countries_with_flags, ":</strong> ",
+              k$top5_metric,
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -148,15 +148,13 @@ choro_server <- function(id, con, filters, styles) {
         kpis <- choro_data()$kpis,
         body_fn = function() {
           k <- choro_data()$kpis
-          top <- k$top_countries
           
           # Create numbered HTML list
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", scales::dollar(top$revenue), 
-              "</strong> (", 
-              k$revenue_pct, "%)", 
+              "<li><strong>", k$total_revenue, 
+              "</strong> (", k$revenue_pct, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -183,16 +181,13 @@ choro_server <- function(id, con, filters, styles) {
         kpis <- choro_data()$kpis,
         body_fn = function() {
           k <- choro_data()$kpis
-          top <- k$top_countries
-          
           
           # Create numbered HTML list
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", format(top$num_customers, big.mark = ", "), 
-              "</strong> (", 
-              scales::dollar(k$avg_rev_per_customer), ")", 
+              "<li><strong>", k$num_customers, 
+              "</strong> (", k$avg_rev_per_customer, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -210,7 +205,7 @@ choro_server <- function(id, con, filters, styles) {
             )
           )
         },
-        title = "Customers",
+        title = "Customers (N, Avg$)",
         icon = bsicons::bs_icon("people-fill"),
         tooltip = paste0(
           "Total number of customers and average",

@@ -92,11 +92,11 @@ genre_server <- function(id, con, filters, styles) {
     # --- KPI Card Outputs ---
     # 1. Top 5 Genres by Metric
     output$genres_box <- renderUI({
-safe_kpi_card(
+      safe_kpi_card(
         kpis <- genre_data()$kpis,
         body_fn = function() {
           k <- genre_data()$kpis
-          top <- k$top_genres
+          
           metric_label <- names(metric_choices)[
             metric_choices == filters()$metric
           ]
@@ -105,9 +105,8 @@ safe_kpi_card(
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>",
             paste0(
-              "<li><strong>", top$genre, ":</strong> ",
-              format(top[[filters()$metric]], big.mark = ","),
-              "</li>", collapse = "\n"
+              "<li><strong>", k$top_genre_names, ":</strong> ",
+              k$top5_metric, "</li>", collapse = "\n"
             ),
             "</ol>"
           )
@@ -139,15 +138,13 @@ safe_kpi_card(
         kpis <- genre_data()$kpis,
         body_fn = function() {
           k <- genre_data()$kpis
-          top <- k$top_genres
           
           # Create numbered HTML list
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", scales::dollar(top$revenue), 
-              "</strong> (", 
-              scales::percent(k$revenue_pct / 100), ")", 
+              "<li><strong>", k$total_revenue, 
+              "</strong> (",  k$revenue_pct, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -179,9 +176,8 @@ safe_kpi_card(
           list_items <- paste0(
             "<ol style='margin: 0; padding-left: 1rem;'>", 
             paste0(
-              "<li><strong>", format(k$catalog_size, big.mark = ", "), 
-              "</strong> (", 
-              scales::percent(k$catalog_pct_sold / 100), ")", 
+              "<li><strong>", k$catalog_size, 
+              "</strong> (",  k$catalog_pct_sold, ")", 
               "</li>", collapse = "\n"
             ),
             "</ol>"
@@ -190,7 +186,7 @@ safe_kpi_card(
           # Body Items for KPI
           list(
             build_kpi(
-              label = "Tracks",  
+              label = "Tracks (% of Catalog Sold)",  
               value = list_items,
               tooltip = paste0(
                 "Total tracks in catalog ",
@@ -207,7 +203,7 @@ safe_kpi_card(
         styles = styles()
       )
     })
-
+    
     # --- Plot Output: Interactive Stacked Bar Plot ---
     output$genre_plot <- plotly::renderPlotly({
       # Styles
@@ -215,7 +211,7 @@ safe_kpi_card(
       isolate(input$theme_switcher)
       # Data
       df <- genre_data()$raw
-
+      
       # Parse Metric Options
       y_var <- filters()$metric
       y_label <- dplyr::case_when(
@@ -238,7 +234,7 @@ safe_kpi_card(
       df$year <- factor(
         df$year, 
         levels = sort(unique(df$year), decreasing = TRUE)
-        )
+      )
       
       # Dynamically sort genres by aggregate of selected metric
       df <- df |>

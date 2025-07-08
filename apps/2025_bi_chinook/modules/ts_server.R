@@ -79,11 +79,9 @@ ts_server <- function(id, con, filters, styles) {
         body_fn = function() {
           k <- ts_data()$kpis
           list(
-            build_kpi("Total", scales::dollar(k$total_rev), "Total revenue."),
+            build_kpi("Total", k$total_rev, "Total revenue."),
             build_kpi(
-              "Avg / Month", 
-              scales::dollar(k$avg_rev), 
-              "Average revenue per month."
+              "Avg / Month", k$avg_rev, "Average revenue per month."
             )
           )
         }, 
@@ -113,11 +111,7 @@ ts_server <- function(id, con, filters, styles) {
             ),
             build_kpi(
               "Avg $ / Purchase", 
-              if (!is.na(k$avg_per_purchase)) {
-                scales::dollar(k$avg_per_purchase)
-              } else {
-                NA_integer_
-              }, 
+              k$avg_per_purchase, 
               "Average revenue per purchase."
             )
           )
@@ -169,8 +163,10 @@ ts_server <- function(id, con, filters, styles) {
       
       # Fall back if there are no rows to plot
       if (nrow(df) == 0 || all(is.na(df[[y_var]]))) {
-        return(plotly::plotly_empty(type = "scatter", mode = "markers") %>% 
-                 plotly::layout(title = "No data available for selected filters"))
+        return(
+          plotly::plotly_empty(type = "scatter", mode = "markers") %>% 
+            plotly::layout(title = "No data available for selected filters")
+          )
       }
       
       # Build Plot

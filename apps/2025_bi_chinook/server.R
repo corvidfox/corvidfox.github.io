@@ -21,15 +21,15 @@ function(input, output, session) {
   summary_stats <- get_summary_stats(con)
   summary_df <- data.frame(
     Metric = c(
-      "Number of Purchases", "Number of Customers", "Date Range",
+      "Date Range", "Number of Purchases", "Number of Customers",
       "Tracks Sold", "Artists", "Genres", "Countries"
     ),
     Value = c(
-      summary_stats$purchases,
-      summary_stats$customers,
       paste0(format(as.Date(summary_stats$date_range$min_date), "%b %Y"), 
              " – ", 
              format(as.Date(summary_stats$date_range$max_date), "%b %Y")),
+      summary_stats$purchases,
+      summary_stats$customers,
       summary_stats$tracks_sold,
       summary_stats$artists,
       summary_stats$genres,
@@ -103,4 +103,8 @@ function(input, output, session) {
   choro_server("choro", con = con, filters = filter_inputs, styles = styles)
   genre_server("genre", con = con, filters = filter_inputs, styles = styles)
   artist_server("artist", con = con, filters = filter_inputs, styles = styles)
+  retention_server(
+    "retention", con = con, filters = filter_inputs, styles = styles
+    )
+  #insights_server("insights", styles = styles)
 }

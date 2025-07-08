@@ -22,8 +22,6 @@
 #'
 #' @return A `shiny::tagList` of UI elements for this panel.
 #' @export
-ts_ui <- function(id) { ... }
-
 ts_ui <- function(id) {
   ns <- NS(id)
   div(
