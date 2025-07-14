@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="This is Lucy, head of morale. She handles public relations. Morri handles the code.">
+<meta name="description" content="This is Lucy, head of morale. She handles public relations. Morri handles the code. For now, we share the spotlight.">
 
 <title>About Morri – Data Science &amp; Bioinformatics Portfolio</title>
 <style>
@@ -311,7 +311,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div>
   <div class="description">
-    This is Lucy, head of morale. She handles public relations. Morri handles the code.
+    This is Lucy, head of morale. She handles public relations. Morri handles the code. For now, we share the spotlight.
   </div>
 </div>
 <div class="quarto-title-meta">
@@ -334,6 +334,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
   <div class="about-contents"><main class="content" id="quarto-document-content">
 
+<p><span id="custom-sidebar-text" style="display:none;">Lucy (Head of Morale 🐾), Morrigan (dashboard builder, definitely not a dog).</span></p>
 <div id="hero-heading">
 <section id="bio" class="level2">
 <h2 data-anchor-id="bio">Bio</h2>
@@ -381,6 +382,15 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const custom = document.getElementById("custom-sidebar-text");
+    const sidebar = document.querySelector(".sidebar-profile .description");
+    if (custom && sidebar) {
+      sidebar.setAttribute("data-alt", custom.textContent);
+    }
+  });
+</script>
 
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main></div>

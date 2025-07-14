@@ -1,10 +1,10 @@
 ---
-title: "SQL-Driven Business Intelligence Dashboard (Chinook 'Digital Music Store')"
-description: "This project explores the Chinook dataset — a mock digital music store — to uncover key business insights around revenue, customers, and performance. It combines SQL analysis with dashboard development to present findings visually."
+title: "Chinook BI Report: SQL-Driven Insights for a Digital Music Store"
+description: "Exploratory business intelligence report using SQL, R, and Python to uncover revenue trends, customer patterns, and strategic insights from the Chinook dataset. Serves as a foundation for KPI-focused dashboards."
 author: "Morrigan M."
 
 date: 2025-07-02
-date-modified: 2025-07-02
+date-modified: 2025-07-10
 
 # TEMPORARY - until I get the sidebar thing done
 categories: ["SQL", "R", "Python", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
@@ -16,12 +16,12 @@ use_case: ["Dashboard", "Data Analysis", "Business Intelligence"]
 product: ["Dashboard", "Exploratory Analysis"]
 domain: ["Retail Analytics"]
 data_source: ["Chinook"]
-ml_type: None
+ml_type: []
 depth: ["Short"]
-tools: ["DuckDB"] #"Dash", "Shiny"]
+tools: ["DuckDB"]
 
-r_pkgs: ["DBI", "duckdb", "dplyr", "ggplot2", "plotly", "tidyr", "forcats", "countrycode"] #"shiny"]
-py_pkgs: ["duckdb", "plotly", "pandas", "numpy"] #"dash"]
+r_pkgs: ["DBI", "duckdb", "dplyr", "ggplot2", "plotly", "tidyr", "forcats", "countrycode"]
+py_pkgs: ["duckdb", "plotly", "pandas", "numpy"]
 
 ---
 
@@ -34,58 +34,34 @@ library(reticulate)
 reticulate::use_condaenv("qmd_profile_py_env",required=TRUE)
 ```
 
-# Project Overview {#overview}
+_A recruiter-facing deep dive into SQL-powered exploration, insight generation, and dashboard planning._
 
--   **Goal**: Build a BI dashboard for a fictional digital media business.
--   **Focus**: Revenue insights, customer analysis, business performance.
--   **Why it matters**: Business stakeholders benefit from fast, accessible reporting on key performance indicators (KPIs) to support decision-making.
+This report is part of the **Chinook BI Report: SQL-Driven Insights for a Digital Music Store** portfolio project.  
+📁 [Return to project overview](../posts/2025_bi_chinook.qmd)
 
-This project is intended for both technical and business audiences, with clear visual insights supported by SQL-based exploration.
+This exploratory report forms the analytical backbone of a broader business intelligence project built around the Chinook music store dataset. Designed with real-world decision-making in mind, it walks through key metrics and trends using SQL-driven queries and visual storytelling—establishing the insights later showcased in interactive dashboards.
 
-For the best visualization experience, browser is recommended - optimization of these exploratory visualizations is limited.
+The goal: simulate how an analyst might approach stakeholder questions with a structured but compact dataset—bridging data modeling, retention analysis, and business-focused visuals.
 
-## Why This Project?
+This report focuses on:
 
-This project was selected for its relevance to real-world business intelligence scenarios and its flexibility as a learning and demonstration tool. The [Chinook dataset](https://github.com/lerocha/chinook-database) provides a realistic simulation of sales and customer data, enabling exploration of KPIs commonly used in industries such as retail, e-commerce, and SaaS.
+-   Identifying strategic opportunities through data exploration
+-   Extracting key performance indicators via SQL (joins, windows, temp tables)
+-   Using R and Python for clear, time-based visualizations and storytelling
+-   Building a foundation for scalable, interactive dashboards
 
-Key focus areas include:
+Visualizations include time-series trends, choropleths, cohort retention heatmaps, and annotated performance insights—all framed in a narrative that reflects executive-level priorities.
 
--   **End-to-end analytical workflow** from data exploration in DuckDB to dashboard construction—highlighting technical fluency and analytical structure.
--   **Emphasis on stakeholder communication** showcasing the ability to translate complex queries into clear, business-oriented narratives.
--   **Broad applicability** with insights around customer retention, regional performance, and product demand transferable across diverse verticals.
+# Technology Stack {#tech-stack}
 
-By combining strong SQL capabilities with clear business insight, this project demonstrates how structured data exploration can inform decisions and strategy at scale.
+The following tools were used to merge, analyze, and present the data in this document:
 
-## Business Questions {#business-questions}
-
-This project aims to provide insights on the following key business questions, with a time-based perspective embedded throughout each analysis to identify trends and changes over time:
-
-1.  **Where is revenue coming from geographically?**
-2.  **What genres or artists generate the most income?**
-3.  **How many customers are repeat buyers?**
-
-## Deliverables {#deliverables}
-
--   SQL-based analysis of key business metrics with visualizations in both R and Python.
--   Dashboards built in R (Shiny) and Python (Dash) [TO DO].
--   [Considering a tableau version of the dashboard; TO DO]
-
-## Technology Stack {#tech-stack}
-
-The following tools were used to merge, analyze, and present the data:
-
-| Tool          | Purpose                                   |
-|---------------|-------------------------------------------|
-| SQL           | Data transformation and KPIs              |
-| DuckDB        | Lightweight, embedded relational database |
-| R + Shiny     | Dashboard development (R-based)           |
-| Python + Dash | Dashboard development (Python-based)      |
-
-This project demonstrates dashboard development in both R (Shiny) and Python (Dash), highlighting flexibility across technical ecosystems.
-
-\[NOTE TO SELF - DELETE ONCE REVISED: This is a work in progress.
-I plan to make a dashboard with R and one with Python, just to show I can do both.
-I will update this to reflect the final project once it's done.\]
+| Tool            | Purpose                                   |
+|-----------------|-------------------------------------------|
+| SQL             | KPI calculations, data cleaning           |
+| DuckDB          | Lightweight SQL backend                   |
+| ggplot2         | Static plots in R                         |
+| plotly          | Interactive plots in R & Python           |
 
 ::: {.panel-tabset}
 
@@ -133,10 +109,10 @@ The SQLite version of the data was downloaded and converted into a [DuckDB](http
 The database schema was examined through [existing documentation](https://github.com/lerocha/chinook-database) and query-based exploration. A schema diagram was created with [dbdiagram](https://dbdiagram.io/home).
 
 :::{.light-content}
-![Chinook Database Schema](../img/project_imgs/chinook_schema_light.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
+![Chinook Database Schema](../../img/project_imgs/chinook_schema_light.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
 :::
 :::{.dark-content}
-![Chinook Database Schema](../img/project_imgs/chinook_schema_dark.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
+![Chinook Database Schema](../../img/project_imgs/chinook_schema_dark.png){fig-align="center" fig-alt="A database schema diagram for the Chinook database."}
 :::
 
 From this schema, key tables of interest were identified for each business question:
@@ -174,7 +150,7 @@ A connection was made to the DuckDB database file.
 
 con_chinook <- DBI::dbConnect(
   duckdb::duckdb(), 
-  dbdir = "../data/chinook.duckdb",
+  dbdir = "../../data/chinook.duckdb",
   read_only = TRUE
   )
 ```
@@ -184,7 +160,7 @@ con_chinook <- DBI::dbConnect(
 ```{python}
 #| label: py-db-conn
 
-con_chinook = duckdb.connect("../data/chinook.duckdb", read_only = True)
+con_chinook = duckdb.connect("../../data/chinook.duckdb", read_only = True)
 ```
 
 :::
@@ -2179,7 +2155,7 @@ fig.show()
 
 ## Summary of Exploratory Findings {#q2-summary}
 
-While overall genre revenue remains stable across years, genre-specific performance varies widely depending on how it's measured:
+While overall genre revenue remains stable across years, genre-specific performance varies widely depending on how its measured:
 
 -   *Total Revenue* reflects market size. Rock dominates here, alongside Latin, Metal, and Alternative.
 -   *Revenue per Track in Catalog* reveals efficiency. Sci Fi & Fantasy, Comedy, and Bossa Nova perform disproportionately well relative to their catalog sizes — often driven by episodic TV content.
@@ -3035,6 +3011,12 @@ If this were real-world data, the following actions could strengthen both analyt
 -   Implement targeted re-engagement campaigns at 4-6 months to counter early churn.
 -   Develop loyalty programs and systematically track reactivation triggers to enhance retention.
 
+# Part of a Larger Project
+
+This report is part of the **Chinook BI Report: SQL-Driven Insights for a Digital Music Store** portfolio project.  
+📁 [Return to project overview](../posts/2025_bi_chinook.qmd)
+
+
 ```{r}
 #| label: r-cleanup
 #| echo: false
@@ -3045,5 +3027,5 @@ rm(list = ls())
 ```{python}
 #| label: py-cleanup
 #| echo: false
-# conn_chinook.close()
+con_chinook.close()
 ```

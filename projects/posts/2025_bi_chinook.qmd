@@ -1,0 +1,116 @@
+---
+title: "Chinook BI Report: SQL-Driven Insights for a Digital Music Store"
+description: "A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation."
+author: "Morrigan M."
+
+date: 2025-07-02
+date-modified: 2025-07-13
+
+image: ../../img/project_imgs/chinook_schema_light.png
+
+# TEMPORARY - until I get the sidebar thing done
+categories: ["SQL", "R", "Shiny", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
+
+# Filterable Meta-Data (Future Build)
+prog_lang: ["SQL", "R", "Python"]
+doc_lang: ["English (EN)"]
+use_case: ["Dashboard", "Data Analysis", "Business Intelligence"]
+product: ["Dashboard", "Exploratory Analysis"]
+domain: ["Retail Analytics"]
+data_source: ["Chinook"]
+ml_type: []
+depth: ["Short"]
+tools: ["DuckDB", "Shiny"] #"Dash"]
+
+r_pkgs: ["DBI", "duckdb", "dplyr", "ggplot2", "plotly", "tidyr", "forcats", "countrycode", "bslib", "bsicons", "bsplus", "cachem", "memoise", "rlang", "shiny", "shinyWidgets", "shinydashboard", "glue", "lubridate", "scales", "tibble", "purr", "markdown"]
+py_pkgs: []
+---
+
+_A recruiter-ready showcase of SQL-powered storytelling and dashboard engineering_
+
+This project demonstrates applied analytics workflows anchored in real business questions using a structured but compact dataset. Inspired by business intelligence toolchains, it combines SQL-driven data modeling with an interactive dashboard built in R (Shiny). <!--# with interactive dashboards across R (Shiny), Python, and Tableau. --> Each deliverable highlights how I approach KPIs, retention metrics, and executive-level insights—core skills that translate across industries and team functions.
+
+# Why This Matters
+
+In fast-paced, data-driven organizations, analysts and decision-makers rely on clear, actionable insights from messy or evolving data. This project was built to spotlight:
+
+- End-to-end analytics: data exploration → SQL ETL → dashboard design
+- SQL proficiency across joins, windows, staging, and KPI calculation
+- Dashboard interfaces tailored for technical and non-technical users
+<!--# - Cross-platform fluency in R, Python, Tableau  -->
+- Modular architecture designed for scalability and reuse
+
+Designed with interview walkthroughs in mind, this portfolio piece simulates the analytical cycles common in business contexts—where performance, clarity, and speed matter. It reflects how thoughtful engineering and data storytelling can bridge gaps between raw data and real decisions.
+
+# Business Questions
+
+Throughout this project, I explored key questions relevant to business strategy, customer behavior, and performance insights, with a time-based perspective embedded in each analysis:
+
+1. **Where is revenue coming from geographically?**  
+2. **What genres or artists generate the most income?**  
+3. **How many customers are repeat buyers?**
+
+These questions shaped both the exploratory analysis and the design of each dashboard panel.
+
+# Deliverables {#deliverables}
+
+To showcase the analytics pipeline across multiple formats, I produced the following deliverables. Each highlights a different stage—from insight development to stakeholder-ready dashboards:
+
+| Deliverable         | Description |
+|---------------------|-------------|
+| Static Report       | Exploratory deep dive using R & Python with SQL-backed plots |
+| R + Shiny Dashboard | Interactive dashboard with modular components and KPI filters |
+<!--#  | Python + Dash      | Dashboard with Plotly and DuckDB SQL (in development) | -->
+<!--# | Tableau Workbook    | Clean visualization interface for non-coders (in development) | -->
+
+## Exploratory Report {#d1-report}
+
+This report performs a structured deep dive into the dataset to identify key patterns, trends, and opportunities. It frames strategic business questions in a readable format and sets the stage for later dashboard design.
+
+It’s built in Quarto and hosted on this site. Visualizations include time-series charts, choropleth maps, cohort retention heatmaps, all paired with summary insights and strategy callouts.
+
+➡️ [View Report](../reports/2025_bi_chinook.html)
+
+### Tech Stack
+
+| Tool            | Purpose                                   |
+|-----------------|-------------------------------------------|
+| SQL             | KPI calculations, data cleaning           |
+| DuckDB          | Lightweight SQL backend                   |
+| ggplot2         | Static plots in R                         |
+| plotly          | Interactive plots in R & Python           |
+
+## R + Shiny Dashboard {#d2-rshinybi}
+
+Designed as an interactive walkthrough, this dashboard showcases how SQL-powered insights can drive filtering, visuals, and decision-support. The dashboard includes genre, artist, country, and time filters with dedicated panels for temporal trends, geographic distribution, performance by genre and artist, customer retention, and narrative key insights. Key KPIs are identified and displayed on all panels.
+
+🔗 GitHub Repo: [corvidfox/chinook-dashboard-rshiny](https://github.com/corvidfox/chinook-dashboard-rshiny)  
+🌐 Live App: [Hosted on Posit Connect](https://corvidfox-chinook-dashboard-rshiny.share.connect.posit.cloud/)
+
+### Key Features
+
+- SQL-powered joins, CTEs, windows for KPIs  
+- Genre, country, artist, and date filtering  
+- KPI staging via temp tables  
+- Retention analysis with cohort logic and decay curves  
+- Narrative-driven “Insights Panel” for strategic summaries  
+- Modular Shiny architecture with responsive UX  
+- Light/dark theming via `bslib`, with plot restyling  
+
+### Tech Stack
+
+| Tool        | Purpose                     |
+|-------------|-----------------------------|
+| R + Shiny   | Dashboard interface & logic |
+| DuckDB      | SQL query backend           |
+| ggplot2     | Visualizations              |
+| Plotly      | Interactive charts          |
+| bslib       | Light/dark UI styling       |
+| cachem      | Reactivity optimization     |
+
+Additional narrative technical details are also provided in the app itself. On the "Key Insights" panel, look for the "Technical Notes" section.
+
+### Preview
+
+[gifs or video - some kind of media preview here]
+

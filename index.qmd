@@ -1,8 +1,8 @@
 ---
 title: "About Morri"
 # Placeholder until I might get an actual headshot
-description: "This is Lucy, head of morale. She handles public relations. Morri handles the code."
-#description: "Cross-disciplinaray insights driven by curiosity. Grounded in code, focused on results."
+description: "This is Lucy, head of morale. She handles public relations. Morri handles the code. For now, we share the spotlight."
+# description: "Cross-disciplinaray insights driven by curiosity. Grounded in code, focused on results."
 image: https://avatars.githubusercontent.com/u/107103167
 image-alt: "A photograph of a black shiba inu wearing a flowered collar."
 about:
@@ -20,6 +20,9 @@ about:
           href: mailto:anmorrigan@proton.me
 
 ---
+
+<span id="custom-sidebar-text" style="display:none;">Lucy (Head of Morale 🐾), Morrigan (dashboard builder, definitely not a dog).</span>
+
 
 :::{#hero-heading}
 
@@ -67,3 +70,13 @@ I care deeply about clarity, collaboration, and doing science that’s useful. I
   *[City of Plano](https://www.plano.gov/168/9-1-1-Public-Safety-Communications)* (*Plano, TX, USA*)
 
 :::
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const custom = document.getElementById("custom-sidebar-text");
+    const sidebar = document.querySelector(".sidebar-profile .description");
+    if (custom && sidebar) {
+      sidebar.setAttribute("data-alt", custom.textContent);
+    }
+  });
+</script>

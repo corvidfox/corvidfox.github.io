@@ -28,8 +28,8 @@ website:
 format:
   html:
     theme:
-      light: [cosmo, styles-light.scss]
-      dark: [cosmo, styles-dark.scss]
+      light: [cosmo, styles/light-mode.scss]
+      dark: [cosmo, styles/dark-mode.scss]
     respect-user-color-scheme: true
     theme-toggle: true
     toc: true

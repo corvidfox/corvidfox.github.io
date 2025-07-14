@@ -2,7 +2,7 @@
 title: "Projects"
 listing:
   id: project-listings
-  contents: projects
+  contents: projects/posts/
   type: "default"
   sort: "date desc"
   filter-ui: true
@@ -18,9 +18,10 @@ listing:
   #   - tools
   #   - data_source
 page-layout: article
+filter: '!hide_from_listing'
 ---
 
-Welcome! Here you'll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore — use the filters to browse by category and dive into the areas that interest you the most.
+Welcome! Here you'll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore! Use the filters to browse by category and dive into the areas that interest you the most.
 
 ::: {#project-listings}
 
