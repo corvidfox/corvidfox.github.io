@@ -4,10 +4,15 @@ description: "Exploratory business intelligence report using SQL, R, and Python 
 author: "Morrigan M."
 
 date: 2025-07-02
-date-modified: 2025-07-10
+date-modified: 2025-07-15
 
 # TEMPORARY - until I get the sidebar thing done
-categories: ["SQL", "R", "Python", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
+categories: [
+  "SQL", "R", "Python", "DuckDB",
+  "Dashboard", "Data Analysis", "Business Intelligence", 
+  "Exploratory Analysis", "Retail Analytics", 
+  "Chinook", "Short", "Portfolio Project"
+  ]
 
 # Filterable Meta-Data (Future Build)
 prog_lang: ["SQL", "R", "Python"]
@@ -16,6 +21,7 @@ use_case: ["Dashboard", "Data Analysis", "Business Intelligence"]
 product: ["Dashboard", "Exploratory Analysis"]
 domain: ["Retail Analytics"]
 data_source: ["Chinook"]
+post_type: ["Portfolio Project"]
 ml_type: []
 depth: ["Short"]
 tools: ["DuckDB"]
@@ -37,7 +43,7 @@ reticulate::use_condaenv("qmd_profile_py_env",required=TRUE)
 _A recruiter-facing deep dive into SQL-powered exploration, insight generation, and dashboard planning._
 
 This report is part of the **Chinook BI Report: SQL-Driven Insights for a Digital Music Store** portfolio project.  
-📁 [Return to project overview](../posts/2025_bi_chinook.qmd)
+📁 [Return to project overview](../posts/2025_bi_chinook.html)
 
 This exploratory report forms the analytical backbone of a broader business intelligence project built around the Chinook music store dataset. Designed with real-world decision-making in mind, it walks through key metrics and trends using SQL-driven queries and visual storytelling—establishing the insights later showcased in interactive dashboards.
 
@@ -3014,7 +3020,7 @@ If this were real-world data, the following actions could strengthen both analyt
 # Part of a Larger Project
 
 This report is part of the **Chinook BI Report: SQL-Driven Insights for a Digital Music Store** portfolio project.  
-📁 [Return to project overview](../posts/2025_bi_chinook.qmd)
+📁 [Return to project overview](../posts/2025_bi_chinook.html)
 
 
 ```{r}

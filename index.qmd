@@ -21,9 +21,6 @@ about:
 
 ---
 
-<span id="custom-sidebar-text" style="display:none;">Lucy (Head of Morale 🐾), Morrigan (dashboard builder, definitely not a dog).</span>
-
-
 :::{#hero-heading}
 
 ## Bio
@@ -71,12 +68,3 @@ I care deeply about clarity, collaboration, and doing science that’s useful. I
 
 :::
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const custom = document.getElementById("custom-sidebar-text");
-    const sidebar = document.querySelector(".sidebar-profile .description");
-    if (custom && sidebar) {
-      sidebar.setAttribute("data-alt", custom.textContent);
-    }
-  });
-</script>

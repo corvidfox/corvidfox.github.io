@@ -4,7 +4,91 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "Welcome! Here you’ll find a small collection of personal projects that reflect some of my skills, interests, and growth. Feel free to explore! Use the filters to browse by category and dive into the areas that interest you the most.\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nChinook BI Report: SQL-Driven Insights for a Digital Music Store\n\n\n\nSQL\n\nR\n\nShiny\n\nDashboard\n\nData Analysis\n\nBusiness Intelligence\n\nExploratory Analysis\n\nRetail Analytics\n\nChinook\n\nShort\n\nDuckDB\n\n\n\nA portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation.\n\n\n\n\n\nJul 2, 2025\n\n\nMorrigan M.\n\n\n\n\n\nNo matching items\n\n\n\n\n\n Back to top"
+    "text": "Welcome! Here you’ll find posts describing previous projects, including personal projects, that reflect some of my skills, interests, and growth. Feel free to explore! Use the filters to browse by category and dive into the areas that interest you the most.\n\n\n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nDETECT-RPC\n\n\n\nRCT\n\nREDCap\n\nPublic Health\n\nElder Mistreatment\n\nEHR/EMR\n\nCerner\n\nEPIC\n\nPrimary Care\n\nIRB\n\nProtocol Design\n\nDashboard\n\nHealth Informatics\n\nWork Product\n\nAcademic Research\n\n\n\nMulti-site randomized controlled trial evaluating DETECT-RPC, a revised elder mistreatment screening tool for primary care. Engaged with protocol and IRB development, EMR ETL planning, REDCap survey design, clinician training, and dashboard engineering. Coordinated across seven institutions.\n\n\n\n\n\nAug 1, 2025\n\n\nMorrigan M.\n\n\n\n\n\n\n\n\n\n\n\n\nDETECT 5-Year Follow-Up Evaluation\n\n\n\nR\n\nFastLink\n\nPublic Health\n\nElder Mistreatment\n\nEMS\n\nAPS\n\nRecord Linkage\n\nData Cleaning\n\nFuzzy Matching\n\nReproducible Analysis\n\nHealth Informatics\n\nManuscript\n\nData Analysis\n\nWork Product\n\nAcademic Research\n\nLong\n\nMentorship\n\n\n\nExtended public health informatics project analyzing the DETECT elder mistreatment screening tool embedded in EMS software. Developed a scalable fuzzy matching pipeline for fragmented APS records, linked across systems, and conducted stratified agreement and temporal trend analyses. Co-authored academic manuscript and mentored team members through high-volume data wrangling and linkage design.\n\n\n\n\n\nAug 1, 2025\n\n\nMorrigan M.\n\n\n\n\n\n\n\n\n\n\n\n\nChinook BI Report: SQL-Driven Insights for a Digital Music Store\n\n\n\nSQL\n\nR\n\nShiny\n\nDashboard\n\nData Analysis\n\nBusiness Intelligence\n\nExploratory Analysis\n\nRetail Analytics\n\nChinook\n\nShort\n\nDuckDB\n\n\n\nA portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation.\n\n\n\n\n\nJul 14, 2025\n\n\nMorrigan M.\n\n\n\n\n\n\n\n\n\n\n\n\nLink2Care RCT: Data Rescue for a Multi-Modal Intervention Study\n\n\n\nR\n\nREDCap\n\nSPSS\n\nSAS\n\nRCT\n\nPublic Health\n\nHomelessness\n\nHealth Disparities\n\nSocial Justice\n\nRecord Linkage\n\nData Cleaning\n\nReproducible Analysis\n\nHealth Informatics\n\nWork Product\n\nAcademic Research\n\nLong\n\n\n\nRebuilt and documented a fragmented dataset for Link2Care, an RCT targeting health and housing outcomes among formerly incarcerated homeless adults. Standardized variables across QDS, REDCap, Excel, SPSS, and SAS inputs, created reproducible pipelines, and generated a full codebook. Final dataset included 1,606 subjects and 1,129 variables.\n\n\n\n\n\nJan 22, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nDETECT 1-Year Pilot Evaluation\n\n\n\nR\n\nFastLink\n\nPublic Health\n\nElder Mistreatment\n\nEMS\n\nAPS\n\nRecord Linkage\n\nData Cleaning\n\nFuzzy Matching\n\nReproducible Analysis\n\nHealth Informatics\n\nManuscript\n\nData Analysis\n\nWork Product\n\nAcademic Research\n\nLong\n\n\n\nPublic health informatics project focused on evaluating the 1-year performance of the DETECT elder mistreatment screening tool embedded in EMS software. Built fuzzy-matched subject IDs, linked data across EMS and APS systems, and conducted multi-level fidelity and reporting analyses using R. Fully reproducible pipeline with annotated narrative code and manuscript draft.\n\n\n\n\n\nSep 11, 2023\n\n\nMorrigan M.\n\n\n\n\n\nNo matching items\n\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html",
+    "href": "projects/posts/2025_detect_5-year.html",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "",
+    "text": "This project was a continuation of DETECT, a screening questionnaire embedded in MedStar’s EMS electronic patient care record (ePCR) software designed to help medics identify potential elder mistreatment (EM). The analysis covered EMS records from July 1, 2019 to May 31, 2023, matched to Texas Adult Protective Services (APS) data (originally spread across 5 relational CSV files). The focus was to evaluate screening fidelity, reporting intent, and APS follow-through over a longer time horizon.\n\nTool: DETECT EM screening questionnaire\n\nInstitution: University of Texas Health Sciences Center, School of Public Health (Dallas Campus)\n\nPI: Dr. M. Brad Cannell\n\nPartners: MedStar Mobile Healthcare & Texas APS\n\nData Timeframe: July 2019 - May 2023\n\nProject Involvement: May 2024 - August 2025\n\nStatus: Analysis completed; manuscript in revision"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#core-tools-libraries-r",
+    "href": "projects/posts/2025_detect_5-year.html#core-tools-libraries-r",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Core Tools & Libraries (R)",
+    "text": "Core Tools & Libraries (R)\n\ntidyverse, here, janitor — wrangling, reproducible structure\n\nfastLink — high-volume probabilistic record linkage\n\ncodebookr, data.table, readxl — documentation and input handling\n\nirr — interrater reliability & agreement metrics\n\nggplot2, patchwork, consort — statistical visualizations and diagrams"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#collaboration-cloud-tools",
+    "href": "projects/posts/2025_detect_5-year.html#collaboration-cloud-tools",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Collaboration & Cloud Tools",
+    "text": "Collaboration & Cloud Tools\n\nGitHub — team-based code development and versioning\n\nOneDrive — secure PHI-compliant cloud data storage\n\nQuarto — reproducible and annotated reports\n\nMicrosoft Word, Canva, Visio — manuscript drafting and presentation"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#aps-data-cleaning-standardization",
+    "href": "projects/posts/2025_detect_5-year.html#aps-data-cleaning-standardization",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "APS Data Cleaning & Standardization",
+    "text": "APS Data Cleaning & Standardization\n\nCleaned and validated APS subject identifiers\nApplied USPS-linked ZIP validation and state-county mappings\n\nParsed and restructured race/ethnicity and address strings"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#subject-identification-deduplication",
+    "href": "projects/posts/2025_detect_5-year.html#subject-identification-deduplication",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Subject Identification & Deduplication",
+    "text": "Subject Identification & Deduplication\n\nPerformed within-set fastLink matching on APS data to form unique APS subject IDs\n\nChunked matching by identifier completeness to manage memory constraints\n\nReduced 378K APS identifiers to 370K deduplicated IDs (~2% reduction)"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#emsaps-linkage",
+    "href": "projects/posts/2025_detect_5-year.html#emsaps-linkage",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "EMS–APS Linkage",
+    "text": "EMS–APS Linkage\n\nBenchmarked cross-set matching variables and created optimized maps between EMS and APS subjects\n\nBuilt temporal linkage models connecting EMS responses to APS intakes and investigations\n\nConsolidated investigation-level allegations and standardized APS outcome flags"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#subject-level-data-construction",
+    "href": "projects/posts/2025_detect_5-year.html#subject-level-data-construction",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Subject-Level Data Construction",
+    "text": "Subject-Level Data Construction\n\nConsolidated demographic fields using reviewed heuristics (most common value, then first-in)\n\nDerived subject-level outcomes (e.g. any reported mistreatment)"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#analytical-work",
+    "href": "projects/posts/2025_detect_5-year.html#analytical-work",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Analytical Work",
+    "text": "Analytical Work\n\nExplored response patterns, demographic stratifications, and temporal trends\n\nAssessed agreement between screening results, medic intent, APS intake, and APS outcome\n\nConstructed multi-layer consort flow diagrams"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#documentation-mentorship",
+    "href": "projects/posts/2025_detect_5-year.html#documentation-mentorship",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Documentation & Mentorship",
+    "text": "Documentation & Mentorship\n\nAuthored full codebooks for derived data sets\n\nCo-authored academic manuscript (currently in revision)\n\nMentored junior colleague in data wrangling, documentation, and writing process"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#data-cleaning-id-creation",
+    "href": "projects/posts/2025_detect_5-year.html#data-cleaning-id-creation",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Data Cleaning & ID Creation",
+    "text": "Data Cleaning & ID Creation\n\n\n\nFile\nDescription\n\n\n\n\ndata_unique_person_01_aps_01_cleaning.qmd\nAPS cleaning & address standardization\n\n\ndata_unique_person_01_aps_03_fl_chunk_cleaning.qmd\nDeduplicated APS fuzzy-match chunks\n\n\ndata_unique_person_01_aps_04_fl_chunk_folding.qmd\nMerged final APS subject IDs"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#emsaps-matching-linkage",
+    "href": "projects/posts/2025_detect_5-year.html#emsaps-matching-linkage",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "EMS–APS Matching & Linkage",
+    "text": "EMS–APS Matching & Linkage\n\n\n\nFile\nDescription\n\n\n\n\ndata_unique_person_02_ms-aps_01_fl_generation.qmd\nCross-dataset fuzzy matching\n\n\ndata_unique_person_02_ms-aps_02_fl_cleaning.qmd\nMap creation between ID tiers\n\n\ndata_record_linkage_01_medstar_aps.qmd\nTemporal linkage of EMS and APS investigations/intakes"
+  },
+  {
+    "objectID": "projects/posts/2025_detect_5-year.html#analysis",
+    "href": "projects/posts/2025_detect_5-year.html#analysis",
+    "title": "DETECT 5-Year Follow-Up Evaluation",
+    "section": "Analysis",
+    "text": "Analysis\n\n\n\nFile\nFocus\nDescription\n\n\n\n\nanalysis_01_demographics.qmd\nDemographics\nCleaned, consolidated subject characteristics\n\n\nanalysis_02_response_patterns.qmd\nScreening Responses\nStratified by demographics, intent, outcome\n\n\nanalysis_03_agreement.qmd\nAgreement\nKappa, correlations across screening/reporting layers\n\n\nanalysis_04_temporal_trends.qmd\nTemporal Trends\nLongitudinal patterns in screening and reporting\n\n\nanalysis_05_consort_diagrams.qmd\nCohort Flow\nMulti-layer consort tables and diagrams"
   },
   {
     "objectID": "projects/posts/2025_bi_chinook.html",
@@ -28,32 +112,193 @@
     "text": "R + Shiny Dashboard\nDesigned as an interactive walkthrough, this dashboard showcases how SQL-powered insights can drive filtering, visuals, and decision-support. The dashboard includes genre, artist, country, and time filters with dedicated panels for temporal trends, geographic distribution, performance by genre and artist, customer retention, and narrative key insights. Key KPIs are identified and displayed on all panels.\n🔗 GitHub Repo: corvidfox/chinook-dashboard-rshiny\n🌐 Live App: Hosted on Posit Connect\n\nKey Features\n\nSQL-powered joins, CTEs, windows for KPIs\n\nGenre, country, artist, and date filtering\n\nKPI staging via temp tables\n\nRetention analysis with cohort logic and decay curves\n\nNarrative-driven “Insights Panel” for strategic summaries\n\nModular Shiny architecture with responsive UX\n\nLight/dark theming via bslib, with plot restyling\n\n\n\nTech Stack\n\n\n\nTool\nPurpose\n\n\n\n\nR + Shiny\nDashboard interface & logic\n\n\nDuckDB\nSQL query backend\n\n\nggplot2\nVisualizations\n\n\nPlotly\nInteractive charts\n\n\nbslib\nLight/dark UI styling\n\n\ncachem\nReactivity optimization\n\n\n\nAdditional narrative technical details are also provided in the app itself. On the “Key Insights” panel, look for the “Technical Notes” section.\n\n\nPreview\n\n\n\nGIF Preview"
   },
   {
+    "objectID": "projects/posts/2023_detect_1-year.html",
+    "href": "projects/posts/2023_detect_1-year.html",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "",
+    "text": "This pilot project evaluated DETECT, a screening questionnaire embedded in MedStar’s EMS electronic care record (ePCR) software to assist EMS medics in identifying potential elder mistreatment (EM) in community dwelling older adults. The study assessed data from February 1, 2017 to February 1, 2018, using EMS encounter records and Texas Adult Protective Services (APS) to explore fidelity, reporting patterns, and linkage outcomes.\n\nTool: DETECT EM screening questionnaire\n\nInstitution: University of Texas Health Sciences Center, School of Public Health (Dallas Campus)\nPI: Dr. M. Brad Cannell\nPartners: MedStar Mobile Healthcare & Texas APS\n\nObjective: Evaluate DETECT’s field fidelity and reporting patterns\n\nData Timeframe: Feb 2017 - Feb 2018\n\nProject Involvement: March 2022 - Sep 2023\n\nStatus: Analysis completed; manuscript drafted (unpublished)"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#core-tools-libraries-r",
+    "href": "projects/posts/2023_detect_1-year.html#core-tools-libraries-r",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Core Tools & Libraries (R)",
+    "text": "Core Tools & Libraries (R)\n\ntidyverse (incl. lubridate, tidyr, stringr, dplyr, forcats) — data wrangling, transformation, parsing\n\nfastLink — probabilistic record linkage & fuzzy matching\n\ncodebookr — automated codebook generation\n\nmice — missingness pattern diagnostics\n\nquestionr, readxl, vctrs, data.table, ggplot2 — analysis, input handling, and visualization\n\nhere — reproducible project file paths"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#collaboration-cloud-tools",
+    "href": "projects/posts/2023_detect_1-year.html#collaboration-cloud-tools",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Collaboration & Cloud Tools",
+    "text": "Collaboration & Cloud Tools\n\nGitHub — version-controlled, team-based code development\n\nOneDrive — secure cloud storage of PHI-compliant data sets\n\nQuarto (.qmd) — narrative coding and reproducible reporting\n\nMicrosoft Word, Canva, Visio — manuscript drafting and visual presentation (per PI request)\n\nBy combining open-source tooling, privacy-conscious cloud platforms, and a fully local analysis pipeline, I built a scalable and reproducible workflow capable of handling sensitive public health data with minimal system overhead."
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#data-wrangling",
+    "href": "projects/posts/2023_detect_1-year.html#data-wrangling",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Data Wrangling",
+    "text": "Data Wrangling\n\nStandardized date formats, validated birthdates\n\nParsed and cleaned address and name strings\n\nTransformed race/ethnicity into meaningful categoricals\n\nFlagged contextual cues in free-text comment fields"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#fuzzy-matching",
+    "href": "projects/posts/2023_detect_1-year.html#fuzzy-matching",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Fuzzy Matching",
+    "text": "Fuzzy Matching\n\nPerformed subject-level fuzzy matching within EMS data using fastLink\nPerformed subject-level fuzzy matching between EMS and APS data using fastLink\n\nLinked EMS and APS datasets via cross-matching identifiers and temporal criteria\n\nCreated robust subject IDs with minimal manual review burden"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#analysis-pipeline",
+    "href": "projects/posts/2023_detect_1-year.html#analysis-pipeline",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Analysis Pipeline",
+    "text": "Analysis Pipeline\n\nDeveloped consort flow tables\n\nAnalyzed item-level DETECT response patterns\n\nAssessed fidelity between screening and reporting intent/outcomes\n\nProfiled demographic characteristics from linked records"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#reproducible-reporting",
+    "href": "projects/posts/2023_detect_1-year.html#reproducible-reporting",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Reproducible Reporting",
+    "text": "Reproducible Reporting\n\nAuthored comprehensive QMD files with narrative-style annotations\n\nGenerated full codebooks using codebookr for all derived datasets"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#manuscript-preparation",
+    "href": "projects/posts/2023_detect_1-year.html#manuscript-preparation",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Manuscript Preparation",
+    "text": "Manuscript Preparation\n\nWrote full-length scholarly manuscript summarizing findings and methods for PI"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#data-wrangling-1",
+    "href": "projects/posts/2023_detect_1-year.html#data-wrangling-1",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Data Wrangling",
+    "text": "Data Wrangling\n\n\n\nFile\nDescription\n\n\n\n\nmedstar_compliance_01_cleaning.qmd\nCleaned race/ethnicity, address strings, ZIP codes (36,304 → 28,228 cleaned rows)\n\n\nmedstar_epcr_cleaning_02_fastLink.qmd\nBenchmarked variable selection for optimal fuzzy matching\n\n\nmedstar_epcr_cleaning_03_unique_ids.qmd\nValidated subject IDs (28,228 rows, 16,565 unique subjects)\n\n\naps_cleaning_01_initial_clean.qmd\nCleaned APS records (18,152 entries, 11,178 unique subjects)"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#fuzzy-matching-linkage",
+    "href": "projects/posts/2023_detect_1-year.html#fuzzy-matching-linkage",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Fuzzy Matching & Linkage",
+    "text": "Fuzzy Matching & Linkage\n\n\n\nFile\nDescription\n\n\n\n\nmerge_aps_medstar_01_fastLink.qmd\nMatched subjects across EMS and APS\n\n\nmerge_aps_medstar_02_group_ids.qmd\nCreated 2,126 valid cross-set group IDs\n\n\nmerge_aps_medstar_03_refining_observations.qmd\nTemporally matched EMS and APS events based on intake/investigation timelines"
+  },
+  {
+    "objectID": "projects/posts/2023_detect_1-year.html#analysis",
+    "href": "projects/posts/2023_detect_1-year.html#analysis",
+    "title": "DETECT 1-Year Pilot Evaluation",
+    "section": "Analysis",
+    "text": "Analysis\n\n\n\nFile\nFocus\nDescription\n\n\n\n\nanalysis_medstar_aps_01_consort_tables.qmd\nConsort Tables\nTracks subject flow between EMS and APS records\n\n\nanalysis_medstar_aps_02_detect_response_patterns.qmd\nScreening Responses\nExplores DETECT item-level response patterns\n\n\nanalysis_medstar_aps_03_fidelity_agreement.qmd\nFidelity & Agreement\nAssesses alignment between screening, reporting, and APS follow-up\n\n\nanalysis_medstar_aps_04_demographics_analyses.qmd\nDemographics\nSummarizes age, gender, and other key traits"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "About Morri",
     "section": "",
-    "text": "Lucy (Head of Morale 🐾), Morrigan (dashboard builder, definitely not a dog)."
+    "text": "Hi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m mainly excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.\nBefore pivoting to data science, I was a critical care nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.\nI care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner.\n\n\n\n\nMPH in Epidemiology, In Progress (Est. December 2025)\nUniversity of Texas Health Sciences Center, School of Public Health (Houston, TX, USA)\nCertificate: Genomics & Bioinformatics\nCertificate: Data Science\nThesis: Epigenome-Wide Associations of Factor VIII and Von Willebrand Factor Levels (In Progress, Meta-Analysis, de Vries Lab)\nBSc in Nursing, 2019\nUniversity of Texas at Arlington (Arlington, TX, USA)\nBSc in Biology, 2013\nUniversity of Texas at Dallas (Richardson, TX, USA)  Minor: Sociology\n\n\n\n\n\nGraduate Research Assistant, February 2023 - Present\nUTHealth Sciences Center, School of Public Health (Houston, TX, USA)\n\n\nPI: Dr. M. Brad Cannell\nContributed to public health research projects (DETECT, DETECT-RPC, Link2Care), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.\nDeveloped and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.\nDrafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R.\n\nCritical Care Travel Nurse, March 2021 - December 2022\nTravel Nurse Across America (USA)\n\n\nRapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties.\nLed interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g. ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)\n\nRegistered Nurse (Residency), March 2020 - March 2021\nRochester General Hospital (Rochester, NY, USA)\nPublic Safety Communications Specialist, February 2018 - February 2020\nCity of Plano (Plano, TX, USA)"
   },
   {
     "objectID": "index.html#bio",
     "href": "index.html#bio",
     "title": "About Morri",
-    "section": "Bio",
-    "text": "Bio\nHi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m mainly excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.\nBefore pivoting to data science, I was a critical care nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.\nI care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner."
+    "section": "",
+    "text": "Hi — I’m Morri, a data scientist with a clinical background, an MPH in progress, and a serious love of health data. I work at the intersection of epidemiology, bioinformatics, and analytics, building tools that make large, messy datasets more useful for research and public health. I’m mainly excited by omics, reproducibility, and clever ways to reduce human effort without sacrificing rigor.\nBefore pivoting to data science, I was a critical care nurse and educator — so I know my way around both a CRRT machine and a good data pipeline. My projects range from fuzzy-matching patient records across data sets, to meta-analyzing EWAS studies, to modeling viral phylogenies for vaccine strain selection.\nI care deeply about clarity, collaboration, and doing science that’s useful. I’d love to work on research teams, data-heavy health projects, or anything that needs solid analysis and a thoughtful partner."
   },
   {
     "objectID": "index.html#education",
     "href": "index.html#education",
     "title": "About Morri",
-    "section": "Education",
-    "text": "Education\n\nMPH in Epidemiology, In Progress (Est. December 2025)\nUniversity of Texas Health Sciences Center, School of Public Health (Houston, TX, USA)\nCertificate: Genomics & Bioinformatics\nCertificate: Data Science\nThesis: Epigenome-Wide Associations of Factor VIII and Von Willebrand Factor Levels (In Progress, Meta-Analysis, de Vries Lab)\nBSc in Nursing, 2019\nUniversity of Texas at Arlington (Arlington, TX, USA)\nBSc in Biology, 2013\nUniversity of Texas at Dallas (Richardson, TX, USA)  Minor: Sociology"
+    "section": "",
+    "text": "MPH in Epidemiology, In Progress (Est. December 2025)\nUniversity of Texas Health Sciences Center, School of Public Health (Houston, TX, USA)\nCertificate: Genomics & Bioinformatics\nCertificate: Data Science\nThesis: Epigenome-Wide Associations of Factor VIII and Von Willebrand Factor Levels (In Progress, Meta-Analysis, de Vries Lab)\nBSc in Nursing, 2019\nUniversity of Texas at Arlington (Arlington, TX, USA)\nBSc in Biology, 2013\nUniversity of Texas at Dallas (Richardson, TX, USA)  Minor: Sociology"
   },
   {
     "objectID": "index.html#work-experience",
     "href": "index.html#work-experience",
     "title": "About Morri",
-    "section": "Work Experience",
-    "text": "Work Experience\n\nGraduate Research Assistant, February 2023 - Present\nUTHealth Sciences Center, School of Public Health (Houston, TX, USA)\n\n\nPI: Dr. M. Brad Cannell\nContributed to public health research projects (DETECT, DETECT-RPC, Link2Care), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.\nDeveloped and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.\nDrafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R.\n\nCritical Care Travel Nurse, March 2021 - December 2022\nTravel Nurse Across America (USA)\n\n\nRapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties.\nLed interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g. ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)\n\nRegistered Nurse (Residency), March 2020 - March 2021\nRochester General Hospital (Rochester, NY, USA)\nPublic Safety Communications Specialist, February 2018 - February 2020\nCity of Plano (Plano, TX, USA)"
+    "section": "",
+    "text": "Graduate Research Assistant, February 2023 - Present\nUTHealth Sciences Center, School of Public Health (Houston, TX, USA)\n\n\nPI: Dr. M. Brad Cannell\nContributed to public health research projects (DETECT, DETECT-RPC, Link2Care), supporting the full data lifecycle — from collection and cleaning to analysis and reporting.\nDeveloped and implemented probabilistic fuzzy-matching techniques using the fastLink R package to link subject data across datasets lacking common identifiers.\nDrafted statistical analysis plans, IRB protocols, informed consent forms, and conducted statistical analyses in R.\n\nCritical Care Travel Nurse, March 2021 - December 2022\nTravel Nurse Across America (USA)\n\n\nRapidly deployed to hospitals nationwide, delivering expert-level critical care in ICU and ED settings, managing complex cases across multiple specialties.\nLed interdisciplinary teams, acted as Charge Nurse and educator, and routinely utilized advanced technologies (e.g. ECMO, IABP, CRRT, Impella, and Blakemore/Compass, etc.)\n\nRegistered Nurse (Residency), March 2020 - March 2021\nRochester General Hospital (Rochester, NY, USA)\nPublic Safety Communications Specialist, February 2018 - February 2020\nCity of Plano (Plano, TX, USA)"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html",
+    "href": "projects/posts/2023_link2care.html",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "",
+    "text": "Link2Care was a multi-year randomized controlled trial (RCT) aimed at reducing re-incarceration and improving health outcomes among homeless adults recently released from jail. The study leveraged mobile technology and case management to connect participants with healthcare and social services. Data collection spanned April 2018 to May 2023, with multiple modalities and formats across hundreds of variables.\n\nStudy Registration: ClinicalTrials.gov NCT03399500\n\nInstitution: UTHealth School of Public Health (Dallas Campus)\n\nMy PI: Dr. M. Brad Cannell\n\nStudy Lead PIs: Dr. Michael Businelle, Dr. Jennifer Reingle Gonzalez\n\nProject Involvement: Sep 2023 - Jan 2024\n\nStatus: Data reconstruction completed; reporting handled by other team members"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html#core-tools-libraries-r",
+    "href": "projects/posts/2023_link2care.html#core-tools-libraries-r",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "Core Tools & Libraries (R)",
+    "text": "Core Tools & Libraries (R)\n\ntidyverse, lubridate, stringr, dplyr, purrr, readr, readxl, openxlsx, haven, here\n\ncodebookr — used to generate a full codebook from a custom metadata CSV\n\nQuarto — narrative-style documentation and reproducible reporting"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html#data-preprocessing",
+    "href": "projects/posts/2023_link2care.html#data-preprocessing",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "Data Preprocessing",
+    "text": "Data Preprocessing\n\nRestructured delayed discount task (DDT), arrest, and bridge session data into long format (Subject-Visit)\nValidated date windows against study protocols\n\nPreprocessing QMD"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html#metadata-mapping",
+    "href": "projects/posts/2023_link2care.html#metadata-mapping",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "Metadata Mapping",
+    "text": "Metadata Mapping\n\nExtracted variable metadata across disparate files\n\nCreated a unified variable map to standardize naming and selection\n\nVariable Map QMD"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html#data-integration-cleaning",
+    "href": "projects/posts/2023_link2care.html#data-integration-cleaning",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "Data Integration & Cleaning",
+    "text": "Data Integration & Cleaning\n\nCombined datasets into a wide-format structure (1,606 subjects × 1,129 variables, one subject per row)\n\nDeduplicated records and consolidated overlapping variables\n\nCombining QMD\n\nCalculating QMD\n\nPost-Processing QMD"
+  },
+  {
+    "objectID": "projects/posts/2023_link2care.html#documentation-codebook",
+    "href": "projects/posts/2023_link2care.html#documentation-codebook",
+    "title": "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study",
+    "section": "Documentation & Codebook",
+    "text": "Documentation & Codebook\n\nGenerated a full codebook using codebookr and the metadata CSV\n\nCodebook QMD\n\nWorkflow of using a CSV for attribute metadata later incorporated into the codebookr package (though not formally credited)"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html",
+    "href": "projects/posts/2025_detect-rpc.html",
+    "title": "DETECT-RPC",
+    "section": "",
+    "text": "DETECT-RPC is a multi-site randomized controlled trial (RCT) evaluating a revised version of the DETECT elder mistreatment screening tool, adapted for use in primary care settings. The study spans seven home-based primary care programs across the U.S., with data collection ongoing. It includes both the RCT and qualitative follow-up interviews with patients, caregivers, and clinicians.\n\nTool: DETECT-RPC screening instrument\n\nInstitution: UTHealth School of Public Health (Dallas Campus)\n\nPI: Dr. M. Brad Cannell\n\nPartners: Baylor College of Medicine, Johns Hopkins, UCSF, UAB, UTSW, UTHealth Houston (LBJ & UTP)\n\nStudy Registration: ClinicalTrials.gov NCT05958654\n\nProject Involvement: Feb 2022 – Aug 2025\n\nStatus: Active; data collection ongoing"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html#platforms-systems",
+    "href": "projects/posts/2025_detect-rpc.html#platforms-systems",
+    "title": "DETECT-RPC",
+    "section": "Platforms & Systems",
+    "text": "Platforms & Systems\n\nREDCap — survey instrument design and deployment\n\nCANVAS — clinician training modules\n\nGitHub — collaborative code development\n\nOneDrive — secure PHI-compliant data storage\n\nCERNER & EPIC — EMR systems for ETL planning\n\nQuarto, Microsoft Word, Visio, Canva — reporting, documentation, and visual design"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html#protocol-irb-development",
+    "href": "projects/posts/2025_detect-rpc.html#protocol-irb-development",
+    "title": "DETECT-RPC",
+    "section": "Protocol & IRB Development",
+    "text": "Protocol & IRB Development\n\nCo-authored IRB protocols and informed consent documents\n\nDrafted internal SOPs and statistical analysis plans\n\nDrafted selection screening instruments and study methods"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html#data-infrastructure-etl-planning",
+    "href": "projects/posts/2025_detect-rpc.html#data-infrastructure-etl-planning",
+    "title": "DETECT-RPC",
+    "section": "Data Infrastructure & ETL Planning",
+    "text": "Data Infrastructure & ETL Planning\n\nAssisted with design of ETL pipeline for EMR data from CERNER and EPIC systems\n\nCoordinated data governance and PHI compliance across sites"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html#recruitment-tracking-systems",
+    "href": "projects/posts/2025_detect-rpc.html#recruitment-tracking-systems",
+    "title": "DETECT-RPC",
+    "section": "Recruitment & Tracking Systems",
+    "text": "Recruitment & Tracking Systems\n\nAssisted with build of in-house dashboards for recruitment and subject tracking\n\nDesigned REDCap survey instruments for caregivers, patients, and clinicians\n\nAssisted with creation of recruitment materials and clinician training content (CANVAS)"
+  },
+  {
+    "objectID": "projects/posts/2025_detect-rpc.html#team-coordination-mentorship",
+    "href": "projects/posts/2025_detect-rpc.html#team-coordination-mentorship",
+    "title": "DETECT-RPC",
+    "section": "Team Coordination & Mentorship",
+    "text": "Team Coordination & Mentorship\n\nInterfaced with Co-Investigators across seven institutions\n\nSupported junior team members in dashboard development, IRB and compliance documentation, and survey design"
   },
   {
     "objectID": "projects/reports/2025_bi_chinook_report.html",

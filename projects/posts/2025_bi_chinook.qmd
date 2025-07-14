@@ -3,8 +3,8 @@ title: "Chinook BI Report: SQL-Driven Insights for a Digital Music Store"
 description: "A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation."
 author: "Morrigan M."
 
-date: 2025-07-02
-date-modified: 2025-07-13
+date: 2025-07-14
+date-modified: 2025-07-14
 
 image: ../../img/project_imgs/chinook_schema_light.png
 

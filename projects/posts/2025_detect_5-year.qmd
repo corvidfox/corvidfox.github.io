@@ -1,0 +1,131 @@
+---
+title: "DETECT 5-Year Follow-Up Evaluation"
+description: "Extended public health informatics project analyzing the DETECT elder mistreatment screening tool embedded in EMS software. Developed a scalable fuzzy matching pipeline for fragmented APS records, linked across systems, and conducted stratified agreement and temporal trend analyses. Co-authored academic manuscript and mentored team members through high-volume data wrangling and linkage design."
+author: "Morrigan M."
+
+image: ../../img/project_imgs/logo_detect.png
+
+date: 2025-08-01
+date-modified: 2025-07-14
+
+categories: [
+  "R", "FastLink", 
+  "Public Health", "Elder Mistreatment", "EMS", "APS",
+  "Record Linkage", "Data Cleaning", "Fuzzy Matching", "Reproducible Analysis",
+  "Health Informatics", "Manuscript", "Data Analysis",
+  "Work Product", "Academic Research", "Long", "Mentorship"
+]
+
+# Filterable Meta-Data (Future Build)
+prog_lang: ["R"]
+doc_lang: ["English (EN)"]
+use_case: [
+  "Health Informatics", "Public Health", "Data Cleaning", "Data Analysis"
+  ]
+product: ["Manuscript", "Exploratory Analysis"]
+domain: ["Academic Research", "Public Health", "Elder Mistreatment"]
+data_source: ["EMS", "APS"]
+post_type: ["Work Product", "Academic Research"]
+ml_type: []
+depth: ["Long"]
+tools: ["FastLink"]
+
+r_pkgs: ["dplyr", "ggplot2", "patchwork", "consort", "tidyr", "janitor", "lubridate", "stringr", "forcats", "vctrs", "here", "data.table", "irr", "codebookr", "readxl"]
+py_pkgs: []
+---
+
+# Project Summary
+This project was a continuation of [DETECT](./2023_detect_1-year.html), a screening questionnaire embedded in MedStar’s EMS electronic patient care record (ePCR) software designed to help medics identify potential elder mistreatment (EM). The analysis covered EMS records from **July 1, 2019 to May 31, 2023**, matched to Texas **Adult Protective Services (APS)** data (originally spread across 5 relational CSV files). The focus was to evaluate screening fidelity, reporting intent, and APS follow-through over a longer time horizon.
+
+- **Tool**: DETECT EM screening questionnaire  
+- **Institution**: [University of Texas Health Sciences Center, School of Public Health (Dallas Campus)](https://sph.uth.edu/campuses/dallas)  
+- **PI**: [Dr. M. Brad Cannell](https://brad-cannell.github.io/)  
+- **Partners**: [MedStar Mobile Healthcare](https://www.medstar911.org/) & [Texas APS](https://www.dfps.state.tx.us/adult_protection/)  
+- **Data Timeframe**: July 2019 - May 2023  
+- **Project Involvement**: May 2024 - August 2025  
+- **Status**: Analysis completed; manuscript in revision
+
+# Tech Stack & Project Constraints
+
+All work was completed on a **single local workstation** with no access to server-grade infrastructure or high-performance computing. This required careful memory optimization, modular workflow design, and rigorous reproducibility — particularly while managing over 500K APS records and 92K EMS records.
+
+## Core Tools & Libraries (R)
+
+- `tidyverse`, `here`, `janitor` — wrangling, reproducible structure  
+- `fastLink` — high-volume probabilistic record linkage  
+- `codebookr`, `data.table`, `readxl` — documentation and input handling  
+- `irr` — interrater reliability & agreement metrics  
+- `ggplot2`, `patchwork`, `consort` — statistical visualizations and diagrams
+
+## Collaboration & Cloud Tools
+
+- `GitHub` — team-based code development and versioning  
+- `OneDrive` — secure PHI-compliant cloud data storage  
+- `Quarto` — reproducible and annotated reports  
+- `Microsoft Word`, `Canva`, `Visio` — manuscript drafting and presentation
+
+# My Contributions
+
+## APS Data Cleaning & Standardization
+- Cleaned and validated APS subject identifiers
+- Applied USPS-linked ZIP validation and state-county mappings  
+- Parsed and restructured race/ethnicity and address strings
+
+## Subject Identification & Deduplication
+- Performed within-set `fastLink` matching on APS data to form unique APS subject IDs  
+- Chunked matching by identifier completeness to manage memory constraints  
+- Reduced 378K APS identifiers to 370K deduplicated IDs (~2% reduction)
+
+## EMS–APS Linkage
+- Benchmarked cross-set matching variables and created optimized maps between EMS and APS subjects  
+- Built temporal linkage models connecting EMS responses to APS intakes and investigations  
+- Consolidated investigation-level allegations and standardized APS outcome flags 
+
+## Subject-Level Data Construction
+- Consolidated demographic fields using reviewed heuristics (most common value, then first-in)  
+- Derived subject-level outcomes (e.g. any reported mistreatment)
+
+## Analytical Work
+- Explored response patterns, demographic stratifications, and temporal trends  
+- Assessed agreement between screening results, medic intent, APS intake, and APS outcome  
+- Constructed multi-layer consort flow diagrams
+
+## Documentation & Mentorship
+- Authored full codebooks for derived data sets  
+- Co-authored academic manuscript (currently in revision)  
+- Mentored junior colleague in data wrangling, documentation, and writing process
+
+# Code Highlights
+
+The MedStar data was cleaned and provided within-set subject IDs by a junior colleague, using the process I'd previously developed in the [DETECT 1-Year Pilot Evaluation](./2023_detect_1-year.html) project.
+
+## Data Cleaning & ID Creation
+
+| File | Description |
+|------|-------------|
+| [`data_unique_person_01_aps_01_cleaning.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/unique_person_identification/data_unique_person_01_aps_01_cleaning.qmd) | APS cleaning & address standardization |
+| [`data_unique_person_01_aps_03_fl_chunk_cleaning.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/unique_person_identification/data_unique_person_01_aps_03_fl_chunk_cleaning.qmd) | Deduplicated APS fuzzy-match chunks |
+| [`data_unique_person_01_aps_04_fl_chunk_folding.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/unique_person_identification/data_unique_person_01_aps_04_fl_chunk_folding.qmd) | Merged final APS subject IDs |
+
+## EMS–APS Matching & Linkage
+
+| File | Description |
+|------|-------------|
+| [`data_unique_person_02_ms-aps_01_fl_generation.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/unique_person_identification/data_unique_person_02_ms-aps_01_fl_generation.qmd) | Cross-dataset fuzzy matching |
+| [`data_unique_person_02_ms-aps_02_fl_cleaning.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/unique_person_identification/data_unique_person_02_ms-aps_02_fl_cleaning.qmd) | Map creation between ID tiers |
+| [`data_record_linkage_01_medstar_aps.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/data_management/record_linkage/data_record_linkage_01_medstar_aps.qmd) | Temporal linkage of EMS and APS investigations/intakes |
+
+## Analysis
+
+| File | Focus | Description |
+|------|-------|-------------|
+| [`analysis_01_demographics.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/analysis/analysis_01_demographics.qmd) | Demographics | Cleaned, consolidated subject characteristics |
+| [`analysis_02_response_patterns.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/analysis/analysis_02_response_patterns.qmd) | Screening Responses | Stratified by demographics, intent, outcome |
+| [`analysis_03_agreement.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/analysis/analysis_03_agreement.qmd) | Agreement | Kappa, correlations across screening/reporting layers |
+| [`analysis_04_temporal_trends.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/analysis/analysis_04_temporal_trends.qmd) | Temporal Trends | Longitudinal patterns in screening and reporting |
+| [`analysis_05_consort_diagrams.qmd`](https://github.com/corvidfox/detect_fu_interviews_public/blob/main/analysis/analysis_05_consort_diagrams.qmd) | Cohort Flow | Multi-layer consort tables and diagrams |
+
+# Reflections
+
+This project pushed the limits of public health data infrastructure—requiring thoughtful deduplication, linkage theory, and scalable analysis under compute constraints. I developed chunked fuzzy matching workflows and robust mapping strategies to integrate fragmented APS records with EMS screening data. As a secondary author on the manuscript, I also mentored a junior colleague through the analysis and writing process—making this not just a technical milestone, but a leadership one.
+

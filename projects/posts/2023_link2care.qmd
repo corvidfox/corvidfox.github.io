@@ -1,0 +1,82 @@
+---
+title: "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study"
+description: "Rebuilt and documented a fragmented dataset for Link2Care, an RCT targeting health and housing outcomes among formerly incarcerated homeless adults. Standardized variables across QDS, REDCap, Excel, SPSS, and SAS inputs, created reproducible pipelines, and generated a full codebook. Final dataset included 1,606 subjects and 1,129 variables."
+
+image: ../../img/project_imgs/link2care.png
+
+date: 2024-01-22
+date-modified: 2025-07-14
+
+categories: [
+  "R", "REDCap", "SPSS", "SAS", "RCT",
+  "Public Health", "Homelessness", "Health Disparities", "Social Justice",
+  "Record Linkage", "Data Cleaning", "Reproducible Analysis",
+  "Health Informatics", "Work Product", "Academic Research", "Long"
+]
+
+# Filterable Meta-Data (Future Build)
+prog_lang: ["R"]
+doc_lang: ["English (EN)"]
+use_case: [
+  "Health Informatics", "Public Health", "Data Cleaning", "Data Analysis", "RCT"
+  ]
+product: ["Data Cleaning"]
+domain: ["Academic Research", "Public Health", "Health Disparities", "Homelessness", "Social Justice"]
+data_source: ["REDCap", "QDS"]
+post_type: ["Work Product", "Academic Research"]
+ml_type: []
+depth: ["Long"]
+tools: []
+
+r_pkgs: ["dplyr", "purrr", "tidyr", "lubridate", "stringr", "here", "readr", "codebookr", "readxl", "openxlsx", "haven"]
+py_pkgs: []
+---
+
+# Project Summary
+**Link2Care** was a multi-year randomized controlled trial (RCT) aimed at reducing re-incarceration and improving health outcomes among homeless adults recently released from jail. The study leveraged mobile technology and case management to connect participants with healthcare and social services. Data collection spanned **April 2018 to May 2023**, with multiple modalities and formats across hundreds of variables.
+
+- **Study Registration**: [ClinicalTrials.gov NCT03399500](https://clinicaltrials.gov/study/NCT03399500?term=link2care&rank=3)  
+- **Institution**: [UTHealth School of Public Health (Dallas Campus)](https://sph.uth.edu/campuses/dallas)  
+- **My PI**: [Dr. M. Brad Cannell](https://brad-cannell.github.io/)  
+- **Study Lead PIs**: [Dr. Michael Businelle](https://medicine.ouhsc.edu/academic-departments/family-and-preventive-medicine/faculty/michael-s-businelle-phd), [Dr. Jennifer Reingle Gonzalez](https://mmhpi.org/staff/jennifer-gonzalez/)  
+- **Project Involvement**: Sep 2023 - Jan 2024  
+- **Status**: Data reconstruction completed; reporting handled by other team members
+
+# Tech Stack & Constraints
+
+This project involved rescuing a fragmented dataset collected via **QDS**, **REDCap**, and **Excel** along with data files that were pre-processed with **SPSS** and **SAS** - with minimal validation and inconsistent variable naming. Despite the complexity, all work was completed on a **local workstation** with reproducible outputs and documentation.
+
+## Core Tools & Libraries (R)
+
+- `tidyverse`, `lubridate`, `stringr`, `dplyr`, `purrr`, `readr`, `readxl`, `openxlsx`, `haven`, `here`  
+- `codebookr` — used to generate a full codebook from a custom metadata CSV  
+- `Quarto` — narrative-style documentation and reproducible reporting
+
+# My Contributions
+
+## Data Preprocessing
+- Restructured delayed discount task (DDT), arrest, and bridge session data into long format (Subject-Visit)
+- Validated date windows against study protocols  
+- [Preprocessing QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_01_preprocess.qmd)
+
+## Metadata Mapping
+- Extracted variable metadata across disparate files  
+- Created a unified variable map to standardize naming and selection  
+- [Variable Map QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_02_map_variables.qmd)
+
+## Data Integration & Cleaning
+- Combined datasets into a wide-format structure (1,606 subjects × 1,129 variables, one subject per row)  
+- Deduplicated records and consolidated overlapping variables  
+- [Combining QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_03_combining.qmd)  
+- [Calculating QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_04_calculating.qmd)  
+- [Post-Processing QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_05_post_processing.qmd)
+
+## Documentation & Codebook
+- Generated a full codebook using `codebookr` and the metadata CSV  
+- [Codebook QMD](https://github.com/corvidfox/link2care_public/blob/master/data_survey_06_codebookr.qmd)  
+- Workflow of using a CSV for attribute metadata later incorporated into the `codebookr` package (though not formally credited)
+
+# Reflections
+
+This project was a masterclass in data triage. I stepped into a fragmented, multi-format dataset with no validation and rebuilt it into a clean, analyzable structure. While my contributions weren’t reflected in the final repository or publications, the reproducible pipeline I created was used to validate and replicate the final outputs. I’m proud of the work—and the resilience it took to do it right.
+

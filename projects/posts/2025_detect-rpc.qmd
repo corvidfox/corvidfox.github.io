@@ -1,0 +1,83 @@
+---
+title: "DETECT-RPC"
+description: "Multi-site randomized controlled trial evaluating DETECT-RPC, a revised elder mistreatment screening tool for primary care. Engaged with protocol and IRB development, EMR ETL planning, REDCap survey design, clinician training, and dashboard engineering. Coordinated across seven institutions."
+author: "Morrigan M."
+
+image: ../../img/project_imgs/logo_detect_2023.png
+
+date: 2025-08-01
+date-modified: 2025-07-14
+
+categories: [
+  "RCT", "REDCap", "Public Health", "Elder Mistreatment", "EHR/EMR", "Cerner", 
+  "EPIC", "Primary Care", "IRB", "Protocol Design", "Dashboard", 
+  "Health Informatics", "Work Product", "Academic Research"
+]
+
+# Filterable Meta-Data (Future Build)
+prog_lang: ["R"]
+doc_lang: ["English (EN)"]
+use_case: [
+  "Health Informatics", "Public Health", "RCT", "Protocol Design"
+  ]
+product: ["Protocol Design", "Dashboard"]
+domain: ["Academic Research", "Public Health", "Elder Mistreatment"]
+data_source: ["Primary Care", "EMR/EHR", "Cerner", "EPIC"]
+post_type: ["Work Product", "Academic Research"]
+ml_type: []
+depth: ["Long"]
+tools: ["REDCap"]
+
+r_pkgs: []
+py_pkgs: []
+---
+
+# Project Summary
+
+**DETECT-RPC** is a multi-site randomized controlled trial (RCT) evaluating a revised version of the DETECT elder mistreatment screening tool, adapted for use in primary care settings. The study spans seven home-based primary care programs across the U.S., with data collection ongoing. It includes both the RCT and qualitative follow-up interviews with patients, caregivers, and clinicians.
+
+- **Tool**: DETECT-RPC screening instrument  
+- **Institution**: [UTHealth School of Public Health (Dallas Campus)](https://sph.uth.edu/campuses/dallas)  
+- **PI**: [Dr. M. Brad Cannell](https://brad-cannell.github.io/)  
+- **Partners**: Baylor College of Medicine, Johns Hopkins, UCSF, UAB, UTSW, UTHealth Houston (LBJ & UTP)  
+- **Study Registration**: [ClinicalTrials.gov NCT05958654](https://clinicaltrials.gov/study/NCT05958654?term=detect&rank=2)  
+- **Project Involvement**: Feb 2022 – Aug 2025  
+- **Status**: Active; data collection ongoing
+
+# Tech Stack & Infrastructure
+
+This project required cross-platform coordination, secure data handling, and scalable tooling across clinical and research environments.
+
+## Platforms & Systems
+
+- `REDCap` — survey instrument design and deployment  
+- `CANVAS` — clinician training modules  
+- `GitHub` — collaborative code development  
+- `OneDrive` — secure PHI-compliant data storage  
+- `CERNER` & `EPIC` — EMR systems for ETL planning  
+- `Quarto`, `Microsoft Word`, `Visio`, `Canva` — reporting, documentation, and visual design
+
+# My Contributions
+
+## Protocol & IRB Development
+- Co-authored IRB protocols and informed consent documents  
+- Drafted internal SOPs and statistical analysis plans  
+- Drafted selection screening instruments and study methods
+
+## Data Infrastructure & ETL Planning  
+- Assisted with design of ETL pipeline for EMR data from CERNER and EPIC systems  
+- Coordinated data governance and PHI compliance across sites
+
+## Recruitment & Tracking Systems
+- Assisted with build of in-house dashboards for recruitment and subject tracking  
+- Designed REDCap survey instruments for caregivers, patients, and clinicians  
+- Assisted with creation of recruitment materials and clinician training content (CANVAS)
+
+## Team Coordination & Mentorship  
+- Interfaced with Co-Investigators across seven institutions  
+- Supported junior team members in dashboard development, IRB and compliance documentation, and survey design  
+
+# Reflections
+
+This project represents a full-spectrum research experience—from protocol design to infrastructure planning and stakeholder coordination. I helped architect the data pipeline, design recruitment and survey tools, and build reproducible workflows across multiple institutions. DETECT-RPC is a model for how public health research can scale across clinical systems while maintaining rigor, privacy, and clarity.
+

@@ -1,0 +1,124 @@
+---
+title: "DETECT 1-Year Pilot Evaluation"
+description: "Public health informatics project focused on evaluating the 1-year performance of the DETECT elder mistreatment screening tool embedded in EMS software. Built fuzzy-matched subject IDs, linked data across EMS and APS systems, and conducted multi-level fidelity and reporting analyses using R. Fully reproducible pipeline with annotated narrative code and manuscript draft."
+author: "Morrigan M."
+
+image: ../../img/project_imgs/logo_detect.png
+
+date: 2023-09-11
+date-modified: 2025-07-14
+
+categories: [
+  "R", "FastLink", 
+  "Public Health", "Elder Mistreatment", "EMS", "APS",
+  "Record Linkage", "Data Cleaning", "Fuzzy Matching", "Reproducible Analysis",
+  "Health Informatics", "Manuscript", "Data Analysis",
+  "Work Product", "Academic Research", "Long"
+]
+
+# Filterable Meta-Data (Future Build)
+prog_lang: ["R"]
+doc_lang: ["English (EN)"]
+use_case: [
+  "Health Informatics", "Public Health", "Data Cleaning", "Data Analysis"
+  ]
+product: ["Manuscript", "Exploratory Analysis"]
+domain: ["Academic Research", "Public Health", "Elder Mistreatment"]
+data_source: ["EMS", "APS"]
+post_type: ["Work Product", "Academic Research"]
+ml_type: []
+depth: ["Long"]
+tools: ["FastLink"]
+
+r_pkgs: ["dplyr", "ggplot2", "tidyr", "lubridate", "stringr", "forcats", "vctrs", "here", "data.table", "questionr", "mice", "codebookr", "readxl"]
+py_pkgs: []
+---
+
+# Project Summary
+This pilot project evaluated **DETECT**, a screening questionnaire embedded in MedStar's EMS electronic care record (ePCR) software to assist EMS medics in identifying potential elder mistreatment (EM) in community dwelling older adults. The study assessed data from **February 1, 2017 to February 1, 2018**, using **EMS** encounter records and Texas **Adult Protective Services (APS)** to explore fidelity, reporting patterns, and linkage outcomes.
+
+- **Tool**: DETECT EM screening questionnaire  
+- **Institution**: [University of Texas Health Sciences Center, School of Public Health (Dallas Campus)](https://sph.uth.edu/campuses/dallas)
+- **PI:** [Dr. M. Brad Cannell](https://brad-cannell.github.io/)
+- **Partners**: [MedStar Mobile Healthcare](https://www.medstar911.org/) & [Texas APS](https://www.dfps.state.tx.us/adult_protection/)  
+- **Objective**: Evaluate DETECT’s field fidelity and reporting patterns  
+- **Data Timeframe**: Feb 2017 - Feb 2018  
+- **Project Involvement**: March 2022 - Sep 2023  
+- **Status**: Analysis completed; manuscript drafted (unpublished)
+
+# Tech Stack & Project Constraints
+
+Despite the scale, complexity, and sensitivity of the DETECT dataset (~30K EMS records and ~18K APS records), all work was completed on a **single local workstation** with no access to server-grade infrastructure or high-performance computing. This required efficient memory management, modular workflow design, and rigorous reproducibility — even under constraints.
+
+## Core Tools & Libraries (R)
+- `tidyverse` (incl. `lubridate`, `tidyr`, `stringr`, `dplyr`, `forcats`) — data wrangling, transformation, parsing  
+- `fastLink` — probabilistic record linkage & fuzzy matching  
+- `codebookr` — automated codebook generation  
+- `mice` — missingness pattern diagnostics  
+- `questionr`, `readxl`, `vctrs`, `data.table`, `ggplot2` — analysis, input handling, and visualization  
+- `here` — reproducible project file paths
+
+## Collaboration & Cloud Tools  
+- `GitHub` — version-controlled, team-based code development  
+- `OneDrive` — secure cloud storage of PHI-compliant data sets  
+- `Quarto` (`.qmd`) — narrative coding and reproducible reporting  
+- `Microsoft Word`, `Canva`, `Visio` — manuscript drafting and visual presentation (per PI request)
+
+By combining open-source tooling, privacy-conscious cloud platforms, and a fully local analysis pipeline, I built a scalable and reproducible workflow capable of handling sensitive public health data with minimal system overhead.
+
+# My Contributions
+
+## Data Wrangling
+- Standardized date formats, validated birthdates  
+- Parsed and cleaned address and name strings  
+- Transformed race/ethnicity into meaningful categoricals  
+- Flagged contextual cues in free-text comment fields
+
+## Fuzzy Matching
+- Performed subject-level fuzzy matching within EMS data using `fastLink` 
+- Performed subject-level fuzzy matching between EMS and APS data using `fastLink`  
+- Linked EMS and APS datasets via cross-matching identifiers and temporal criteria  
+- Created robust subject IDs with minimal manual review burden
+
+## Analysis Pipeline
+- Developed consort flow tables  
+- Analyzed item-level DETECT response patterns  
+- Assessed fidelity between screening and reporting intent/outcomes  
+- Profiled demographic characteristics from linked records
+
+## Reproducible Reporting 
+- Authored comprehensive QMD files with narrative-style annotations  
+- Generated full codebooks using `codebookr` for all derived datasets
+
+## Manuscript Preparation
+- Wrote full-length scholarly manuscript summarizing findings and methods for PI
+
+# Code Highlights
+
+## Data Wrangling
+| File | Description |
+|--------|-------------|
+| [`medstar_compliance_01_cleaning.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/medstar/medstar_compliance_01_cleaning.qmd) | Cleaned race/ethnicity, address strings, ZIP codes (36,304 → 28,228 cleaned rows) |
+| [`medstar_epcr_cleaning_02_fastLink.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/medstar/medstar_epcr_cleaning_02_fastLink.qmd) | Benchmarked variable selection for optimal fuzzy matching |
+| [`medstar_epcr_cleaning_03_unique_ids.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/medstar/medstar_epcr_cleaning_03_unique_ids.qmd) | Validated subject IDs (28,228 rows, 16,565 unique subjects) |
+| [`aps_cleaning_01_initial_clean.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/aps/aps_cleaning_01_initial_clean.qmd) | Cleaned APS records (18,152 entries, 11,178 unique subjects) |
+
+## Fuzzy Matching & Linkage
+
+| File | Description |
+|--------|-------------|
+| [`merge_aps_medstar_01_fastLink.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/merge_aps_medstar/merge_aps_medstar_01_fastLink.qmd) | Matched subjects across EMS and APS |
+| [`merge_aps_medstar_02_group_ids.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/merge_aps_medstar/merge_aps_medstar_02_group_ids.qmd) | Created 2,126 valid cross-set group IDs |
+| [`merge_aps_medstar_03_refining_observations.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/data_management/merge_aps_medstar/merge_aps_medstar_03_refining_observations.qmd) | Temporally matched EMS and APS events based on intake/investigation timelines |
+
+## Analysis
+
+| File | Focus | Description |
+|--------|-------|-------------|
+| [`analysis_medstar_aps_01_consort_tables.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/analysis/paper_02_1year/analysis_medstar_aps_01_consort_tables.qmd) | Consort Tables | Tracks subject flow between EMS and APS records |
+| [`analysis_medstar_aps_02_detect_response_patterns.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/analysis/paper_02_1year/analysis_medstar_aps_02_detect_response_patterns.qmd) | Screening Responses | Explores DETECT item-level response patterns |
+| [`analysis_medstar_aps_03_fidelity_agreement.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/analysis/paper_02_1year/analysis_medstar_aps_03_fidelity_agreement.qmd) | Fidelity & Agreement |Assesses alignment between screening, reporting, and APS follow-up |
+| [`analysis_medstar_aps_04_demographics_analyses.qmd`](https://github.com/corvidfox/detect_pilot_test_1y/blob/master/analysis/paper_02_1year/analysis_medstar_aps_04_demographics_analyses.qmd) | Demographics | Summarizes age, gender, and other key traits |
+
+# Reflections
+This project blended public health informatics with careful statistical wrangling and real-world ambiguity. From parsing messy free-text entries to developing a highly scalable fuzzy matching framework, my work ensured linkage quality while surfacing meaningful insights into DETECT’s field performance. Though the manuscript was never published, the structure, code, and process remain directly transferable to future interdisciplinary screening studies.

@@ -2,7 +2,11 @@
   {
     "listing": "/projects.html",
     "items": [
-      "/projects/posts/2025_bi_chinook.html"
+      "/projects/posts/2025_detect-rpc.html",
+      "/projects/posts/2025_detect_5-year.html",
+      "/projects/posts/2025_bi_chinook.html",
+      "/projects/posts/2023_link2care.html",
+      "/projects/posts/2023_detect_1-year.html"
     ]
   }
 ]
