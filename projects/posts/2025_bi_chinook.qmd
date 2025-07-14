@@ -69,7 +69,7 @@ This report performs a structured deep dive into the dataset to identify key pat
 
 It’s built in Quarto and hosted on this site. Visualizations include time-series charts, choropleth maps, cohort retention heatmaps, all paired with summary insights and strategy callouts.
 
-➡️ [View Report](../reports/2025_bi_chinook.html)
+➡️ [View Report](../reports/2025_bi_chinook_report.html)
 
 ### Tech Stack
 
@@ -112,5 +112,5 @@ Additional narrative technical details are also provided in the app itself. On t
 
 ### Preview
 
-[gifs or video - some kind of media preview here]
+![GIF Preview](../../img/project_imgs/chinook_bi_rshiny_preview.gif){fig-align="center" fig-alt="A preview of the R shiny dashboard showing a user clicking through tabs to view different plots, adding a filter, and changing the theme."}
 
