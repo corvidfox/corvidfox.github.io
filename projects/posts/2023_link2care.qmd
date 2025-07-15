@@ -1,6 +1,7 @@
 ---
 title: "Link2Care RCT: Data Rescue for a Multi-Modal Intervention Study"
 description: "Rebuilt and documented a fragmented dataset for Link2Care, an RCT targeting health and housing outcomes among formerly incarcerated homeless adults. Standardized variables across QDS, REDCap, Excel, SPSS, and SAS inputs, created reproducible pipelines, and generated a full codebook. Final dataset included 1,606 subjects and 1,129 variables."
+author: "Morrigan M."
 
 image: ../../img/project_imgs/link2care.png
 
