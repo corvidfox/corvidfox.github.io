@@ -3,8 +3,8 @@ title: "Chinook BI Report: SQL-Driven Insights for a Digital Music Store"
 description: "A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation."
 author: "Morrigan M."
 
-date: 2025-07-14
-date-modified: 2025-07-14
+date: 2025-07-28
+date-modified: 2025-07-28
 
 image: ../../img/project_imgs/chinook_schema_light.png
 
@@ -37,7 +37,7 @@ In fast-paced, data-driven organizations, analysts and decision-makers rely on c
 - End-to-end analytics: data exploration → SQL ETL → dashboard design
 - SQL proficiency across joins, windows, staging, and KPI calculation
 - Dashboard interfaces tailored for technical and non-technical users
-<!--# - Cross-platform fluency in R, Python, Tableau  -->
+- Cross-platform fluency in R and Python <!--# and, Tableau  -->
 - Modular architecture designed for scalability and reuse
 
 Designed with interview walkthroughs in mind, this portfolio piece simulates the analytical cycles common in business contexts—where performance, clarity, and speed matter. It reflects how thoughtful engineering and data storytelling can bridge gaps between raw data and real decisions.
@@ -60,7 +60,7 @@ To showcase the analytics pipeline across multiple formats, I produced the follo
 |---------------------|-------------|
 | Static Report       | Exploratory deep dive using R & Python with SQL-backed plots |
 | R + Shiny Dashboard | Interactive dashboard with modular components and KPI filters |
-<!--#  | Python + Dash      | Dashboard with Plotly and DuckDB SQL (in development) | -->
+| Python + Dash Dashboard     | Dashboard with Plotly and DuckDB SQL  |
 <!--# | Tableau Workbook    | Clean visualization interface for non-coders (in development) | -->
 
 ## Exploratory Report {#d1-report}
@@ -112,5 +112,40 @@ Additional narrative technical details are also provided in the app itself. On t
 
 ### Preview
 
-![GIF Preview](../../img/project_imgs/chinook_bi_rshiny_preview.gif){fig-align="center" fig-alt="A preview of the R shiny dashboard showing a user clicking through tabs to view different plots, adding a filter, and changing the theme."}
+![GIF Preview](../../img/project_imgs/chinook_bi_rshiny_preview.gif){fig-align="center" fig-alt="A preview of the R Shiny dashboard showing a user clicking through tabs to view different plots, adding a filter, and changing the theme."}
+
+## Python + Dash Dashboard {#d3-pydashbi}
+
+This dashboard mirrors the R+Shiny build while fully reimagining the app in Python’s Dash ecosystem. It demonstrates scalable architecture, SQL-powered filtering, and performance-focused engineering using DuckDB and Plotly. The interface responds to filters for country, genre, artist, and time—generating KPI cards, plots, and data tables across panels for trend analysis, geographic performance, retention insights, and strategic 
+
+🔗 GitHub Repo: [corvidfox/chinook-dashboard-pydash](https://github.com/corvidfox/chinook-dashboard-pydash/)  
+🌐 Live App: [Hosted on Render](https://chinook-dashboard-pydash.onrender.com/)
+
+### Key Features
+
+- SQL-based staging and temp tables for efficient query logic  
+- Dash Mantine Components for unified light/dark theming  
+- KPI cards generated from reusable helpers with metadata enrichment  
+- Skeleton loaders and spinners for responsive UX during refresh  
+- Narrative panel with contextual insights and technical documentation  
+- DuckDB powering all analytics in read-only mode  
+- Cached function calls and global connection sharing for speed
+
+### Tech Stack
+
+| Tool                   | Purpose                                      |
+|------------------------|----------------------------------------------|
+| Python + Dash          | Web interface and dashboard interactivity    |
+| DuckDB                 | Lightweight SQL backend                      |
+| Plotly                 | Charts and maps                              |
+| dash-mantine-components| UI theming and layout                        |
+| Flask-Caching          | Function memoization and data reuse          |
+| Gunicorn               | WSGI deployment server                       |
+| Render                 | Cloud hosting with environment config        |
+
+This deliverable was built as a platform-native alternative to the Shiny version, emphasizing component reuse, production-readiness, and cross-platform fluency.
+
+### Preview
+
+![GIF Preview](../../img/project_imgs/chinook_bi_pydash_preview.gif){fig-align="center" fig-alt="A preview of the Python Dash dashboard showing filters being applied and plots being updated with light and dark themes."}
 

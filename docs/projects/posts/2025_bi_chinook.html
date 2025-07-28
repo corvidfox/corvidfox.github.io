@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Morrigan M.">
-<meta name="dcterms.date" content="2025-07-14">
+<meta name="dcterms.date" content="2025-07-28">
 <meta name="description" content="A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation.">
 
 <title>Chinook BI Report: SQL-Driven Insights for a Digital Music Store – Data Science &amp; Bioinformatics Portfolio</title>
@@ -321,6 +321,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#tech-stack-1" id="toc-tech-stack-1" class="nav-link" data-scroll-target="#tech-stack-1">Tech Stack</a></li>
   <li><a href="#preview" id="toc-preview" class="nav-link" data-scroll-target="#preview">Preview</a></li>
   </ul></li>
+  <li><a href="#d3-pydashbi" id="toc-d3-pydashbi" class="nav-link" data-scroll-target="#d3-pydashbi">Python + Dash Dashboard</a>
+  <ul class="collapse">
+  <li><a href="#key-features-1" id="toc-key-features-1" class="nav-link" data-scroll-target="#key-features-1">Key Features</a></li>
+  <li><a href="#tech-stack-2" id="toc-tech-stack-2" class="nav-link" data-scroll-target="#tech-stack-2">Tech Stack</a></li>
+  <li><a href="#preview-1" id="toc-preview-1" class="nav-link" data-scroll-target="#preview-1">Preview</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/corvidfox/corvidfox.github.io/blob/main/projects/posts/2025_bi_chinook.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/corvidfox/corvidfox.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -366,14 +372,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 14, 2025</p>
+      <p class="date">July 28, 2025</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 14, 2025</p>
+      <p class="date-modified">July 28, 2025</p>
     </div>
   </div>
     
@@ -392,7 +398,8 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>End-to-end analytics: data exploration → SQL ETL → dashboard design</li>
 <li>SQL proficiency across joins, windows, staging, and KPI calculation</li>
-<li>Dashboard interfaces tailored for technical and non-technical users <!--# - Cross-platform fluency in R, Python, Tableau  --></li>
+<li>Dashboard interfaces tailored for technical and non-technical users</li>
+<li>Cross-platform fluency in R and Python <!--# and, Tableau  --></li>
 <li>Modular architecture designed for scalability and reuse</li>
 </ul>
 <p>Designed with interview walkthroughs in mind, this portfolio piece simulates the analytical cycles common in business contexts—where performance, clarity, and speed matter. It reflects how thoughtful engineering and data storytelling can bridge gaps between raw data and real decisions.</p>
@@ -432,9 +439,12 @@ ul.task-list li input[type="checkbox"] {
 <td>R + Shiny Dashboard</td>
 <td>Interactive dashboard with modular components and KPI filters</td>
 </tr>
+<tr class="odd">
+<td>Python + Dash Dashboard</td>
+<td>Dashboard with Plotly and DuckDB SQL</td>
+</tr>
 </tbody>
 </table>
-<!--#  | Python + Dash      | Dashboard with Plotly and DuckDB SQL (in development) | -->
 <!--# | Tableau Workbook    | Clean visualization interface for non-coders (in development) | -->
 <section id="d1-report" class="level2">
 <h2 class="anchored" data-anchor-id="d1-report">Exploratory Report</h2>
@@ -536,7 +546,86 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="preview">Preview</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../img/project_imgs/chinook_bi_rshiny_preview.gif" class="img-fluid figure-img" alt="A preview of the R shiny dashboard showing a user clicking through tabs to view different plots, adding a filter, and changing the theme."></p>
+<p><img src="../../img/project_imgs/chinook_bi_rshiny_preview.gif" class="img-fluid figure-img" alt="A preview of the R Shiny dashboard showing a user clicking through tabs to view different plots, adding a filter, and changing the theme."></p>
+<figcaption>GIF Preview</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="d3-pydashbi" class="level2">
+<h2 class="anchored" data-anchor-id="d3-pydashbi">Python + Dash Dashboard</h2>
+<p>This dashboard mirrors the R+Shiny build while fully reimagining the app in Python’s Dash ecosystem. It demonstrates scalable architecture, SQL-powered filtering, and performance-focused engineering using DuckDB and Plotly. The interface responds to filters for country, genre, artist, and time—generating KPI cards, plots, and data tables across panels for trend analysis, geographic performance, retention insights, and strategic</p>
+<p>🔗 GitHub Repo: <a href="https://github.com/corvidfox/chinook-dashboard-pydash/">corvidfox/chinook-dashboard-pydash</a><br>
+🌐 Live App: <a href="https://chinook-dashboard-pydash.onrender.com/">Hosted on Render</a></p>
+<section id="key-features-1" class="level3">
+<h3 class="anchored" data-anchor-id="key-features-1">Key Features</h3>
+<ul>
+<li>SQL-based staging and temp tables for efficient query logic<br>
+</li>
+<li>Dash Mantine Components for unified light/dark theming<br>
+</li>
+<li>KPI cards generated from reusable helpers with metadata enrichment<br>
+</li>
+<li>Skeleton loaders and spinners for responsive UX during refresh<br>
+</li>
+<li>Narrative panel with contextual insights and technical documentation<br>
+</li>
+<li>DuckDB powering all analytics in read-only mode<br>
+</li>
+<li>Cached function calls and global connection sharing for speed</li>
+</ul>
+</section>
+<section id="tech-stack-2" class="level3">
+<h3 class="anchored" data-anchor-id="tech-stack-2">Tech Stack</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Python + Dash</td>
+<td>Web interface and dashboard interactivity</td>
+</tr>
+<tr class="even">
+<td>DuckDB</td>
+<td>Lightweight SQL backend</td>
+</tr>
+<tr class="odd">
+<td>Plotly</td>
+<td>Charts and maps</td>
+</tr>
+<tr class="even">
+<td>dash-mantine-components</td>
+<td>UI theming and layout</td>
+</tr>
+<tr class="odd">
+<td>Flask-Caching</td>
+<td>Function memoization and data reuse</td>
+</tr>
+<tr class="even">
+<td>Gunicorn</td>
+<td>WSGI deployment server</td>
+</tr>
+<tr class="odd">
+<td>Render</td>
+<td>Cloud hosting with environment config</td>
+</tr>
+</tbody>
+</table>
+<p>This deliverable was built as a platform-native alternative to the Shiny version, emphasizing component reuse, production-readiness, and cross-platform fluency.</p>
+</section>
+<section id="preview-1" class="level3">
+<h3 class="anchored" data-anchor-id="preview-1">Preview</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../img/project_imgs/chinook_bi_pydash_preview.gif" class="img-fluid figure-img" alt="A preview of the Python Dash dashboard showing filters being applied and plots being updated with light and dark themes."></p>
 <figcaption>GIF Preview</figcaption>
 </figure>
 </div>
