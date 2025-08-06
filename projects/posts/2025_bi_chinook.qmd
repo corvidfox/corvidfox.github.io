@@ -1,18 +1,18 @@
 ---
 title: "Chinook BI Report: SQL-Driven Insights for a Digital Music Store"
-description: "A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny) and Python. Highlights KPI development, dashboard engineering, and business insight generation."
+description: "A portfolio project showcasing end-to-end analytics using SQL, R (+ Shiny), Python (+ Dash), and Tableau. Highlights KPI development, dashboard engineering, and business insight generation."
 author: "Morrigan M."
 
-date: 2025-07-28
-date-modified: 2025-07-28
+date: 2025-08-05
+date-modified: 2025-08-05
 
 image: ../../img/project_imgs/chinook_schema_light.png
 
 # TEMPORARY - until I get the sidebar thing done
-categories: ["SQL", "R", "Shiny", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
+categories: ["SQL", "R", "Shiny", "Python", "Dash", "Tableau", "Dashboard", "Data Analysis", "Business Intelligence", "Exploratory Analysis", "Retail Analytics", "Chinook", "Short", "DuckDB"]
 
 # Filterable Meta-Data (Future Build)
-prog_lang: ["SQL", "R", "Python"]
+prog_lang: ["SQL", "R", "Python", "Tableau"]
 doc_lang: ["English (EN)"]
 use_case: ["Dashboard", "Data Analysis", "Business Intelligence"]
 product: ["Dashboard", "Exploratory Analysis"]
@@ -20,15 +20,15 @@ domain: ["Retail Analytics"]
 data_source: ["Chinook"]
 ml_type: []
 depth: ["Short"]
-tools: ["DuckDB", "Shiny"] #"Dash"]
+tools: ["DuckDB", "Shiny", "Dash"]
 
 r_pkgs: ["DBI", "duckdb", "dplyr", "ggplot2", "plotly", "tidyr", "forcats", "countrycode", "bslib", "bsicons", "bsplus", "cachem", "memoise", "rlang", "shiny", "shinyWidgets", "shinydashboard", "glue", "lubridate", "scales", "tibble", "purr", "markdown"]
-py_pkgs: []
+py_pkgs: ["dash", "dash_mantine_components", "dash-bootstrap-components", "dash_ag_grid", "pandas", "numpy", "duckdb", "plotly", "Flask", "gunicorn", "dash-iconify"]
 ---
 
 _A recruiter-ready showcase of SQL-powered storytelling and dashboard engineering_
 
-This project demonstrates applied analytics workflows anchored in real business questions using a structured but compact dataset. Inspired by business intelligence toolchains, it combines SQL-driven data modeling with an interactive dashboard built in R (Shiny). <!--# with interactive dashboards across R (Shiny), Python, and Tableau. --> Each deliverable highlights how I approach KPIs, retention metrics, and executive-level insights—core skills that translate across industries and team functions.
+This project demonstrates applied analytics workflows anchored in real business questions using a structured but compact dataset. Inspired by business intelligence toolchains, it combines SQL-driven data modeling with interactive dashboards across R (Shiny), Python, and Tableau. Each deliverable highlights how I approach KPIs, retention metrics, and executive-level insights—core skills that translate across industries and team functions.
 
 # Why This Matters
 
@@ -37,7 +37,7 @@ In fast-paced, data-driven organizations, analysts and decision-makers rely on c
 - End-to-end analytics: data exploration → SQL ETL → dashboard design
 - SQL proficiency across joins, windows, staging, and KPI calculation
 - Dashboard interfaces tailored for technical and non-technical users
-- Cross-platform fluency in R and Python <!--# and, Tableau  -->
+- Cross-platform fluency in R, Python and, Tableau
 - Modular architecture designed for scalability and reuse
 
 Designed with interview walkthroughs in mind, this portfolio piece simulates the analytical cycles common in business contexts—where performance, clarity, and speed matter. It reflects how thoughtful engineering and data storytelling can bridge gaps between raw data and real decisions.
@@ -61,7 +61,7 @@ To showcase the analytics pipeline across multiple formats, I produced the follo
 | Static Report       | Exploratory deep dive using R & Python with SQL-backed plots |
 | R + Shiny Dashboard | Interactive dashboard with modular components and KPI filters |
 | Python + Dash Dashboard     | Dashboard with Plotly and DuckDB SQL  |
-<!--# | Tableau Workbook    | Clean visualization interface for non-coders (in development) | -->
+| Tableau Workbook    | Clean visualization interface for non-coders |
 
 ## Exploratory Report {#d1-report}
 
@@ -149,3 +149,33 @@ This deliverable was built as a platform-native alternative to the Shiny version
 
 ![GIF Preview](../../img/project_imgs/chinook_bi_pydash_preview.gif){fig-align="center" fig-alt="A preview of the Python Dash dashboard showing filters being applied and plots being updated with light and dark themes."}
 
+## Tableau Dashboard {#d4-tableaubi}
+
+As a final translation, this Tableau dashboard replicates the same KPIs, insights, and filtering experience as the R and Python versions, this time optimized for point-and-click consumption by business users. It’s designed to demonstrate fluency across platforms and provide an accessible, "no-code" interface for stakeholders.
+
+The dashboard features collapsible filters for **genre**, **artist**, **country**, and **time range**, with dynamic KPI cards, time-series visualizations, and ranked charts across geography, genre, and artist. Retention metrics are presented using cohort analysis and decay curves, while the “Key Insights” panel includes executive summaries and side-by-side KPI comparisons. All visualizations are interactive, with tooltips, scrollable tables, and hover-based highlights.
+
+🌐 [View Tableau Dashboard](https://public.tableau.com/app/profile/morrigan.mahady/viz/Chinook_BI/Time-Series?publish=yes)
+
+### Key Features
+
+- Filterable interface for business and non-technical users  
+- Metric selection and dynamic drill-downs by country, genre, artist, and time  
+- Stacked bar and area plots for per-genre and per-artist trends  
+- Retention visualizations via decay curve and cohort heatmap  
+- Executive “Insights” panel with summary stats and strategic flags  
+- Fully hosted and accessible via Tableau Public  
+
+While this version offers an approachable UI, it trades off engineering flexibility compared to Shiny or Dash. Tableau was used here to demonstrate adaptability to industry-standard BI tools, even when platform limitations restrict analytical depth or design precision.
+
+### Tech Stack
+
+| Tool         | Purpose                                       |
+|--------------|-----------------------------------------------|
+| Tableau      | Visualization and dashboard interface         |
+| .hyper files | Extracts prepared from DuckDB via Python      |
+| Python       | Data prep and transformation before import    |
+
+### Preview
+
+![GIF Preview](../../img/project_imgs/chinook_bi_tableau_preview.gif){fig-align="center" fig-alt="A preview of the Tableau dashboard showing filters being applied and plots updating."}
